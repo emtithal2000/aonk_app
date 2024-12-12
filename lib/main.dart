@@ -1,9 +1,8 @@
 import 'package:aonk_app/dialogPage_provider.dart';
 import 'package:aonk_app/donation.dart';
 import 'package:aonk_app/mobile_provider.dart';
+import 'package:aonk_app/pages/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
-import 'package:aonk_app/teaching/dialog_provider.dart';
-import 'package:aonk_app/teaching/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -15,9 +14,8 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => MobileProvider()),
-        ChangeNotifierProvider(create: (context) => DialogProvider()),
         ChangeNotifierProvider(create: (context) => DialogPageProvider()),
-        ChangeNotifierProvider(create: (context) => PageProvider()),
+        ChangeNotifierProvider(create: (context) => PagesProvider()),
       ],
       child: const MyApp(),
     ),
