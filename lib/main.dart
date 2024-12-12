@@ -1,7 +1,9 @@
+import 'package:aonk_app/dialogPage_provider.dart';
+import 'package:aonk_app/donation.dart';
 import 'package:aonk_app/mobile_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/teaching/dialog_provider.dart';
-import 'package:aonk_app/teaching/home.dart';
+import 'package:aonk_app/teaching/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +16,8 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => MobileProvider()),
         ChangeNotifierProvider(create: (context) => DialogProvider()),
+        ChangeNotifierProvider(create: (context) => DialogPageProvider()),
+        ChangeNotifierProvider(create: (context) => PageProvider()),
       ],
       child: const MyApp(),
     ),
@@ -42,7 +46,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
       ),
-      home: const Home(),
+      home: const DonationPage(),
     );
   }
 }

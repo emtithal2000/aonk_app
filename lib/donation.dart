@@ -1,7 +1,9 @@
+import 'package:aonk_app/dialogPage_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/value.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class DonationPage extends StatelessWidget {
   const DonationPage({super.key});
@@ -89,8 +91,7 @@ class DonationPage extends StatelessWidget {
               ],
             ),
             Expanded(
-              child: Container(
-                margin: EdgeInsets.only(top: height(75)),
+              child: SizedBox(
                 width: width(310),
                 child: GridView.builder(
                   clipBehavior: Clip.none,
@@ -148,22 +149,160 @@ class DonationPage extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Container(
-                                margin: EdgeInsets.only(bottom: height(15)),
-                                padding: EdgeInsets.all(height(3)),
-                                height: height(30),
-                                width: width(90),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: const Color(0xff81bdaf),
-                                ),
-                                child: Text(
-                                  'تبرع الان',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: height(15),
-                                    fontWeight: FontWeight.bold,
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) =>
+                                        Consumer<DialogPageProvider>(
+                                      builder: (context, provider, child) {
+                                        return AlertDialog(
+                                          title: Center(
+                                            child: RichText(
+                                              textAlign: TextAlign.center,
+                                              text: TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text:
+                                                        associationName[index],
+                                                    style: TextStyle(
+                                                      fontSize: height(20),
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontFamily: 'Marhey',
+                                                    ),
+                                                  ),
+                                                  const TextSpan(
+                                                    text: '\n',
+                                                  ),
+                                                  TextSpan(
+                                                    text: 'اختر نوع التبرع',
+                                                    style: TextStyle(
+                                                      fontSize: height(18),
+                                                      color: Colors.black,
+                                                      fontFamily: 'Marhey',
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          clipBehavior: Clip.none,
+                                          content: provider.pagesContent[
+                                              provider.currentIndex],
+                                          actionsAlignment:
+                                              MainAxisAlignment.center,
+
+                                          // SizedBox(
+                                          //   height: height(170),
+                                          //   width: width(300),
+                                          //   child: GridView.builder(
+                                          //     physics:
+                                          //         const NeverScrollableScrollPhysics(),
+                                          //     gridDelegate:
+                                          //         SliverGridDelegateWithFixedCrossAxisCount(
+                                          //       crossAxisCount: 2,
+                                          //       mainAxisSpacing: height(10),
+                                          //       crossAxisSpacing: width(20),
+                                          //       childAspectRatio: 0.1,
+                                          //     ),
+                                          //     itemBuilder: (context, index) =>
+                                          //         Column(
+                                          //       children: [
+                                          //         GestureDetector(
+                                          //           onTap: () {
+                                          //             // Handle selection
+                                          //             provider.selectedIndex =
+                                          //                 index;
+                                          //           },
+                                          //           child: Container(
+                                          //             clipBehavior: Clip.none,
+                                          //             height: height(100),
+                                          //             width: width(100),
+                                          //             decoration:
+                                          //                 BoxDecoration(
+                                          //               boxShadow: [
+                                          //                 BoxShadow(
+                                          //                   color: Colors.grey
+                                          //                       .withOpacity(
+                                          //                           0.2),
+                                          //                   blurRadius: 10,
+                                          //                   spreadRadius: 2,
+                                          //                 ),
+                                          //               ],
+                                          //               color: provider
+                                          //                           .selectedIndex ==
+                                          //                       index
+                                          //                   ? const Color(
+                                          //                           0xff81bdaf)
+                                          //                       .withOpacity(
+                                          //                           0.2)
+                                          //                   : Colors.grey
+                                          //                       .withOpacity(
+                                          //                           0.1),
+                                          //               borderRadius:
+                                          //                   BorderRadius
+                                          //                       .circular(25),
+                                          //             ),
+                                          //             child: ClipRRect(
+                                          //               borderRadius:
+                                          //                   BorderRadius
+                                          //                       .circular(25),
+                                          //               child:
+                                          //                   donationTypeImages[
+                                          //                       index],
+                                          //             ),
+                                          //           ),
+                                          //         ),
+                                          //         Gap(height(15)),
+                                          //         Text(
+                                          //           donationType[index],
+                                          //           style: TextStyle(
+                                          //             fontSize: height(16),
+                                          //             fontFamily: 'Marhey',
+                                          //             color: Colors.black,
+                                          //           ),
+                                          //         ),
+                                          //       ],
+                                          //     ),
+                                          //     itemCount:
+                                          //         donationTypeImages.length,
+                                          //   ),
+                                          // ),
+                                          // TextButton(
+                                          //   onPressed: () {
+                                          //     if (provider.currentIndex ==
+                                          //         2) {
+                                          //       Navigator.pop(context);
+                                          //     } else {
+                                          //       provider.nextPage();
+                                          //     }
+                                          //   },
+                                          //   child: Text(provider.button),
+                                          // ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(bottom: height(15)),
+                                  padding: EdgeInsets.all(height(3)),
+                                  height: height(30),
+                                  width: width(90),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: const Color(0xff81bdaf),
+                                  ),
+                                  child: Text(
+                                    'تبرع الان',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: height(15),
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ),

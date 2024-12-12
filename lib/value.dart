@@ -16,6 +16,7 @@ List<String> associationName = [
   'فريق غراسة الخيري',
   'فريق العوابي الخيري',
 ];
+
 List<String> donationDetails = [
   'ملابس',
   'أثاث',

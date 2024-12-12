@@ -1,3 +1,4 @@
+import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/teaching/dialog_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +28,12 @@ class Home extends StatelessWidget {
               builder: (context) => Consumer<DialogProvider>(
                 builder: (_, provider, __) {
                   return AlertDialog(
-                    title: Text(provider.title[provider.currentIndex]),
+                    title: Text(provider.title[provider.currentIndex],
+                        style: TextStyle(
+                          fontSize: height(20),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Marhey',
+                        )),
                     // content: buildDialog(provider),
                     contentPadding: EdgeInsets.zero,
                     clipBehavior: Clip.antiAlias,
