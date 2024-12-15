@@ -9,20 +9,37 @@ class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: Container(),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(IconsaxPlusBroken.arrow_left_2),
+            color: const Color(0xff84beb0),
+            iconSize: 30,
+          ),
+          Gap(width(10)),
+        ],
+      ),
       body: Container(
         height: double.infinity,
         width: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/background2.png'),
-            opacity: 0.4,
+            opacity: 0.3,
             fit: BoxFit.cover,
           ),
         ),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Gap(height(40)),
+              Gap(height(80)),
               Text(
                 'الاشعارات',
                 style: TextStyle(
@@ -48,14 +65,15 @@ class NotificationPage extends StatelessWidget {
       height: height(200),
       width: width(320),
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
         boxShadow: [
           BoxShadow(
-            color: Colors.white.withOpacity(0.7),
+            color: Colors.grey.withOpacity(0.3),
             blurRadius: 10,
+            spreadRadius: 3,
           ),
         ],
-        color: Colors.white.withOpacity(0.2),
-        borderRadius: BorderRadius.circular(25),
+        color: Colors.white,
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
@@ -63,7 +81,7 @@ class NotificationPage extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(icon, size: height(25), color: const Color(0xff84beb0)),
+                Icon(icon, size: height(20), color: const Color(0xff84beb0)),
                 Gap(width(10)),
                 Column(
                   children: [
@@ -103,7 +121,7 @@ class NotificationPage extends StatelessWidget {
               height: height(100),
               width: width(320),
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(15)),
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
                 color: const Color(0xff84beb0).withOpacity(0.3),
               ),
               child: const Text(

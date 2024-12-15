@@ -19,17 +19,19 @@ class Page2 extends StatelessWidget {
               'إختر نوع التبرع',
               style: TextStyle(
                 fontSize: width(15),
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.bold,
                 fontFamily: 'Marhey',
-                color: provider.selected.isEmpty ? Colors.red : Colors.black,
+                color: provider.selected.isEmpty
+                    ? const Color(0xFF81bdaf)
+                    : const Color(0xFF81bdaf),
               ),
             ),
             Gap(height(15)),
             SizedBox(
-              height: height(300),
+              height: height(200),
               width: width(300),
               child: GridView.builder(
-                itemCount: 8,
+                itemCount: 6,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: height(15),
@@ -49,12 +51,12 @@ class Page2 extends StatelessWidget {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(15),
                         border: Border.all(
                           color: Provider.of<PagesProvider>(context)
                                   .selected
                                   .contains(donationDetails[index])
-                              ? Colors.blue
+                              ? const Color(0xFF81bdaf)
                               : Colors.transparent,
                           width: 2,
                         ),

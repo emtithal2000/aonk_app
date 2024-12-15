@@ -1,8 +1,8 @@
-import 'package:aonk_app/dialogPage_provider.dart';
-import 'package:aonk_app/donation.dart';
+import 'package:aonk_app/dialog_page_provider.dart';
 import 'package:aonk_app/mobile_provider.dart';
 import 'package:aonk_app/pages/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
+import 'package:aonk_app/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
       ),
-      home: const DonationPage(),
+      home: const SplashScreen(),
     );
   }
 }

@@ -1,10 +1,29 @@
+import 'package:aonk_app/pages/donation_type.dart';
 import 'package:aonk_app/pages/gift.dart';
-import 'package:aonk_app/pages/page1.dart';
 import 'package:aonk_app/pages/page2.dart';
 import 'package:aonk_app/pages/page3.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
+Widget customButton(
+    BuildContext context, PagesProvider provider, Function() onPressed) {
+  return SizedBox(
+    width: double.infinity,
+    child: FloatingActionButton(
+      onPressed: onPressed,
+      backgroundColor: const Color(0xFF81bdaf),
+      child: Text(
+        'التالي',
+        style: TextStyle(
+          fontSize: width(17),
+          fontWeight: FontWeight.bold,
+          fontFamily: 'Marhey',
+        ),
+      ),
+    ),
+  );
+}
 
 class PagesProvider extends ChangeNotifier {
   var name = TextEditingController();
@@ -23,12 +42,9 @@ class PagesProvider extends ChangeNotifier {
   int currentPage = 0;
   String? image;
 
-  void reset() {
-    currentPage = 0;
-    selected.clear();
-    name.clear();
-    phone.clear();
-    image = null;
+  void addSelected(String donation) {
+    selected.add(donation);
+
     notifyListeners();
   }
 
@@ -44,6 +60,21 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeSelected(String donation) {
+    selected.remove(donation);
+
+    notifyListeners();
+  }
+
+  void reset() {
+    currentPage = 0;
+    selected.clear();
+    name.clear();
+    phone.clear();
+    image = null;
+    notifyListeners();
+  }
+
   Future<void> selectImage(bool isCamera) async {
     await ImagePicker()
         .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery)
@@ -55,34 +86,4 @@ class PagesProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-
-  void addSelected(String donation) {
-    selected.add(donation);
-
-    notifyListeners();
-  }
-
-  void removeSelected(String donation) {
-    selected.remove(donation);
-
-    notifyListeners();
-  }
-}
-
-Widget customButton(
-    BuildContext context, PagesProvider provider, Function() onPressed) {
-  return SizedBox(
-    width: double.infinity,
-    child: FloatingActionButton(
-      onPressed: onPressed,
-      child: Text(
-        'التالي',
-        style: TextStyle(
-          fontSize: width(17),
-          fontWeight: FontWeight.bold,
-          fontFamily: 'Marhey',
-        ),
-      ),
-    ),
-  );
 }

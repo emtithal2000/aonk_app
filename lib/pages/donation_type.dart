@@ -47,21 +47,38 @@ class Page1 extends StatelessWidget {
   }
 
   Widget buildSelection(String image) {
-    return Container(
-      height: height(100),
-      width: width(100),
-      padding: EdgeInsets.all(height(10)),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            blurRadius: 10,
+    return Column(
+      children: [
+        Container(
+          height: height(100),
+          width: width(100),
+          padding: EdgeInsets.all(height(10)),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.grey.withOpacity(0.3),
+              style: BorderStyle.solid,
+            ),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.3),
+                blurRadius: 10,
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Image.asset('assets/images/$image.png'),
+          child: Image.asset('assets/images/$image.png'),
+        ),
+        Gap(height(10)),
+        Text(
+          image == 'gift' ? 'هدية عن شخص' : ' تبرع شخصي',
+          style: TextStyle(
+            fontSize: height(14),
+            fontFamily: 'Marhey',
+            color: Colors.black.withOpacity(0.7),
+          ),
+        ),
+      ],
     );
   }
 }

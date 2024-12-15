@@ -19,13 +19,11 @@ List<String> associationName = [
 
 List<String> donationDetails = [
   'ملابس',
-  'أثاث',
   'أدوات منزلية',
   'احذية',
   'بطانيات',
   'أواني',
-  'أوراق',
-  'كتب',
+  'كتب واوراق',
 ];
 List<String> donationImage = [
   'assets/images/camera.png',
@@ -45,11 +43,11 @@ final List<Image> donationTypeImages = [
   Image.asset('assets/images/clothes.png'),
 ];
 List<IconData> icons = [
-  IconsaxPlusBold.user,
-  IconsaxPlusBold.call,
-  IconsaxPlusBold.message,
-  IconsaxPlusBold.home,
-  IconsaxPlusBold.building,
+  IconsaxPlusBroken.user,
+  IconsaxPlusBroken.call,
+  IconsaxPlusBroken.message,
+  IconsaxPlusBroken.home,
+  IconsaxPlusBroken.building,
 ];
 final List<String> images = [
   'assets/images/dar alattaa.png',

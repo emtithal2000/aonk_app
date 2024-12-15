@@ -1,5 +1,6 @@
 import 'package:aonk_app/pages/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +46,20 @@ class Page3 extends StatelessWidget {
             Gap(height(15)),
             customButton(context, provider, () {
               if (provider.image != null) {
-                Navigator.pop(context);
+                AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.success,
+                  animType: AnimType.rightSlide,
+                  title: 'تم تاكيد الطلب',
+                  desc: 'سوف يتم التواصل معك من قبل الفريق',
+                  titleTextStyle: const TextStyle(fontFamily: 'Marhey'),
+                  descTextStyle: const TextStyle(fontFamily: 'Marhey'),
+                  buttonsTextStyle: const TextStyle(fontFamily: 'Marhey'),
+                  btnOkText: 'حسناً',
+                  btnOkOnPress: () {
+                    Navigator.pop(context);
+                  },
+                ).show();
               }
             }),
           ],
@@ -61,7 +75,7 @@ class Page3 extends StatelessWidget {
       padding: EdgeInsets.all(height(10)),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),

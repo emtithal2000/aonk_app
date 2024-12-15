@@ -1,18 +1,10 @@
+import 'package:aonk_app/about_us.dart';
+import 'package:aonk_app/login.dart';
 import 'package:aonk_app/navigation_bar.dart';
+import 'package:aonk_app/notification_page.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-
-// Create a menu item model
-const _menuItems = [
-  {'icon': Icons.info, 'title': 'عن عونك'},
-  {'icon': Icons.person, 'title': 'الملف الشخصي'},
-  {'icon': Icons.notifications, 'title': 'الاشعارات'},
-  {'icon': Icons.handshake_rounded, 'title': 'برنامج الولاء'},
-  {'icon': Icons.shopping_bag, 'title': 'حالة الطلب'},
-  {'icon': Icons.settings, 'title': 'الاعدادات'},
-  {'icon': Icons.logout, 'title': 'تسجيل الخروج'},
-];
 
 // Create a reusable text style
 const _menuTextStyle = TextStyle(
@@ -36,12 +28,62 @@ Drawer buildDrawer(BuildContext context) {
         padding: EdgeInsets.zero,
         children: [
           _buildDrawerHeader(),
-          ..._menuItems.asMap().entries.map(
-                (entry) => _buildMenuItem(context, entry.value, entry.key),
-              ),
+          drawerItems(context, Icons.info, 'عن عونك', const AboutUs()),
+          drawerItems(
+              context, Icons.person, 'الملف الشخصي', const LoginScreen()),
+          drawerItems(context, Icons.notifications, 'الاشعارات',
+              const NotificationPage()),
+          drawerItems(context, Icons.handshake_rounded, 'برنامج الولاء', () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  title: const Text(
+                    'برنامج الولاء',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xff52b8a0),
+                      fontFamily: 'Marhey',
+                    ),
+                  ),
+                  content: const Text(
+                    'قريباً',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Marhey',
+                    ),
+                  ),
+                );
+              },
+            );
+          }),
+          drawerItems(context, Icons.shopping_bag, 'حالة الطلب', null),
+          drawerItems(context, Icons.settings, 'الاعدادات', null),
+          drawerItems(context, Icons.logout, 'تسجيل الخروج', null),
         ],
       ),
     ),
+  );
+}
+
+ListTile drawerItems(
+    BuildContext context, IconData icon, String title, dynamic page) {
+  return ListTile(
+    leading: Icon(icon, color: _primaryColor),
+    title: Text(title, style: _menuTextStyle),
+    onTap: () {
+      if (page is Widget) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => page),
+        );
+      } else if (page is Function) {
+        page();
+      }
+    },
   );
 }
 
@@ -80,8 +122,7 @@ ListTile _buildMenuItem(
     leading: Icon(item['icon'] as IconData, color: _primaryColor),
     title: Text(item['title'] as String, style: _menuTextStyle),
     onTap: () {
-      if (index == _menuItems.length - 1) {
-        // Last item (Logout)
+      if (index == 6) {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const NavigationBarPage()),

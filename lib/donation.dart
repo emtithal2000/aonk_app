@@ -1,3 +1,4 @@
+import 'package:aonk_app/association_info.dart';
 import 'package:aonk_app/pages/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/value.dart';
@@ -43,7 +44,7 @@ class DonationPage extends StatelessWidget {
                     ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 50),
+                    padding: const EdgeInsets.only(top: 60),
                     child: Text(
                       'اختر الجهة او الجمعية',
                       textAlign: TextAlign.center,
@@ -203,11 +204,30 @@ class DonationPage extends StatelessWidget {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  buildDialog(context);
+                                  showDialog(
+                                    context: context,
+                                    builder: (dialogContext) =>
+                                        Consumer<PagesProvider>(
+                                      builder: (_, dialogProvider, __) =>
+                                          AlertDialog(
+                                        title: Text(
+                                          associationName[index],
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: width(22),
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Marhey',
+                                            color: const Color(0xff81bdaf),
+                                          ),
+                                        ),
+                                        content: const AssociationInfo(),
+                                      ),
+                                    ),
+                                  );
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(bottom: height(15)),
-                                  padding: EdgeInsets.all(height(5)),
+                                  padding: EdgeInsets.all(height(3)),
                                   height: height(30),
                                   width: width(90),
                                   decoration: BoxDecoration(

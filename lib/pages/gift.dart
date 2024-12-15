@@ -17,10 +17,11 @@ class Gift extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'أدخل معلومات الشخص',
+                'أدخل بيانات الشخص',
                 style: TextStyle(
                   fontSize: width(15),
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF81bdaf),
                   fontFamily: 'Marhey',
                 ),
               ),
@@ -34,7 +35,7 @@ class Gift extends StatelessWidget {
                 'رقم الهاتف',
                 provider.phone,
               ),
-              Gap(height(10)),
+              Gap(height(15)),
               customButton(context, provider, () {
                 if (provider.formKey.currentState!.validate()) {
                   provider.nextPage(false);
@@ -61,10 +62,13 @@ class Gift extends StatelessWidget {
         return null;
       },
       decoration: InputDecoration(
-        hintText: hintText,
         border: OutlineInputBorder(
+          borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(15),
         ),
+        fillColor: Colors.grey.withOpacity(0.2),
+        filled: true,
+        hintText: hintText,
         contentPadding: EdgeInsets.symmetric(
           horizontal: width(10),
         ),
