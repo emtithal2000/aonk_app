@@ -12,9 +12,71 @@ class DonationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(height(35)),
+        child: Stack(
+          alignment: Alignment.center,
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: const Color(0xff81bdaf),
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(50),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.4),
+                    blurRadius: 5,
+                    spreadRadius: 5,
+                  ),
+                ],
+              ),
+            ),
+            Text(
+              'الجهات/الجمعيات',
+              style: TextStyle(
+                fontSize: height(20),
+                fontFamily: 'Marhey',
+              ),
+            ),
+            Positioned(
+              top: height(85),
+              width: width(300),
+              child: Card(
+                shadowColor: Colors.grey,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                elevation: 5,
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: width(15),
+                    ),
+                    prefixIcon: const Icon(Icons.search),
+                    prefixIconColor: Colors.grey,
+                    hintText: 'ادخل اسم الجهة',
+                    hintStyle: TextStyle(
+                      fontSize: height(16),
+                      fontFamily: 'Marhey',
+                      color: Colors.black.withOpacity(0.8),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
       body: Container(
         height: double.infinity,
         width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: width(35)),
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/background2.png'),
@@ -24,227 +86,135 @@ class DonationPage extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Container(
-                  height: height(120),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff81bdaf),
-                    borderRadius: const BorderRadius.vertical(
-                      bottom: Radius.circular(25),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.4),
-                        blurRadius: 6,
-                        spreadRadius: 8,
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 60),
-                    child: Text(
-                      'اختر الجهة او الجمعية',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: height(20),
-                        // color: const Color(0xff52b8a0),
-                        color: Colors.black.withOpacity(0.8),
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Marhey',
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: height(95),
-                  left: width(30),
-                  child: Container(
-                    height: height(45),
-                    width: width(300),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 4,
-                          spreadRadius: 1,
-                        ),
-                      ],
-                    ),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.search),
-                        prefixIconColor: Colors.grey,
-                        border: InputBorder.none,
-                        hintText: 'بحث',
-                        hintStyle: TextStyle(
-                          color: Colors.grey,
-                          fontSize: height(18),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            Gap(height(85)),
             Expanded(
-              child: SizedBox(
-                width: width(310),
-                child: GridView.builder(
-                  // clipBehavior: Clip.none,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 1,
-                    mainAxisSpacing: height(50),
-                    crossAxisSpacing: width(20),
-                    childAspectRatio: 1.6,
-                  ),
-                  itemCount: images.length,
-                  itemBuilder: (context, index) => Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          blurRadius: 10,
-                        ),
-                      ],
-                      color: Colors.white,
-                    ),
+              child: ListView.separated(
+                itemCount: associationName.length,
+                // physics: const BouncingScrollPhysics(),
+
+                shrinkWrap: true,
+                itemBuilder: (context, index) => Card(
+                  color: Colors.white,
+                  child: SizedBox(
+                    width: width(100),
                     child: Stack(
                       clipBehavior: Clip.none,
+                      alignment: Alignment.center,
                       children: [
                         Positioned(
-                          top: height(-40),
-                          left: width(110),
-                          child: Container(
-                            height: height(110),
-                            width: width(100),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: Colors.white,
-                            ),
+                          top: -height(50),
+                          child: CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Colors.white,
                             child: Image.asset(
-                              images[index],
-                              fit: BoxFit.cover,
+                              'assets/images/${images[index]}',
                             ),
                           ),
                         ),
-                        Center(
-                          child: Text(
-                            associationName[index],
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: height(15),
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black.withOpacity(0.6),
-                              fontFamily: 'Marhey',
-                            ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: height(65),
                           ),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          child: Column(
                             children: [
-                              GestureDetector(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (dialogContext) =>
-                                        Consumer<PagesProvider>(
-                                      builder: (_, dialogProvider, __) =>
-                                          AlertDialog(
-                                        title: Text(
-                                          associationName[index],
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontSize: width(20),
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Marhey',
-                                          ),
-                                        ),
-                                        content: dialogProvider
-                                            .pages[dialogProvider.currentPage],
-                                      ),
-                                    ),
-                                  ).whenComplete(() {
-                                    Future.delayed(
-                                        const Duration(milliseconds: 500), () {
-                                      if (context.mounted) {
-                                        Provider.of<PagesProvider>(context,
-                                                listen: false)
-                                            .reset();
-                                      }
-                                    });
-                                  });
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.only(bottom: height(15)),
-                                  padding: EdgeInsets.all(height(3)),
-                                  height: height(30),
-                                  width: width(90),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color(0xff81bdaf),
-                                  ),
-                                  child: Text(
-                                    'تبرع الان',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: height(15),
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                              Text(
+                                associationName[index],
+                                style: TextStyle(
+                                  fontSize: height(16),
+                                  fontFamily: 'Marhey',
+                                  color: Colors.black,
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (dialogContext) =>
-                                        Consumer<PagesProvider>(
-                                      builder: (_, dialogProvider, __) =>
-                                          AlertDialog(
-                                        title: Text(
-                                          associationName[index],
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontSize: width(22),
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Marhey',
-                                            color: const Color(0xff81bdaf),
+                              Gap(height(15)),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  SizedBox(
+                                    height: height(30),
+                                    width: width(75),
+                                    child: FloatingActionButton(
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (dialogContext) =>
+                                              Consumer<PagesProvider>(
+                                            builder: (_, dialogProvider, __) =>
+                                                AlertDialog(
+                                              title: Text(
+                                                associationName[index],
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: width(20),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'Marhey',
+                                                ),
+                                              ),
+                                              content: dialogProvider.pages[
+                                                  dialogProvider.currentPage],
+                                            ),
                                           ),
-                                        ),
-                                        content: const AssociationInfo(),
+                                        ).whenComplete(() {
+                                          Future.delayed(
+                                              const Duration(milliseconds: 500),
+                                              () {
+                                            if (context.mounted) {
+                                              Provider.of<PagesProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .reset();
+                                            }
+                                          });
+                                        });
+                                      },
+                                      backgroundColor: const Color(0xff81bdaf),
+                                      foregroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.only(bottom: height(15)),
-                                  padding: EdgeInsets.all(height(3)),
-                                  height: height(30),
-                                  width: width(90),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color(0xff81bdaf),
-                                  ),
-                                  child: Text(
-                                    'معلومات',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: height(15),
-                                      fontWeight: FontWeight.bold,
+                                      child: const Text('تبرع الان'),
                                     ),
                                   ),
-                                ),
+                                  SizedBox(
+                                    height: height(30),
+                                    width: width(75),
+                                    child: FloatingActionButton(
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (dialogContext) =>
+                                              Consumer<PagesProvider>(
+                                            builder: (_, dialogProvider, __) {
+                                              return AlertDialog(
+                                                title: Text(
+                                                  associationName[index],
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: width(22),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: 'Marhey',
+                                                    color:
+                                                        const Color(0xff81bdaf),
+                                                  ),
+                                                ),
+                                                content:
+                                                    const AssociationInfo(),
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      },
+                                      backgroundColor: const Color(0xff81bdaf),
+                                      foregroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: const Text('معلومات'),
+                                    ),
+                                  ),
+                                ],
                               ),
+                              Gap(height(25)),
                             ],
                           ),
                         ),
@@ -252,112 +222,10 @@ class DonationPage extends StatelessWidget {
                     ),
                   ),
                 ),
+                separatorBuilder: (context, index) => Gap(height(65)),
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Future<dynamic> buildDialog(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (context) => Dialog(
-        backgroundColor: const Color(0xff18af89).withOpacity(0.5),
-        child: Container(
-          padding: const EdgeInsets.all(10.0),
-          height: height(320),
-          width: width(330),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xff18af89).withOpacity(0.5),
-                blurRadius: 10,
-                // spreadRadius: 4,
-              ),
-            ],
-            color: Colors.white.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Gap(height(30)),
-              Center(
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'جمعية دار العطاء',
-                        style: TextStyle(
-                          fontSize: height(20),
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Marhey',
-                        ),
-                      ),
-                      const TextSpan(text: '\n'),
-                      TextSpan(
-                        text: 'اختر نوع التبرع',
-                        style: TextStyle(
-                          fontSize: height(18),
-                          color: Colors.black,
-                          fontFamily: 'Marhey',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: height(140),
-                width: width(320),
-                child: GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: height(10),
-                    crossAxisSpacing: width(20),
-                    childAspectRatio: 0.5,
-                  ),
-                  itemBuilder: (context, index) => Column(
-                    children: [
-                      Container(
-                        height: height(100),
-                        width: width(100),
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.white.withOpacity(0.4),
-                              blurRadius: 10,
-                            ),
-                          ],
-                          color: Colors.white.withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
-                          child: donationTypeImages[index],
-                        ),
-                      ),
-                      Gap(height(15)),
-                      Text(
-                        donationType[index],
-                        style: TextStyle(
-                          fontSize: height(16),
-                          fontFamily: 'Marhey',
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                  itemCount: donationTypeImages.length,
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

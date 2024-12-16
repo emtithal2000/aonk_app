@@ -50,9 +50,9 @@ List<IconData> icons = [
   IconsaxPlusBroken.building,
 ];
 final List<String> images = [
-  'assets/images/dar alattaa.png',
-  'assets/images/d2.png',
-  'assets/images/d3.png',
+  'dar alattaa.png',
+  'd2.png',
+  'd3.png',
 ];
 
 List<String> personalInfo = [

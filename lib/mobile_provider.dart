@@ -15,6 +15,15 @@ class MobileProvider extends ChangeNotifier {
 
   int get selectedIndex => _selectedIndex;
 
+  List<bool> isError = List.generate(5, (index) => false);
+
+  switchError(int index, bool value) {
+    isError[index] = value;
+    notifyListeners();
+  }
+
+  final formKey = GlobalKey<FormState>();
+
   void setCity(String city) {
     selectedCity = city;
     notifyListeners();

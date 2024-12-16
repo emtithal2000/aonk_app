@@ -31,12 +31,14 @@ class Page2 extends StatelessWidget {
               height: height(200),
               width: width(300),
               child: GridView.builder(
-                itemCount: 6,
+                itemCount: donationDetails.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: height(15),
                   crossAxisSpacing: width(15),
-                  childAspectRatio: width(2),
+                  childAspectRatio: width(2.5),
                 ),
                 itemBuilder: (context, index) {
                   return GestureDetector(
@@ -73,7 +75,6 @@ class Page2 extends StatelessWidget {
                 },
               ),
             ),
-            Gap(height(10)),
             customButton(context, provider, () {
               if (provider.selected.isNotEmpty) {
                 provider.nextPage(false);

@@ -30,19 +30,14 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
         controller: _pageController,
         children: const [
           DonationPage(),
+          LoginScreen(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xff81bdaf),
         shape: const CircleBorder(),
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const NavigationBarPage(),
-            ),
-          );
-          // Add your FAB action here
+          _pageController.jumpToPage(0);
         },
         child: const Icon(
           Icons.home,
@@ -51,52 +46,38 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        shape: const CircularNotchedRectangle(),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                spreadRadius: 2,
-                blurRadius: 5,
+      bottomNavigationBar: ClipRRect(
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(35),
+        ),
+        child: BottomAppBar(
+          shape: const CircularNotchedRectangle(),
+          color: const Color(0xff81bdaf),
+          notchMargin: width(10),
+          padding: EdgeInsets.symmetric(horizontal: width(50)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                onPressed: () {
+                  _pageController.jumpToPage(1);
+                },
+                icon: const Icon(
+                  IconsaxPlusBold.user,
+                ),
+              ),
+              GestureDetector(
+                onTap: () async {
+                  const number = '+96880006000';
+                  await launchUrlString("tel://$number");
+                },
+                child: Image.asset(
+                  'assets/images/viber.png',
+                  height: height(22),
+                  width: width(22),
+                ),
               ),
             ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginScreen(),
-                      ),
-                    );
-                  },
-                  icon: const Icon(
-                    IconsaxPlusBold.user,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    const number = '+96880006000';
-                    await launchUrlString("tel://$number");
-                  },
-                  child: Image.asset(
-                    'assets/images/viber.png',
-                    height: height(22),
-                    width: width(22),
-                  ),
-                ),
-              ],
-            ),
           ),
         ),
       ),
