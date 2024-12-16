@@ -33,7 +33,7 @@ class DonationPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: const Color(0xff81bdaf),
                     borderRadius: const BorderRadius.vertical(
-                      bottom: Radius.circular(35),
+                      bottom: Radius.circular(25),
                     ),
                     boxShadow: [
                       BoxShadow(
@@ -59,8 +59,8 @@ class DonationPage extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  top: height(100),
-                  left: width(38),
+                  top: height(95),
+                  left: width(30),
                   child: Container(
                     height: height(45),
                     width: width(300),
@@ -70,8 +70,8 @@ class DonationPage extends StatelessWidget {
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.2),
-                          blurRadius: 6,
-                          spreadRadius: 3,
+                          blurRadius: 4,
+                          spreadRadius: 1,
                         ),
                       ],
                     ),
@@ -95,7 +95,7 @@ class DonationPage extends StatelessWidget {
               child: SizedBox(
                 width: width(310),
                 child: GridView.builder(
-                  clipBehavior: Clip.none,
+                  // clipBehavior: Clip.none,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 1,
                     mainAxisSpacing: height(50),
