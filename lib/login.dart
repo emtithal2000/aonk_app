@@ -33,11 +33,15 @@ class LoginScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Text(
-              'أدخل بياناتك',
-              style: TextStyle(
-                fontSize: height(20),
-                fontFamily: 'Marhey',
+            Positioned(
+              top: height(65),
+              child: Text(
+                'أدخل بياناتك',
+                style: TextStyle(
+                  fontSize: height(20),
+                  fontFamily: 'Marhey',
+                  color: Colors.white,
+                ),
               ),
             ),
           ],
@@ -60,14 +64,13 @@ class LoginScreen extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    Gap(height(125)),
+                    Gap(height(100)),
                     Container(
-                      alignment: Alignment.center,
                       padding: EdgeInsets.symmetric(
-                        horizontal: width(20),
-                        vertical: height(35),
+                        horizontal: width(40),
                       ),
-                      width: width(330),
+                      width: MediaQuery.of(context).size.width,
+                      height: height(650),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                         boxShadow: [
@@ -117,6 +120,8 @@ class LoginScreen extends StatelessWidget {
                                       color: Color(0xff52b8a0),
                                     ),
                                     dropdownColor: Colors.white,
+                                    elevation: 1,
+                                    borderRadius: BorderRadius.circular(30),
                                     items: <String>[
                                       'الرياض',
                                       'جدة',
@@ -165,6 +170,7 @@ class LoginScreen extends StatelessWidget {
                                     ),
                                     dropdownColor: Colors.white,
                                     elevation: 1,
+                                    borderRadius: BorderRadius.circular(30),
                                     items: <String>[
                                       'الرياض',
                                       'جدة',
@@ -210,18 +216,17 @@ class LoginScreen extends StatelessWidget {
                               if (provider.formKey.currentState!.validate()) {}
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xff52b8a0),
-                              minimumSize: Size(width(100), height(35)),
+                              backgroundColor: const Color(0xff81bdaf),
+                              minimumSize: Size(width(310), height(45)),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(15),
                               ),
                             ),
                             child: Text(
                               'حفظ ',
                               style: TextStyle(
-                                fontSize: height(15),
+                                fontSize: height(18),
                                 color: Colors.white,
-                                fontWeight: FontWeight.bold,
                                 fontFamily: 'Marhey',
                               ),
                             ),

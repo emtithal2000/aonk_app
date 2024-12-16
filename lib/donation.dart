@@ -39,15 +39,16 @@ class DonationPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: height(20),
                 fontFamily: 'Marhey',
+                color: Colors.white,
               ),
             ),
             Positioned(
-              top: height(85),
+              top: height(100),
               width: width(300),
               child: Card(
                 shadowColor: Colors.grey,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 elevation: 5,
                 child: TextField(
@@ -59,8 +60,8 @@ class DonationPage extends StatelessWidget {
                       horizontal: width(15),
                     ),
                     prefixIcon: const Icon(Icons.search),
-                    prefixIconColor: Colors.grey,
-                    hintText: 'ادخل اسم الجهة',
+                    prefixIconColor: Colors.black.withOpacity(0.8),
+                    hintText: 'بحث',
                     hintStyle: TextStyle(
                       fontSize: height(16),
                       fontFamily: 'Marhey',
@@ -96,7 +97,6 @@ class DonationPage extends StatelessWidget {
                 itemBuilder: (context, index) => Card(
                   color: Colors.white,
                   child: SizedBox(
-                    width: width(100),
                     child: Stack(
                       clipBehavior: Clip.none,
                       alignment: Alignment.center,
@@ -122,10 +122,11 @@ class DonationPage extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: height(16),
                                   fontFamily: 'Marhey',
-                                  color: Colors.black,
+                                  color: const Color.fromARGB(181, 0, 0, 0),
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Gap(height(15)),
+                              Gap(height(20)),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,

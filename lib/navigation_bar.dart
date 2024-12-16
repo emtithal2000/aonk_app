@@ -40,9 +40,9 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
           _pageController.jumpToPage(0);
         },
         child: const Icon(
-          Icons.home,
+          IconsaxPlusBroken.home_1,
           size: 25,
-          // color: Colors.white,
+          color: Colors.white,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -63,20 +63,26 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
                   _pageController.jumpToPage(1);
                 },
                 icon: const Icon(
-                  IconsaxPlusBold.user,
+                  IconsaxPlusBroken.user,
+                  color: Colors.white,
                 ),
               ),
               GestureDetector(
-                onTap: () async {
-                  const number = '+96880006000';
-                  await launchUrlString("tel://$number");
-                },
-                child: Image.asset(
-                  'assets/images/viber.png',
-                  height: height(22),
-                  width: width(22),
-                ),
-              ),
+                  onTap: () async {
+                    const number = '+96880006000';
+                    await launchUrlString("tel://$number");
+                  },
+                  child: const Icon(
+                    IconsaxPlusBroken.call,
+                    color: Colors.white,
+                  )
+                  // Image.asset(
+                  //   'assets/images/viber.png',
+                  //   height: height(22),
+                  //   width: width(22),
+                  //   color: Colors.white,
+                  // ),
+                  ),
             ],
           ),
         ),
