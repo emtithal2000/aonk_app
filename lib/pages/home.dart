@@ -140,6 +140,9 @@ class Home extends StatelessWidget {
                                     child: FloatingActionButton(
                                       heroTag: null,
                                       onPressed: () {
+                                        Provider.of<PagesProvider>(context,
+                                                listen: false)
+                                            .setCharity(associationName[index]);
                                         showDialog(
                                           context: context,
                                           builder: (dialogContext) =>

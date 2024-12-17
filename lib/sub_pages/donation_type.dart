@@ -28,12 +28,15 @@ class DonationType extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
+                    provider.setGift();
+                    provider.setDonationType('gift');
                     provider.nextPage(false);
                   },
                   child: buildSelection('gift'),
                 ),
                 GestureDetector(
                   onTap: () {
+                    provider.setDonationType('clothes');
                     provider.nextPage(true);
                   },
                   child: buildSelection('clothes'),

@@ -1,5 +1,4 @@
 import 'package:aonk_app/pages/splash.dart';
-import 'package:aonk_app/providers/mobile_provider.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => MobileProvider()),
         ChangeNotifierProvider(create: (context) => PagesProvider()),
       ],
       child: const MyApp(),

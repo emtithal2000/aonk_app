@@ -1,4 +1,4 @@
-import 'package:aonk_app/providers/mobile_provider.dart';
+import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -47,10 +47,10 @@ class CustomerInfo extends StatelessWidget {
           ],
         ),
       ),
-      body: Consumer<MobileProvider>(
+      body: Consumer<PagesProvider>(
         builder: (_, provider, __) {
           return Form(
-            key: provider.formKey,
+            key: provider.loginKey,
             child: SingleChildScrollView(
               child: Container(
                 width: MediaQuery.of(context).size.width,
@@ -199,17 +199,20 @@ class CustomerInfo extends StatelessWidget {
                             ],
                           ),
                           Gap(height(15)),
-                          buildInput('الاسم', IconsaxPlusBroken.user),
+                          buildInput('الاسم', IconsaxPlusBroken.user,
+                              provider.controllers[0]),
                           Gap(height(15)),
-                          buildInput('رقم الهاتف', IconsaxPlusBroken.call),
+                          buildInput('رقم الهاتف', IconsaxPlusBroken.call,
+                              provider.controllers[1]),
                           Gap(height(15)),
-                          buildInput(
-                              'البريد الإلكتروني', IconsaxPlusBroken.sms),
+                          buildInput('البريد الإلكتروني', IconsaxPlusBroken.sms,
+                              provider.controllers[2]),
                           Gap(height(15)),
-                          buildInput('رقم الشارع', IconsaxPlusBroken.home),
+                          buildInput('رقم الشارع', IconsaxPlusBroken.home,
+                              provider.controllers[3]),
                           Gap(height(15)),
-                          buildInput(
-                              'رقم المبنى', IconsaxPlusBroken.building_4),
+                          buildInput('رقم المبنى', IconsaxPlusBroken.building_4,
+                              provider.controllers[4]),
                           Gap(height(40)),
                           ElevatedButton(
                             onPressed: () {
@@ -244,9 +247,10 @@ class CustomerInfo extends StatelessWidget {
     );
   }
 
-  Widget buildInput(String hintText, IconData icon) {
+  Widget buildInput(
+      String hintText, IconData icon, TextEditingController controller) {
     return TextFormField(
-      controller: TextEditingController(),
+      controller: controller,
       validator: (value) {
         if (value!.isEmpty) {
           return 'يرجى إدخال $hintText';

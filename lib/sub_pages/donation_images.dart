@@ -46,20 +46,24 @@ class DonationImages extends StatelessWidget {
             Gap(height(15)),
             customButton(context, provider, () {
               if (provider.image != null) {
-                AwesomeDialog(
-                  context: context,
-                  dialogType: DialogType.success,
-                  animType: AnimType.rightSlide,
-                  title: 'تم تاكيد الطلب',
-                  desc: 'سوف يتم التواصل معك من قبل الفريق',
-                  titleTextStyle: const TextStyle(fontFamily: 'Marhey'),
-                  descTextStyle: const TextStyle(fontFamily: 'Marhey'),
-                  buttonsTextStyle: const TextStyle(fontFamily: 'Marhey'),
-                  btnOkText: 'حسناً',
-                  btnOkOnPress: () {
-                    Navigator.pop(context);
-                  },
-                ).show();
+                provider.postDonation().whenComplete(() {
+                  if (context.mounted) {
+                    AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.success,
+                      animType: AnimType.rightSlide,
+                      title: 'تم تاكيد الطلب',
+                      desc: 'سوف يتم التواصل معك من قبل الفريق',
+                      titleTextStyle: const TextStyle(fontFamily: 'Marhey'),
+                      descTextStyle: const TextStyle(fontFamily: 'Marhey'),
+                      buttonsTextStyle: const TextStyle(fontFamily: 'Marhey'),
+                      btnOkText: 'حسناً',
+                      btnOkOnPress: () {
+                        Navigator.pop(context);
+                      },
+                    ).show();
+                  }
+                });
               }
             }),
           ],

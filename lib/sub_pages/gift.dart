@@ -28,12 +28,12 @@ class Gift extends StatelessWidget {
               Gap(height(15)),
               customInput(
                 'الاسم',
-                provider.name,
+                provider.controllers[5],
               ),
               Gap(height(10)),
               customInput(
                 'رقم الهاتف',
-                provider.phone,
+                provider.controllers[61],
               ),
               Gap(height(15)),
               customButton(context, provider, () {
