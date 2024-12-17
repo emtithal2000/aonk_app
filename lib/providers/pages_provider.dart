@@ -109,6 +109,7 @@ class PagesProvider extends ChangeNotifier {
   Future<void> postDonation() async {
     try {
       final imageBytes = await image!.readAsBytes();
+
       final formData = FormData.fromMap({
         "charity_name": selectedCharity,
         "donation_type": selectedDonationType,
@@ -128,15 +129,17 @@ class PagesProvider extends ChangeNotifier {
         "building": controllers[4].text
       });
 
-      await Dio().post(
-        'https://fb32a2d4-9e60-45f3-af24-4c51c4aa3df6-00-2iorkf0oozeaq.janeway.replit.dev/customer_donations',
-        data: formData,
-        options: Options(
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        ),
-      );
+      log(formData.fields.toString());
+
+      // await Dio().post(
+      //   'https://fb32a2d4-9e60-45f3-af24-4c51c4aa3df6-00-2iorkf0oozeaq.janeway.replit.dev/customer_donations',
+      //   data: formData,
+      //   options: Options(
+      //     headers: {
+      //       'Content-Type': 'multipart/form-data',
+      //     },
+      //   ),
+      // );
     } catch (e) {
       log(e.toString());
     }
