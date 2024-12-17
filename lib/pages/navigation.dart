@@ -1,19 +1,19 @@
-import 'package:aonk_app/donation.dart';
-import 'package:aonk_app/drawer.dart';
-import 'package:aonk_app/login.dart';
+import 'package:aonk_app/pages/customer_info.dart';
+import 'package:aonk_app/sub_pages/drawer.dart';
+import 'package:aonk_app/pages/home.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class NavigationBarPage extends StatefulWidget {
-  const NavigationBarPage({super.key});
+class Navigation extends StatefulWidget {
+  const Navigation({super.key});
 
   @override
-  State<NavigationBarPage> createState() => _NavigationBarPageState();
+  State<Navigation> createState() => _NavigationState();
 }
 
-class _NavigationBarPageState extends State<NavigationBarPage> {
+class _NavigationState extends State<Navigation> {
   late PageController _pageController;
 
   @override
@@ -23,14 +23,22 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        leading: Builder(builder: (context) {
+          return IconButton(
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+            icon: const Icon(Icons.menu, color: Colors.white),
+          );
+        }),
       ),
       drawer: buildDrawer(context),
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: _pageController,
         children: const [
-          DonationPage(),
-          LoginScreen(),
+          Home(),
+          CustomerInfo(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -39,9 +47,9 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
         onPressed: () {
           _pageController.jumpToPage(0);
         },
-        child: const Icon(
+        child: Icon(
           IconsaxPlusBroken.home_1,
-          size: 25,
+          size: height(25),
           color: Colors.white,
         ),
       ),

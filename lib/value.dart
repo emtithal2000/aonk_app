@@ -18,9 +18,9 @@ List<String> associationName = [
 ];
 
 List<String> donationDetails = [
-  'ملابس',
+  'احذية/ملابس',
   'أدوات منزلية',
-  'احذية',
+  'الكترونيات',
   'بطانيات',
   'أواني',
   'كتب واوراق',

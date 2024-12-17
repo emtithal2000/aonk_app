@@ -1,12 +1,12 @@
-import 'package:aonk_app/mobile_provider.dart';
+import 'package:aonk_app/providers/mobile_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class CustomerInfo extends StatelessWidget {
+  const CustomerInfo({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +64,13 @@ class LoginScreen extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    Gap(height(100)),
+                    Gap(height(60)),
                     Container(
                       padding: EdgeInsets.symmetric(
                         horizontal: width(40),
                       ),
                       width: MediaQuery.of(context).size.width,
-                      height: height(650),
+                      height: height(750),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                         boxShadow: [
@@ -210,7 +210,7 @@ class LoginScreen extends StatelessWidget {
                           Gap(height(15)),
                           buildInput(
                               'رقم المبنى', IconsaxPlusBroken.building_4),
-                          Gap(height(30)),
+                          Gap(height(40)),
                           ElevatedButton(
                             onPressed: () {
                               if (provider.formKey.currentState!.validate()) {}

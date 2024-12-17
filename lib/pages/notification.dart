@@ -22,7 +22,7 @@ class NotificationScreen extends StatelessWidget {
             },
             icon: const Icon(IconsaxPlusBroken.arrow_left_2),
             color: const Color(0xff84beb0),
-            iconSize: 30,
+            iconSize: height(30),
           ),
           Gap(width(10)),
         ],

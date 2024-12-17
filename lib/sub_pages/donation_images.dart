@@ -1,12 +1,12 @@
-import 'package:aonk_app/pages/pages_provider.dart';
+import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
-class Page3 extends StatelessWidget {
-  const Page3({super.key});
+class DonationImages extends StatelessWidget {
+  const DonationImages({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,5 @@
-import 'package:aonk_app/navigation_bar.dart';
+import 'package:aonk_app/pages/navigation.dart';
+import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -10,24 +11,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(
-      const Duration(seconds: 3),
-      () {
-        if (mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const NavigationBarPage(),
-            ),
-          );
-        }
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,19 +27,19 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: 150,
+              height: height(150),
               child: Image.asset(
                 'assets/images/logo.png',
                 fit: BoxFit.cover,
                 color: const Color(0xff52b8a0),
               ),
             ),
-            const Gap(50),
-            const Text(
+            Gap(height(50)),
+            Text(
               "\"نحول ما لا تحتاجه الي خير\"",
               style: TextStyle(
-                color: Color(0xff52b8a0),
-                fontSize: 30,
+                color: const Color(0xff52b8a0),
+                fontSize: height(30),
                 fontFamily: 'Marhey',
                 fontWeight: FontWeight.bold,
               ),
@@ -64,6 +47,24 @@ class _SplashScreenState extends State<SplashScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(
+      const Duration(seconds: 3),
+      () {
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Navigation(),
+            ),
+          );
+        }
+      },
     );
   }
 }

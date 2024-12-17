@@ -1,8 +1,8 @@
-import 'package:aonk_app/pages/donation_type.dart';
-import 'package:aonk_app/pages/gift.dart';
-import 'package:aonk_app/pages/page2.dart';
-import 'package:aonk_app/pages/page3.dart';
 import 'package:aonk_app/size_config.dart';
+import 'package:aonk_app/sub_pages/donation_details.dart';
+import 'package:aonk_app/sub_pages/donation_images.dart';
+import 'package:aonk_app/sub_pages/donation_type.dart';
+import 'package:aonk_app/sub_pages/gift.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -16,7 +16,7 @@ Widget customButton(
       child: Text(
         'التالي',
         style: TextStyle(
-          fontSize: width(17),
+          fontSize: width(15),
           fontWeight: FontWeight.bold,
           fontFamily: 'Marhey',
         ),
@@ -31,10 +31,10 @@ class PagesProvider extends ChangeNotifier {
 
   List<String> selected = [];
   List<Widget> pages = [
-    const Page1(), //0
+    const DonationType(), //0
     const Gift(), //1
-    const Page2(), //2
-    const Page3(), //3
+    const DonationDetails(), //2
+    const DonationImages(), //3
   ];
 
   var formKey = GlobalKey<FormState>();

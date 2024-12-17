@@ -1,18 +1,16 @@
-import 'package:aonk_app/about_us.dart';
-import 'package:aonk_app/login.dart';
-import 'package:aonk_app/navigation_bar.dart';
-import 'package:aonk_app/notification_page.dart';
+import 'package:aonk_app/pages/about_us.dart';
+import 'package:aonk_app/pages/notification.dart';
+import 'package:aonk_app/pages/splash.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-
-// Create a reusable text style
-const _menuTextStyle = TextStyle(
-  fontFamily: 'Marhey',
-  fontSize: 16,
-);
 
 const _primaryColor = Color(0xff84beb0);
+
+// Create a reusable text style
+final _menuTextStyle = TextStyle(
+  fontFamily: 'Marhey',
+  fontSize: height(16),
+);
 
 Drawer buildDrawer(BuildContext context) {
   return Drawer(
@@ -24,15 +22,12 @@ Drawer buildDrawer(BuildContext context) {
           fit: BoxFit.cover,
         ),
       ),
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
         children: [
           _buildDrawerHeader(),
           drawerItems(context, Icons.info, 'عن عونك', const AboutUs()),
-          drawerItems(
-              context, Icons.person, 'الملف الشخصي', const LoginScreen()),
           drawerItems(context, Icons.notifications, 'الاشعارات',
-              const NotificationPage()),
+              const NotificationScreen()),
           drawerItems(context, Icons.handshake_rounded, 'برنامج الولاء', () {
             showDialog(
               context: context,
@@ -62,7 +57,8 @@ Drawer buildDrawer(BuildContext context) {
           }),
           drawerItems(context, Icons.shopping_bag, 'حالة الطلب', null),
           drawerItems(context, Icons.settings, 'الاعدادات', null),
-          drawerItems(context, Icons.logout, 'تسجيل الخروج', null),
+          drawerItems(
+              context, Icons.logout, 'تسجيل الخروج', const SplashScreen()),
         ],
       ),
     ),
@@ -91,45 +87,30 @@ Widget _buildDrawerHeader() {
   return DrawerHeader(
     decoration: const BoxDecoration(color: _primaryColor),
     child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         CircleAvatar(
-          radius: 45,
+          radius: height(45),
           backgroundColor: Colors.white,
-          child: Image.asset(
-            'assets/images/logo.png',
-            height: 60,
-            color: _primaryColor,
+          child: Padding(
+            padding: EdgeInsets.all(width(15)),
+            child: Image.asset(
+              'assets/images/logo.png',
+            ),
           ),
         ),
-        Gap(height(10)),
-        const Text(
+        Text(
           'عونك',
+          textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,
-            fontSize: 22,
+            fontSize: height(22),
             fontFamily: 'Marhey',
             fontWeight: FontWeight.bold,
           ),
         ),
       ],
     ),
-  );
-}
-
-ListTile _buildMenuItem(
-    BuildContext context, Map<String, dynamic> item, int index) {
-  return ListTile(
-    leading: Icon(item['icon'] as IconData, color: _primaryColor),
-    title: Text(item['title'] as String, style: _menuTextStyle),
-    onTap: () {
-      if (index == 6) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const NavigationBarPage()),
-        );
-      } else {
-        Navigator.pop(context);
-      }
-    },
   );
 }

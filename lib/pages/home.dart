@@ -1,13 +1,13 @@
-import 'package:aonk_app/association_info.dart';
-import 'package:aonk_app/pages/pages_provider.dart';
+import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
+import 'package:aonk_app/sub_pages/association_info.dart';
 import 'package:aonk_app/value.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
-class DonationPage extends StatelessWidget {
-  const DonationPage({super.key});
+class Home extends StatelessWidget {
+  const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +34,19 @@ class DonationPage extends StatelessWidget {
                 ],
               ),
             ),
-            Text(
-              'الجهات/الجمعيات',
-              style: TextStyle(
-                fontSize: height(20),
-                fontFamily: 'Marhey',
-                color: Colors.white,
+            Positioned(
+              top: height(50),
+              child: Text(
+                'الجهات/الجمعيات',
+                style: TextStyle(
+                  fontSize: height(20),
+                  fontFamily: 'Marhey',
+                  color: Colors.white,
+                ),
               ),
             ),
             Positioned(
-              top: height(100),
+              top: height(90),
               width: width(300),
               child: Card(
                 shadowColor: Colors.grey,
@@ -104,7 +107,7 @@ class DonationPage extends StatelessWidget {
                         Positioned(
                           top: -height(50),
                           child: CircleAvatar(
-                            radius: 50,
+                            radius: height(50),
                             backgroundColor: Colors.white,
                             child: Image.asset(
                               'assets/images/${images[index]}',
@@ -135,6 +138,7 @@ class DonationPage extends StatelessWidget {
                                     height: height(30),
                                     width: width(75),
                                     child: FloatingActionButton(
+                                      heroTag: null,
                                       onPressed: () {
                                         showDialog(
                                           context: context,
@@ -180,6 +184,7 @@ class DonationPage extends StatelessWidget {
                                     height: height(30),
                                     width: width(75),
                                     child: FloatingActionButton(
+                                      heroTag: null,
                                       onPressed: () {
                                         showDialog(
                                           context: context,
@@ -191,7 +196,7 @@ class DonationPage extends StatelessWidget {
                                                   associationName[index],
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
-                                                    fontSize: width(22),
+                                                    fontSize: height(22),
                                                     fontWeight: FontWeight.bold,
                                                     fontFamily: 'Marhey',
                                                     color:

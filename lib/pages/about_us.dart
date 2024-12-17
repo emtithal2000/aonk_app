@@ -1,6 +1,5 @@
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 class AboutUs extends StatelessWidget {
@@ -21,9 +20,8 @@ class AboutUs extends StatelessWidget {
             },
             icon: const Icon(IconsaxPlusBroken.arrow_left_2),
             color: const Color(0xff84beb0),
-            iconSize: 30,
+            iconSize: height(30),
           ),
-          Gap(width(10)),
         ],
       ),
       body: Container(
@@ -38,7 +36,6 @@ class AboutUs extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Gap(height(60)),
             Container(
               padding: const EdgeInsets.all(30.0),
               height: height(680),
@@ -47,22 +44,20 @@ class AboutUs extends StatelessWidget {
                 borderRadius: BorderRadius.circular(25),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xff84beb0).withOpacity(0.3),
+                    color: const Color(0xff84beb0).withOpacity(0.1),
                     blurRadius: 10,
-                    spreadRadius: 3,
                   ),
                 ],
-                color: Colors.white.withOpacity(0.2),
+                color: const Color(0xff84beb0).withOpacity(0.3),
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.5),
-                  width: 1.5,
+                  color: const Color(0xff84beb0).withOpacity(0.1),
                 ),
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Colors.white.withOpacity(0.5),
-                    Colors.white.withOpacity(0.2),
+                    const Color(0xff84beb0).withOpacity(0.5),
+                    const Color(0xff84beb0).withOpacity(0.2),
                   ],
                 ),
               ),
@@ -70,7 +65,7 @@ class AboutUs extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(25),
+                    padding: const EdgeInsets.all(20),
                     height: height(120),
                     decoration: BoxDecoration(
                       boxShadow: [
@@ -87,7 +82,6 @@ class AboutUs extends StatelessWidget {
                       "assets/images/logo.png",
                     ),
                   ),
-                  Gap(height(10)),
                   Center(
                     child: RichText(
                       textAlign: TextAlign.center,
@@ -97,18 +91,18 @@ class AboutUs extends StatelessWidget {
                           TextSpan(
                             text: 'ما هو عونك؟!!',
                             style: TextStyle(
-                              fontSize: height(25),
+                              fontSize: width(23),
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Marhey',
                             ),
                           ),
-                          const TextSpan(text: '\n\n'),
+                          const TextSpan(text: '\n'),
                           TextSpan(
                             text:
                                 'تطبيق ذكي للتخلص من كل ما هو قديم وفائض عن الحاجة',
                             style: TextStyle(
-                              fontSize: height(18),
+                              fontSize: height(15),
                               color: const Color(0xff84beb0),
                               fontFamily: 'Marhey',
                             ),
@@ -121,16 +115,16 @@ class AboutUs extends StatelessWidget {
                             text:
                                 'بما في ذلك: ملابس - أحذية - بطانيات-أواني اثاث-كهربائيات - أوراق-كتب وإرسالها الى الجهة المختصة حسب الدولة والجهة المستهدفة ...',
                             style: TextStyle(
-                              fontSize: height(15),
+                              fontSize: height(13),
                               color: Colors.black,
                             ),
                           ),
-                          const TextSpan(text: '\n\n'),
+                          const TextSpan(text: '\n'),
                           TextSpan(
                             text:
                                 'تقوم ببيعها الى الجهة المختصصة في مجالها ومن ثم إنفاق ريعيها لدعم الأسر المحتاجة ودعم تعليم أبناهم والبرامج الخيرية الأخرى. حيث يمكنكم من خلال هذا التطبيق تحديد موقعكم وإختيار الوقت المناسب لزيارتكم و تسليم كل ما ترغبون في التبرع به. حيث هدفنا هو " تخفيف عبء النقل عنكم .  ',
                             style: TextStyle(
-                              fontSize: height(15),
+                              fontSize: height(13),
                               color: Colors.black,
                             ),
                           ),
@@ -139,7 +133,7 @@ class AboutUs extends StatelessWidget {
                             text:
                                 'ذا ندعوكم لاستخدام هذا التطبيق كي تصنعو فارقا مهما في العمل الخيري . "والدال" على الخير كفاعله. ',
                             style: TextStyle(
-                              fontSize: height(17),
+                              fontSize: height(15),
                               color: const Color(0xff84beb0),
                               fontWeight: FontWeight.bold,
                             ),

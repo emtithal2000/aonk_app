@@ -1,4 +1,4 @@
-import 'package:aonk_app/pages/pages_provider.dart';
+import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
