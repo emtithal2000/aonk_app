@@ -23,8 +23,40 @@ Drawer buildDrawer(BuildContext context) {
         ),
       ),
       child: Column(
+        spacing: 5,
         children: [
-          _buildDrawerHeader(),
+          Container(
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              color: _primaryColor,
+            ),
+            height: height(200),
+            child: Column(
+              spacing: 10,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  radius: height(45),
+                  backgroundColor: Colors.white,
+                  child: Padding(
+                    padding: EdgeInsets.all(width(15)),
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                    ),
+                  ),
+                ),
+                Text(
+                  'عونك',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: height(20),
+                    fontFamily: 'Marhey',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
           drawerItems(context, Icons.info, 'عن عونك', const AboutUs()),
           drawerItems(context, Icons.notifications, 'الاشعارات',
               const NotificationScreen()),
@@ -80,37 +112,5 @@ ListTile drawerItems(
         page();
       }
     },
-  );
-}
-
-Widget _buildDrawerHeader() {
-  return DrawerHeader(
-    decoration: const BoxDecoration(color: _primaryColor),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        CircleAvatar(
-          radius: height(45),
-          backgroundColor: Colors.white,
-          child: Padding(
-            padding: EdgeInsets.all(width(15)),
-            child: Image.asset(
-              'assets/images/logo.png',
-            ),
-          ),
-        ),
-        Text(
-          'عونك',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: height(22),
-            fontFamily: 'Marhey',
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-    ),
   );
 }

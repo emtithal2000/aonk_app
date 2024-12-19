@@ -11,6 +11,25 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+Widget customButton(
+    BuildContext context, PagesProvider provider, Function() onPressed) {
+  return SizedBox(
+    width: double.infinity,
+    child: FloatingActionButton(
+      onPressed: onPressed,
+      backgroundColor: const Color(0xFF81bdaf),
+      child: Text(
+        'التالي',
+        style: TextStyle(
+          fontSize: width(15),
+          fontWeight: FontWeight.bold,
+          fontFamily: 'Marhey',
+        ),
+      ),
+    ),
+  );
+}
+
 class PagesProvider extends ChangeNotifier {
   List<String> selected = [];
   List<Widget> pages = [
@@ -20,10 +39,12 @@ class PagesProvider extends ChangeNotifier {
     const DonationImages(), //3
   ];
   var controllers = List.generate(7, (index) => TextEditingController());
+  var pageController = PageController();
   var formKey = GlobalKey<FormState>();
   final loginKey = GlobalKey<FormState>();
 
   int currentPage = 0;
+  int pageIndex = 0;
 
   XFile? image;
   String? selectedCity;
@@ -36,34 +57,15 @@ class PagesProvider extends ChangeNotifier {
 
   List<CustomerModel> customerModel = [];
 
-  void setCity(String city) {
-    selectedCity = city;
-    notifyListeners();
-  }
-
-  void setCharity(String charity) {
-    selectedCharity = charity;
-    notifyListeners();
-  }
-
-  void setDonationType(String donationType) {
-    selectedDonationType = donationType;
-    notifyListeners();
-  }
-
-  void setGift() {
-    isGift = !isGift;
-    notifyListeners();
-  }
-
-  void setCountry(String country) {
-    selectedCountry = country;
-    notifyListeners();
-  }
-
   void addSelected(String donation) {
     selected.add(donation);
 
+    notifyListeners();
+  }
+
+  void jumpToPage(int page) {
+    pageIndex = page;
+    pageController.jumpToPage(page);
     notifyListeners();
   }
 
@@ -75,33 +77,6 @@ class PagesProvider extends ChangeNotifier {
         currentPage = 2;
       }
     }
-
-    notifyListeners();
-  }
-
-  void removeSelected(String donation) {
-    selected.remove(donation);
-
-    notifyListeners();
-  }
-
-  void reset() {
-    currentPage = 0;
-    selected.clear();
-    // name.clear();
-    // phone.clear();
-    image = null;
-    notifyListeners();
-  }
-
-  Future<void> selectImage(bool isCamera) async {
-    await ImagePicker()
-        .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery)
-        .then((value) {
-      if (value != null) {
-        image = value;
-      }
-    }).whenComplete(() {});
 
     notifyListeners();
   }
@@ -144,23 +119,56 @@ class PagesProvider extends ChangeNotifier {
       log(e.toString());
     }
   }
-}
 
-Widget customButton(
-    BuildContext context, PagesProvider provider, Function() onPressed) {
-  return SizedBox(
-    width: double.infinity,
-    child: FloatingActionButton(
-      onPressed: onPressed,
-      backgroundColor: const Color(0xFF81bdaf),
-      child: Text(
-        'التالي',
-        style: TextStyle(
-          fontSize: width(15),
-          fontWeight: FontWeight.bold,
-          fontFamily: 'Marhey',
-        ),
-      ),
-    ),
-  );
+  void removeSelected(String donation) {
+    selected.remove(donation);
+
+    notifyListeners();
+  }
+
+  void reset() {
+    currentPage = 0;
+    selected.clear();
+    // name.clear();
+    // phone.clear();
+    image = null;
+    notifyListeners();
+  }
+
+  Future<void> selectImage(bool isCamera) async {
+    await ImagePicker()
+        .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery)
+        .then((value) {
+      if (value != null) {
+        image = value;
+      }
+    }).whenComplete(() {});
+
+    notifyListeners();
+  }
+
+  void setCharity(String charity) {
+    selectedCharity = charity;
+    notifyListeners();
+  }
+
+  void setCity(String city) {
+    selectedCity = city;
+    notifyListeners();
+  }
+
+  void setCountry(String country) {
+    selectedCountry = country;
+    notifyListeners();
+  }
+
+  void setDonationType(String donationType) {
+    selectedDonationType = donationType;
+    notifyListeners();
+  }
+
+  void setGift() {
+    isGift = !isGift;
+    notifyListeners();
+  }
 }

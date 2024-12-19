@@ -19,7 +19,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.5.4
+ sdk: ">=3.0.0 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -33,20 +33,18 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl:
+  dio:
   url_launcher:
   image_picker:
   sliding_clipped_nav_bar:
   awesome_dialog:
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  flutter_launcher_icons:
   cupertino_icons: ^1.0.8
   gap:
   provider:
   iconsax_plus:
   lottie:
   sidebarx:
-  dio:
 
 dev_dependencies:
   flutter_test:
@@ -97,3 +95,14 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+# Add this as a top-level configuration
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo2.png"
+  adaptive_icon_background: "#19af89"
+  adaptive_icon_foreground: "assets/images/logo2.png" # Your logo for the foreground
+  adaptive_icon_padding: true
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  remove_alpha_ios: true

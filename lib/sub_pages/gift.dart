@@ -33,7 +33,7 @@ class Gift extends StatelessWidget {
               Gap(height(10)),
               customInput(
                 'رقم الهاتف',
-                provider.controllers[61],
+                provider.controllers[6],
               ),
               Gap(height(15)),
               customButton(context, provider, () {

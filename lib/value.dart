@@ -10,7 +10,6 @@ List<String> associationInfo = [
   'رقم الشارع',
   'رقم المبنى',
 ];
-
 List<String> associationName = [
   'جمعية دار العطاء',
   'فريق غراسة الخيري',
@@ -25,15 +24,16 @@ List<String> donationDetails = [
   'أواني',
   'كتب واوراق',
 ];
+
 List<String> donationImage = [
   'assets/images/camera.png',
   'assets/images/gallery.png',
 ];
-
 List<String> donationPhoto = [
   'كاميرا',
   'الاستوديو',
 ];
+
 List<String> donationType = [
   'هدية عن شخص',
   'شخصي',
@@ -54,11 +54,15 @@ final List<String> images = [
   'd2.png',
   'd3.png',
 ];
-
 List<String> personalInfo = [
   'الاسم',
   'رقم الهاتف',
   'البريد الإلكتروني',
   'رقم الشارع',
   'رقم المبنى',
+];
+
+List<String> title = [
+  'الجهات/الجمعيات',
+  'ادخل بياناتك',
 ];
