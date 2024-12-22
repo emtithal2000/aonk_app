@@ -1,7 +1,9 @@
+import 'package:aonk_app/location.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
 
@@ -21,18 +23,30 @@ class CustomerInfo extends StatelessWidget {
               children: [
                 Gap(height(20)),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Card(
-                      elevation: 3,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      color: Colors.white,
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
+                    Expanded(
+                      child: Card(
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        color: Colors.white,
+                        child: DropdownButtonFormField<String>(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) {
+                            if (value == null) {
+                              return 'يرجى إختيار الولاية';
+                            }
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                            ),
+                            isDense: true,
+                          ),
                           padding: EdgeInsets.symmetric(
-                            horizontal: width(15),
+                            horizontal: width(5),
                           ),
                           hint: Text(
                             'الولاية',
@@ -48,17 +62,12 @@ class CustomerInfo extends StatelessWidget {
                           dropdownColor: Colors.white,
                           elevation: 1,
                           borderRadius: BorderRadius.circular(30),
-                          items: <String>[
-                            'الرياض',
-                            'جدة',
-                            'الدمام',
-                            'مكة المكرمة',
-                            'المدينة المنورة'
-                          ].map((String value) {
+                          isExpanded: true,
+                          items: countryCities.keys.map((String country) {
                             return DropdownMenuItem<String>(
-                              value: value,
+                              value: country,
                               child: Text(
-                                value,
+                                country,
                                 style: TextStyle(
                                   fontSize: height(16),
                                   color: const Color(0xff52b8a0),
@@ -67,22 +76,37 @@ class CustomerInfo extends StatelessWidget {
                             );
                           }).toList(),
                           onChanged: (String? newValue) {
-                            provider.setCity(newValue!);
+                            provider.setCountry(newValue!);
+                            provider.resetSelected();
                           },
-                          value: provider.selectedCity,
+                          value: provider.selectedCountry,
                         ),
                       ),
                     ),
-                    Card(
-                      elevation: 3,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      color: Colors.white,
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
+                    Expanded(
+                      child: Card(
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        color: Colors.white,
+                        child: DropdownButtonFormField<String>(
+                          isExpanded: true,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) {
+                            if (value == null) {
+                              return 'يرجى إختيار المنطقة';
+                            }
+                            return null;
+                          },
                           padding: EdgeInsets.symmetric(
-                            horizontal: width(15),
+                            horizontal: width(5),
+                          ),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                            ),
+                            isDense: true,
                           ),
                           hint: Text(
                             'المنطقة',
@@ -98,13 +122,8 @@ class CustomerInfo extends StatelessWidget {
                           dropdownColor: Colors.white,
                           elevation: 1,
                           borderRadius: BorderRadius.circular(30),
-                          items: <String>[
-                            'الرياض',
-                            'جدة',
-                            'الدمام',
-                            'مكة المكرمة',
-                            'المدينة المنورة'
-                          ].map((String value) {
+                          items: getCitiesForCountry(provider.selectedCountry)
+                              .map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(
@@ -117,9 +136,9 @@ class CustomerInfo extends StatelessWidget {
                             );
                           }).toList(),
                           onChanged: (String? newValue) {
-                            provider.setCountry(newValue!);
+                            provider.setCity(newValue!);
                           },
-                          value: provider.selectedCountry,
+                          value: provider.selectedCity,
                         ),
                       ),
                     ),
@@ -139,8 +158,19 @@ class CustomerInfo extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: FloatingActionButton(
+                    heroTag: null,
                     onPressed: () {
-                      if (provider.formKey.currentState!.validate()) {}
+                      if (provider.loginKey.currentState!.validate()) {
+                        GetStorage().write('userData', {
+                          'name': provider.controllers[0].text,
+                          'phone': provider.controllers[1].text,
+                          'email': provider.controllers[2].text,
+                          'street': provider.controllers[3].text,
+                          'building': provider.controllers[4].text,
+                          'city': provider.selectedCity,
+                          'country': provider.selectedCountry,
+                        });
+                      }
                     },
                     backgroundColor: const Color(0xff81bdaf),
                     shape: RoundedRectangleBorder(
@@ -173,6 +203,7 @@ class CustomerInfo extends StatelessWidget {
       ),
       child: TextFormField(
         controller: controller,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
           if (value!.isEmpty) {
             return 'يرجى إدخال $hintText';

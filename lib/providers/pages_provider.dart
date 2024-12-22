@@ -8,6 +8,7 @@ import 'package:aonk_app/sub_pages/donation_type.dart';
 import 'package:aonk_app/sub_pages/gift.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -39,7 +40,9 @@ class PagesProvider extends ChangeNotifier {
     const DonationImages(), //3
   ];
   var controllers = List.generate(7, (index) => TextEditingController());
-  var pageController = PageController();
+  var pageController = PageController(
+    initialPage: GetStorage().read('userData') != null ? 0 : 1,
+  );
   var formKey = GlobalKey<FormState>();
   final loginKey = GlobalKey<FormState>();
 
@@ -47,6 +50,7 @@ class PagesProvider extends ChangeNotifier {
   int pageIndex = 0;
 
   XFile? image;
+  String? currentCountry;
   String? selectedCity;
   String? selectedCountry;
   String? selectedCharity;
@@ -60,6 +64,11 @@ class PagesProvider extends ChangeNotifier {
   void addSelected(String donation) {
     selected.add(donation);
 
+    notifyListeners();
+  }
+
+  void resetSelected() {
+    selectedCity = null;
     notifyListeners();
   }
 
@@ -83,6 +92,7 @@ class PagesProvider extends ChangeNotifier {
 
   Future<void> postDonation() async {
     try {
+      final storage = GetStorage().read('userData');
       final imageBytes = await image!.readAsBytes();
 
       final formData = FormData.fromMap({
@@ -95,13 +105,13 @@ class PagesProvider extends ChangeNotifier {
         "donation_image": MultipartFile.fromBytes(imageBytes,
             filename: 'image_${image?.path.split('/').last}.jpg'),
         "date": DateFormat('dd-MM-yyyy').format(DateTime.now()),
-        "country": selectedCountry,
-        "city": selectedCity,
-        "name": controllers[0].text,
-        "phone": controllers[1].text,
-        "email": controllers[2].text,
-        "street": controllers[3].text,
-        "building": controllers[4].text
+        "country": storage['country'],
+        "city": storage['city'],
+        "name": storage['name'],
+        "phone": storage['phone'],
+        "email": storage['email'],
+        "street": storage['street'],
+        "building": storage['building']
       });
 
       log(formData.fields.toString());
