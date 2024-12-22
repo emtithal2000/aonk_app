@@ -1,7 +1,9 @@
+import 'package:aonk_app/pages/first_time.dart';
 import 'package:aonk_app/pages/navigation.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get_storage/get_storage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             opacity: 0.3,
-            image: AssetImage('assets/images/background2.png'),
+            image: AssetImage('assets/images/background2_phone.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -60,7 +62,9 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const Navigation(),
+              builder: (context) => GetStorage().read('userData') != null
+                  ? const Navigation()
+                  : const FirstTime(),
             ),
           );
         }

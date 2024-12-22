@@ -21,7 +21,7 @@ class CustomerInfo extends StatelessWidget {
               spacing: height(10),
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Gap(height(20)),
+                Gap(height(50)),
                 Row(
                   children: [
                     Expanded(

@@ -5,7 +5,6 @@ import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/sub_pages/drawer.dart';
 import 'package:aonk_app/value.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -18,39 +17,87 @@ class Navigation extends StatelessWidget {
     return Consumer<PagesProvider>(
       builder: (context, provider, child) {
         return Scaffold(
+          drawer: buildDrawer(context),
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(width(80)),
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color(0xff81bdaf),
-                borderRadius: const BorderRadius.vertical(
+            child: AppBar(
+              backgroundColor: const Color(0xff81bdaf),
+              centerTitle: true,
+              leading: Builder(builder: (context) {
+                return IconButton(
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  icon: const Icon(IconsaxPlusLinear.menu),
+                  color: Colors.white,
+                  iconSize: width(23),
+                );
+              }),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(50),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.4),
-                    blurRadius: 5,
-                    spreadRadius: 5,
-                  ),
-                ],
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Gap(height(60)),
-                  Text(
-                    title[provider.pageIndex],
-                    style: TextStyle(
-                      fontSize: height(20),
-                      fontFamily: 'Marhey',
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
+              shadowColor: Colors.grey.withOpacity(0.4),
+              elevation: 8,
+              title: Text(
+                title[provider.pageIndex],
+                style: TextStyle(
+                  fontSize: height(20),
+                  fontFamily: 'Marhey',
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
-          drawer: buildDrawer(context),
+          // appBar: PreferredSize(
+          //   preferredSize: Size.fromHeight(width(80)),
+          //   child: Container(
+          //     decoration: BoxDecoration(
+          //       color: const Color(0xff81bdaf),
+          //       borderRadius: const BorderRadius.vertical(
+          //         bottom: Radius.circular(50),
+          //       ),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey.withOpacity(0.4),
+          //     blurRadius: 5,
+          //     spreadRadius: 5,
+          //   ),
+          // ],
+          //     ),
+          //     child: Column(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       children: [
+          //         Gap(height(60)),
+          //         Row(
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [
+          //             Row(
+          //               children: [
+          //                 Gap(width(10)),
+          //                 IconButton(
+          //                   onPressed: () {},
+          //                   icon: const Icon(Icons.menu),
+          //                 ),
+          //               ],
+          //             ),
+          //             const Spacer(),
+          //             Text(
+          //               title[provider.pageIndex],
+          //               style: TextStyle(
+          //                 fontSize: height(20),
+          //                 fontFamily: 'Marhey',
+          //                 color: Colors.white,
+          //               ),
+          //             ),
+          //             const Spacer(),
+          //           ],
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
           body: Container(
             height: double.infinity,
             width: double.infinity,

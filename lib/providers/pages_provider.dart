@@ -40,9 +40,7 @@ class PagesProvider extends ChangeNotifier {
     const DonationImages(), //3
   ];
   var controllers = List.generate(7, (index) => TextEditingController());
-  var pageController = PageController(
-    initialPage: GetStorage().read('userData') != null ? 0 : 1,
-  );
+  var pageController = PageController();
   var formKey = GlobalKey<FormState>();
   final loginKey = GlobalKey<FormState>();
 
@@ -64,11 +62,6 @@ class PagesProvider extends ChangeNotifier {
   void addSelected(String donation) {
     selected.add(donation);
 
-    notifyListeners();
-  }
-
-  void resetSelected() {
-    selectedCity = null;
     notifyListeners();
   }
 
@@ -142,6 +135,11 @@ class PagesProvider extends ChangeNotifier {
     // name.clear();
     // phone.clear();
     image = null;
+    notifyListeners();
+  }
+
+  void resetSelected() {
+    selectedCity = null;
     notifyListeners();
   }
 
