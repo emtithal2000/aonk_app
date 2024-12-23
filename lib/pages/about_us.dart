@@ -29,7 +29,7 @@ class AboutUs extends StatelessWidget {
         width: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/images/background2.png'),
+              image: AssetImage('assets/images/aonk-png.png'),
               opacity: 0.2,
               fit: BoxFit.cover),
         ),

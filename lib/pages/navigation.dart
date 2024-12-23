@@ -104,8 +104,8 @@ class Navigation extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: width(35)),
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/background2.png'),
-                opacity: 0.3,
+                image: AssetImage('assets/images/aonk-png.png'),
+                opacity: 0.2,
                 fit: BoxFit.cover,
               ),
             ),

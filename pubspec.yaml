@@ -45,7 +45,7 @@ dependencies:
   gap:
   provider:
   iconsax_plus:
-  lottie:
+  lottie: ^3.3.0
   sidebarx:
 
 dev_dependencies:

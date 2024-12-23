@@ -21,7 +21,7 @@ class Home extends StatelessWidget {
             clipBehavior: Clip.none,
             shrinkWrap: true,
             itemBuilder: (context, index) => Card(
-              elevation: 4,
+              elevation: 2,
               color: Colors.white,
               child: SizedBox(
                 child: Stack(

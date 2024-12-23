@@ -1,4 +1,4 @@
-import 'package:aonk_app/pages/splash.dart';
+import 'package:aonk_app/pages/navigation.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
       ),
-      home: const SplashScreen(),
+      home: const Navigation(),
     );
   }
 }

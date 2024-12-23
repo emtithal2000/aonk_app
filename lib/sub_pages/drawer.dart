@@ -17,8 +17,8 @@ Drawer buildDrawer(BuildContext context) {
     child: Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          opacity: 0.3,
-          image: AssetImage('assets/images/background2.png'),
+          opacity: 0.2,
+          image: AssetImage('assets/images/aonk-png.png'),
           fit: BoxFit.cover,
         ),
       ),
@@ -100,8 +100,12 @@ Drawer buildDrawer(BuildContext context) {
 ListTile drawerItems(
     BuildContext context, IconData icon, String title, dynamic page) {
   return ListTile(
-    leading: Icon(icon, color: _primaryColor),
-    title: Text(title, style: _menuTextStyle),
+    leading: Icon(icon, color: const Color(0xff81bdaf)),
+    title: Text(title,
+        style: const TextStyle(
+          fontFamily: 'Marhey',
+          color: Colors.black87,
+        )),
     onTap: () {
       if (page is Widget) {
         Navigator.push(

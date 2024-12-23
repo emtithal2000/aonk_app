@@ -20,8 +20,8 @@ class _SplashScreenState extends State<SplashScreen> {
         width: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            opacity: 0.3,
-            image: AssetImage('assets/images/background2_phone.png'),
+            opacity: 0.2,
+            image: AssetImage('assets/images/aonk-png.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -63,8 +63,8 @@ class _SplashScreenState extends State<SplashScreen> {
             context,
             MaterialPageRoute(
               builder: (context) => GetStorage().read('userData') != null
-                  ? const Navigation()
-                  : const FirstTime(),
+                  ? const FirstTime()
+                  : const Navigation(),
             ),
           );
         }

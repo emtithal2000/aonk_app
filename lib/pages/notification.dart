@@ -31,21 +31,18 @@ class NotificationScreen extends StatelessWidget {
         height: double.infinity,
         width: double.infinity,
         decoration: const BoxDecoration(
-          image: DecorationImage(
-            opacity: 0.4,
-            image: AssetImage('assets/images/background2.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
+            // image: DecorationImage(
+            //   opacity: 0.2,
+            //   image: AssetImage('assets/images/background2.png'),
+            //   fit: BoxFit.cover,
+            // ),
+            ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              child: Lottie.asset(
-                'assets/images/notification.json',
-                height: height(190),
-                repeat: false,
-              ),
+            Lottie.asset(
+              'assets/images/bell2.json',
+              height: height(190),
             ),
             RichText(
               textAlign: TextAlign.center,
@@ -54,7 +51,7 @@ class NotificationScreen extends StatelessWidget {
                   TextSpan(
                     text: 'الاشعارات',
                     style: TextStyle(
-                      fontSize: height(25),
+                      fontSize: height(20),
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Marhey',
@@ -66,7 +63,7 @@ class NotificationScreen extends StatelessWidget {
                   TextSpan(
                     text: 'لا يوجد اشعارات',
                     style: TextStyle(
-                      fontSize: height(24),
+                      fontSize: height(18),
                       color: Colors.black,
                       fontFamily: 'Marhey',
                     ),

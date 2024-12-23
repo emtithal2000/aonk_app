@@ -20,8 +20,8 @@ class FirstTime extends StatelessWidget {
             width: double.infinity,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/images/background2.png'),
-                  opacity: 0.3,
+                  image: AssetImage('assets/images/aonk-png.png'),
+                  opacity: 0.2,
                   fit: BoxFit.cover),
             ),
             child: Form(
@@ -36,9 +36,9 @@ class FirstTime extends StatelessWidget {
                     children: [
                       Gap(height(120)),
                       Text(
-                        'مرحبا بك في   تطبيق عونك',
+                        'مرحبا بك في تطبيق عونك',
                         style: TextStyle(
-                          fontSize: height(20),
+                          fontSize: height(22),
                           fontFamily: 'Marhey',
                           fontWeight: FontWeight.bold,
                           color: const Color(0xff52b8a0),
@@ -47,7 +47,7 @@ class FirstTime extends StatelessWidget {
                       Text(
                         'قم بادخال بياناتك...',
                         style: TextStyle(
-                          fontSize: height(18),
+                          fontSize: height(19),
                           fontFamily: 'Marhey',
                           color: const Color(0xff52b8a0),
                         ),
