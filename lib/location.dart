@@ -1,4 +1,6 @@
 // Define a map of countries and their respective cities
+import 'package:flutter/material.dart';
+
 final Map<String, List<String>> countryCities = {
   'سلطنة عُمان': [
     'مسقط',
@@ -102,6 +104,24 @@ final Map<String, List<String>> countryCities = {
     'بيشة',
   ],
 };
+
+Widget buildContainer(Widget child) {
+  return Container(
+    height: double.infinity,
+    width: double.infinity,
+    decoration: BoxDecoration(
+      image: DecorationImage(
+        image: const AssetImage('assets/images/aonk-background.png'),
+        fit: BoxFit.cover,
+        colorFilter: ColorFilter.mode(
+          Colors.white.withOpacity(0.8),
+          BlendMode.srcOver,
+        ),
+      ),
+    ),
+    child: child,
+  );
+}
 
 // Function to get cities for a selected country
 List<String> getCitiesForCountry(String? country) {

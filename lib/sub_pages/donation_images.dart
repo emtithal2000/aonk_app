@@ -50,10 +50,14 @@ class DonationImages extends StatelessWidget {
                   if (context.mounted) {
                     AwesomeDialog(
                       context: context,
-                      dialogType: DialogType.success,
+                      dialogType: provider.image == null
+                          ? DialogType.error
+                          : DialogType.success,
                       animType: AnimType.rightSlide,
-                      title: 'تم تاكيد الطلب',
-                      desc: 'سوف يتم التواصل معك من قبل الفريق',
+                      title: provider.image == null ? 'خطأ' : 'تم تاكيد الطلب',
+                      desc: provider.image == null
+                          ? 'يرجى اختيار صورة'
+                          : 'سوف يتم التواصل معك من قبل الفريق',
                       titleTextStyle: const TextStyle(fontFamily: 'Marhey'),
                       descTextStyle: const TextStyle(fontFamily: 'Marhey'),
                       buttonsTextStyle: const TextStyle(fontFamily: 'Marhey'),
@@ -65,7 +69,24 @@ class DonationImages extends StatelessWidget {
                   }
                 });
               }
-            }),
+            }, 'التالي'),
+            Gap(height(15)),
+            customButton(context, provider, () {
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.success,
+                animType: AnimType.rightSlide,
+                title: 'تم تاكيد الطلب',
+                desc: 'سوف يتم التواصل معك من قبل الفريق',
+                titleTextStyle: const TextStyle(fontFamily: 'Marhey'),
+                descTextStyle: const TextStyle(fontFamily: 'Marhey'),
+                buttonsTextStyle: const TextStyle(fontFamily: 'Marhey'),
+                btnOkText: 'حسناً',
+                btnOkOnPress: () {
+                  Navigator.pop(context);
+                },
+              ).show();
+            }, 'تخطي'),
           ],
         );
       },

@@ -1,3 +1,4 @@
+import 'package:aonk_app/location.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -27,22 +28,14 @@ class NotificationScreen extends StatelessWidget {
           Gap(width(10)),
         ],
       ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        decoration: const BoxDecoration(
-            // image: DecorationImage(
-            //   opacity: 0.2,
-            //   image: AssetImage('assets/images/background2.png'),
-            //   fit: BoxFit.cover,
-            // ),
-            ),
-        child: Column(
+      body: buildContainer(
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Lottie.asset(
-              'assets/images/bell2.json',
-              height: height(190),
+              'assets/images/notification.json',
+              height: height(300),
+              repeat: false,
             ),
             RichText(
               textAlign: TextAlign.center,
@@ -51,7 +44,7 @@ class NotificationScreen extends StatelessWidget {
                   TextSpan(
                     text: 'الاشعارات',
                     style: TextStyle(
-                      fontSize: height(20),
+                      fontSize: height(25),
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Marhey',
@@ -63,7 +56,7 @@ class NotificationScreen extends StatelessWidget {
                   TextSpan(
                     text: 'لا يوجد اشعارات',
                     style: TextStyle(
-                      fontSize: height(18),
+                      fontSize: height(24),
                       color: Colors.black,
                       fontFamily: 'Marhey',
                     ),

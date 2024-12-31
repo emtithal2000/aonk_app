@@ -1,3 +1,4 @@
+import 'package:aonk_app/location.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -24,16 +25,8 @@ class AboutUs extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/images/aonk-png.png'),
-              opacity: 0.2,
-              fit: BoxFit.cover),
-        ),
-        child: Column(
+      body: buildContainer(
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Card(
@@ -43,7 +36,7 @@ class AboutUs extends StatelessWidget {
               ),
               child: Container(
                 padding: const EdgeInsets.all(30.0),
-                height: height(600),
+                height: height(550),
                 width: width(330),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
@@ -62,7 +55,7 @@ class AboutUs extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(20),
-                      height: height(120),
+                      height: height(100),
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -94,11 +87,12 @@ class AboutUs extends StatelessWidget {
                               ),
                             ),
                             const TextSpan(text: '\n'),
+                            const TextSpan(text: '\n'),
                             TextSpan(
                               text:
                                   'تطبيق ذكي للتخلص من كل ما هو قديم وفائض عن الحاجة',
                               style: TextStyle(
-                                fontSize: height(15),
+                                fontSize: height(18),
                                 color: const Color(0xff84beb0),
                                 fontFamily: 'Marhey',
                               ),
@@ -109,16 +103,16 @@ class AboutUs extends StatelessWidget {
                             const TextSpan(text: '\n'),
                             TextSpan(
                               text:
-                                  'بما في ذلك: ملابس - أحذية - بطانيات-أواني اثاث-كهربائيات - أوراق-كتب وإرسالها الى الجهة المختصة حسب الدولة والجهة المستهدفة ...',
+                                  'كـ الملابس👕👚👗👖 ، الاحذية والحقائب 👜👞 ، الستائر و البطانيات و الشراشف 🛏 ، العاب الاطفال🎠🏓🎡 ، الاواني المنزلية 🍽 ، الكتب و الروايات 📚 و الاجهزة الالكترونية📺🔌 ',
                               style: TextStyle(
-                                fontSize: height(13),
+                                fontSize: height(15),
                                 color: Colors.black,
                               ),
                             ),
                             const TextSpan(text: '\n'),
                             TextSpan(
                               text:
-                                  'تقوم ببيعها الى الجهة المختصصة في مجالها ومن ثم إنفاق ريعيها لدعم الأسر المحتاجة ودعم تعليم أبناهم والبرامج الخيرية الأخرى. حيث يمكنكم من خلال هذا التطبيق تحديد موقعكم وإختيار الوقت المناسب لزيارتكم و تسليم كل ما ترغبون في التبرع به. حيث هدفنا هو " تخفيف عبء النقل عنكم .  ',
+                                  '"لـ صالح الجهات الخيرية فالسلطنة  فــ هدفنا هو " تخفيف عبء النقل عنكم "',
                               style: TextStyle(
                                 fontSize: height(13),
                                 color: Colors.black,
@@ -127,7 +121,7 @@ class AboutUs extends StatelessWidget {
                             const TextSpan(text: '\n\n'),
                             TextSpan(
                               text:
-                                  'ذا ندعوكم لاستخدام هذا التطبيق كي تصنعو فارقا مهما في العمل الخيري . "والدال" على الخير كفاعله. ',
+                                  'و لرفع خلفية معلوماتك عنا اكثر، يمكنك تصفح مواقع التواصل الاجتماعي الخاصة بنا ',
                               style: TextStyle(
                                 fontSize: height(15),
                                 color: const Color(0xff84beb0),

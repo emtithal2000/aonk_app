@@ -1,3 +1,4 @@
+import 'package:aonk_app/location.dart';
 import 'package:aonk_app/pages/about_us.dart';
 import 'package:aonk_app/pages/notification.dart';
 import 'package:aonk_app/pages/splash.dart';
@@ -14,15 +15,8 @@ final _menuTextStyle = TextStyle(
 
 Drawer buildDrawer(BuildContext context) {
   return Drawer(
-    child: Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          opacity: 0.2,
-          image: AssetImage('assets/images/aonk-png.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Column(
+    child: buildContainer(
+      Column(
         spacing: 5,
         children: [
           Container(

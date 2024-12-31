@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:aonk_app/models/charities_model.dart';
 import 'package:aonk_app/models/customer_model.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/sub_pages/donation_details.dart';
@@ -12,18 +13,18 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-Widget customButton(
-    BuildContext context, PagesProvider provider, Function() onPressed) {
+Widget customButton(BuildContext context, PagesProvider provider,
+    Function() onPressed, String title) {
   return SizedBox(
     width: double.infinity,
+    height: height(40),
     child: FloatingActionButton(
       onPressed: onPressed,
       backgroundColor: const Color(0xFF81bdaf),
       child: Text(
-        'التالي',
+        title,
         style: TextStyle(
           fontSize: width(15),
-          fontWeight: FontWeight.bold,
           fontFamily: 'Marhey',
         ),
       ),
@@ -33,6 +34,7 @@ Widget customButton(
 
 class PagesProvider extends ChangeNotifier {
   List<String> selected = [];
+  List<Charity> charities = [];
   List<Widget> pages = [
     const DonationType(), //0
     const Gift(), //1
@@ -59,10 +61,30 @@ class PagesProvider extends ChangeNotifier {
 
   List<CustomerModel> customerModel = [];
 
+  PagesProvider() {
+    getCharities();
+  }
+
   void addSelected(String donation) {
     selected.add(donation);
 
     notifyListeners();
+  }
+
+  Future<void> getCharities() async {
+    try {
+      final response = await Dio().get('https://api.aonk.app/charities_mobile');
+
+      if (response.statusCode == 200) {
+        final List<dynamic> charitiesJson = response.data['charities_mobile'];
+        charities =
+            charitiesJson.map((json) => Charity.fromJson(json)).toList();
+
+        notifyListeners();
+      }
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   void jumpToPage(int page) {
@@ -90,11 +112,7 @@ class PagesProvider extends ChangeNotifier {
 
       final formData = FormData.fromMap({
         "charity_name": selectedCharity,
-        "donation_type": selectedDonationType,
-        "gift": isGift,
-        "gift_name": controllers[5].text,
-        "gift_phone": controllers[6].text,
-        "donation_list": selected,
+        "donation_types": selected.toString(),
         "donation_image": MultipartFile.fromBytes(imageBytes,
             filename: 'image_${image?.path.split('/').last}.jpg'),
         "date": DateFormat('dd-MM-yyyy').format(DateTime.now()),
@@ -104,13 +122,17 @@ class PagesProvider extends ChangeNotifier {
         "phone": storage['phone'],
         "email": storage['email'],
         "street": storage['street'],
-        "building": storage['building']
+        "building": storage['building'],
+        "gift": isGift,
+        "gift_name": controllers[5].text,
+        "gift_phone": controllers[6].text,
       });
 
       log(formData.fields.toString());
 
+      // Uncomment and update the API endpoint when ready
       // await Dio().post(
-      //   'https://fb32a2d4-9e60-45f3-af24-4c51c4aa3df6-00-2iorkf0oozeaq.janeway.replit.dev/customer_donations',
+      //   'https://api.aonk.app/customer_donations',
       //   data: formData,
       //   options: Options(
       //     headers: {

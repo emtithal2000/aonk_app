@@ -17,176 +17,183 @@ class CustomerInfo extends StatelessWidget {
         return Form(
           key: provider.loginKey,
           child: SingleChildScrollView(
-            child: Column(
-              spacing: height(10),
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Gap(height(50)),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Card(
-                        elevation: 3,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        color: Colors.white,
-                        child: DropdownButtonFormField<String>(
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) {
-                            if (value == null) {
-                              return 'يرجى إختيار الولاية';
-                            }
-                            return null;
-                          },
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                            ),
-                            isDense: true,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: width(30),
+              ),
+              child: Column(
+                spacing: height(10),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Gap(height(50)),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Card(
+                          elevation: 3,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
                           ),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: width(5),
-                          ),
-                          hint: Text(
-                            'الولاية',
-                            style: TextStyle(
-                              fontSize: height(16),
-                              color: const Color(0xff52b8a0),
-                            ),
-                          ),
-                          icon: const Icon(
-                            Icons.arrow_drop_down,
-                            color: Color(0xff52b8a0),
-                          ),
-                          dropdownColor: Colors.white,
-                          elevation: 1,
-                          borderRadius: BorderRadius.circular(30),
-                          isExpanded: true,
-                          items: countryCities.keys.map((String country) {
-                            return DropdownMenuItem<String>(
-                              value: country,
-                              child: Text(
-                                country,
-                                style: TextStyle(
-                                  fontSize: height(16),
-                                  color: const Color(0xff52b8a0),
-                                ),
+                          color: Colors.white,
+                          child: DropdownButtonFormField<String>(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value == null) {
+                                return 'يرجى إختيار الولاية';
+                              }
+                              return null;
+                            },
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
                               ),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            provider.setCountry(newValue!);
-                            provider.resetSelected();
-                          },
-                          value: provider.selectedCountry,
+                              isDense: true,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: width(5),
+                            ),
+                            hint: Text(
+                              'الولاية',
+                              style: TextStyle(
+                                fontSize: height(16),
+                                color: const Color(0xff52b8a0),
+                              ),
+                            ),
+                            icon: const Icon(
+                              Icons.arrow_drop_down,
+                              color: Color(0xff52b8a0),
+                            ),
+                            dropdownColor: Colors.white,
+                            elevation: 1,
+                            borderRadius: BorderRadius.circular(30),
+                            isExpanded: true,
+                            items: countryCities.keys.map((String country) {
+                              return DropdownMenuItem<String>(
+                                value: country,
+                                child: Text(
+                                  country,
+                                  style: TextStyle(
+                                    fontSize: height(16),
+                                    color: const Color(0xff52b8a0),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              provider.setCountry(newValue!);
+                              provider.resetSelected();
+                            },
+                            value: provider.selectedCountry,
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: Card(
-                        elevation: 3,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        color: Colors.white,
-                        child: DropdownButtonFormField<String>(
-                          isExpanded: true,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) {
-                            if (value == null) {
-                              return 'يرجى إختيار المنطقة';
-                            }
-                            return null;
-                          },
-                          padding: EdgeInsets.symmetric(
-                            horizontal: width(5),
+                      Expanded(
+                        child: Card(
+                          elevation: 3,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
                           ),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
+                          color: Colors.white,
+                          child: DropdownButtonFormField<String>(
+                            isExpanded: true,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value == null) {
+                                return 'يرجى إختيار المنطقة';
+                              }
+                              return null;
+                            },
+                            padding: EdgeInsets.symmetric(
+                              horizontal: width(5),
                             ),
-                            isDense: true,
-                          ),
-                          hint: Text(
-                            'المنطقة',
-                            style: TextStyle(
-                              fontSize: height(16),
-                              color: const Color(0xff52b8a0),
-                            ),
-                          ),
-                          icon: const Icon(
-                            Icons.arrow_drop_down,
-                            color: Color(0xff52b8a0),
-                          ),
-                          dropdownColor: Colors.white,
-                          elevation: 1,
-                          borderRadius: BorderRadius.circular(30),
-                          items: getCitiesForCountry(provider.selectedCountry)
-                              .map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                value,
-                                style: TextStyle(
-                                  fontSize: height(16),
-                                  color: const Color(0xff52b8a0),
-                                ),
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
                               ),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            provider.setCity(newValue!);
-                          },
-                          value: provider.selectedCity,
+                              isDense: true,
+                            ),
+                            hint: Text(
+                              'المنطقة',
+                              style: TextStyle(
+                                fontSize: height(16),
+                                color: const Color(0xff52b8a0),
+                              ),
+                            ),
+                            icon: const Icon(
+                              Icons.arrow_drop_down,
+                              color: Color(0xff52b8a0),
+                            ),
+                            dropdownColor: Colors.white,
+                            elevation: 1,
+                            borderRadius: BorderRadius.circular(30),
+                            items: getCitiesForCountry(provider.selectedCountry)
+                                .map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  value,
+                                  style: TextStyle(
+                                    fontSize: height(16),
+                                    color: const Color(0xff52b8a0),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              provider.setCity(newValue!);
+                            },
+                            value: provider.selectedCity,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                buildInput(
-                    'الاسم', IconsaxPlusBroken.user, provider.controllers[0]),
-                buildInput('رقم الهاتف', IconsaxPlusBroken.call,
-                    provider.controllers[1]),
-                buildInput('البريد الإلكتروني', IconsaxPlusBroken.sms,
-                    provider.controllers[2]),
-                buildInput('رقم الشارع', IconsaxPlusBroken.home,
-                    provider.controllers[3]),
-                buildInput('رقم المبنى', IconsaxPlusBroken.building_4,
-                    provider.controllers[4]),
-                Gap(height(10)),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: FloatingActionButton(
-                    heroTag: null,
-                    onPressed: () {
-                      if (provider.loginKey.currentState!.validate()) {
-                        GetStorage().write('userData', {
-                          'name': provider.controllers[0].text,
-                          'phone': provider.controllers[1].text,
-                          'email': provider.controllers[2].text,
-                          'street': provider.controllers[3].text,
-                          'building': provider.controllers[4].text,
-                          'city': provider.selectedCity,
-                          'country': provider.selectedCountry,
-                        });
-                      }
-                    },
-                    backgroundColor: const Color(0xff81bdaf),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Text(
-                      'حفظ ',
-                      style: TextStyle(
-                        fontSize: height(18),
-                        color: Colors.white,
-                        fontFamily: 'Marhey',
+                    ],
+                  ),
+                  buildInput(
+                      'الاسم', IconsaxPlusBroken.user, provider.controllers[0]),
+                  buildInput('رقم الهاتف', IconsaxPlusBroken.call,
+                      provider.controllers[1]),
+                  buildInput('البريد الإلكتروني', IconsaxPlusBroken.sms,
+                      provider.controllers[2]),
+                  buildInput('رقم الشارع', IconsaxPlusBroken.home,
+                      provider.controllers[3]),
+                  buildInput('رقم المبنى', IconsaxPlusBroken.building_4,
+                      provider.controllers[4]),
+                  Gap(height(10)),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: FloatingActionButton(
+                      heroTag: null,
+                      onPressed: () {
+                        if (provider.loginKey.currentState!.validate()) {
+                          GetStorage().write('userData', {
+                            'name': provider.controllers[0].text,
+                            'phone': provider.controllers[1].text,
+                            'email': provider.controllers[2].text,
+                            'street': provider.controllers[3].text,
+                            'building': provider.controllers[4].text,
+                            'city': provider.selectedCity,
+                            'country': provider.selectedCountry,
+                          });
+                        }
+                      },
+                      backgroundColor: const Color(0xff81bdaf),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Text(
+                        'حفظ ',
+                        style: TextStyle(
+                          fontSize: height(18),
+                          color: Colors.white,
+                          fontFamily: 'Marhey',
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

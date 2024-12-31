@@ -1,3 +1,4 @@
+import 'package:aonk_app/location.dart';
 import 'package:aonk_app/pages/first_time.dart';
 import 'package:aonk_app/pages/navigation.dart';
 import 'package:aonk_app/size_config.dart';
@@ -16,16 +17,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            opacity: 0.2,
-            image: AssetImage('assets/images/aonk-png.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Column(
+      body: buildContainer(
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
@@ -63,8 +56,8 @@ class _SplashScreenState extends State<SplashScreen> {
             context,
             MaterialPageRoute(
               builder: (context) => GetStorage().read('userData') != null
-                  ? const FirstTime()
-                  : const Navigation(),
+                  ? const Navigation()
+                  : const FirstTime(),
             ),
           );
         }

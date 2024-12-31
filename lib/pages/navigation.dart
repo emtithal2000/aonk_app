@@ -1,3 +1,4 @@
+import 'package:aonk_app/location.dart';
 import 'package:aonk_app/pages/customer_info.dart';
 import 'package:aonk_app/pages/home.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
@@ -43,7 +44,7 @@ class Navigation extends StatelessWidget {
               title: Text(
                 title[provider.pageIndex],
                 style: TextStyle(
-                  fontSize: height(20),
+                  fontSize: height(23),
                   fontFamily: 'Marhey',
                   color: Colors.white,
                 ),
@@ -98,18 +99,8 @@ class Navigation extends StatelessWidget {
           //     ),
           //   ),
           // ),
-          body: Container(
-            height: double.infinity,
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: width(35)),
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/aonk-png.png'),
-                opacity: 0.2,
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: PageView(
+          body: buildContainer(
+            PageView(
               physics: const NeverScrollableScrollPhysics(),
               controller: provider.pageController,
               children: const [

@@ -1,23 +1,23 @@
-import 'package:aonk_app/providers/pages_provider.dart';
+import 'package:aonk_app/models/charities_model.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class AssociationInfo extends StatelessWidget {
-  const AssociationInfo({super.key});
+  final Charity charity;
+  const AssociationInfo({super.key, required this.charity});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PagesProvider>(builder: (_, provider, __) {
-      return Column(
+    return SingleChildScrollView(
+      child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Center(
             child: Text(
-              'جمعية خيرية تطوعية تهدف إلى مساعدة الفئة المعسرة الأقل حظا في المجتمع، والهدف الأساسي للجمعية هو تمكين الناس ومساعدتهم على تغيير أوضاعهم الاجتماعية نحو الأفضل.',
+              charity.description,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: width(19),
@@ -31,7 +31,7 @@ class AssociationInfo extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () async {
-                  const url = 'https://daralatta.org/ar/';
+                  var url = charity.website;
                   await launchUrl(Uri.parse(url));
                 },
                 child: Image.asset(
@@ -42,7 +42,7 @@ class AssociationInfo extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () async {
-                  const number = '+96824162601';
+                  var number = charity.contactPhone;
                   await launchUrlString("tel://$number");
                 },
                 child: Image.asset(
@@ -54,8 +54,8 @@ class AssociationInfo extends StatelessWidget {
             ],
           ),
         ],
-      );
-    });
+      ),
+    );
   }
 }
 

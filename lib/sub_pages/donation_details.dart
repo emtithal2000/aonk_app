@@ -66,7 +66,7 @@ class DonationDetails extends StatelessWidget {
                       child: Text(
                         donationDetails[index],
                         style: TextStyle(
-                          fontSize: width(15),
+                          fontSize: width(14),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -79,7 +79,7 @@ class DonationDetails extends StatelessWidget {
               if (provider.selected.isNotEmpty) {
                 provider.nextPage(false);
               }
-            }),
+            }, 'التالي'),
           ],
         );
       },

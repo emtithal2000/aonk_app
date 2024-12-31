@@ -40,7 +40,7 @@ class Gift extends StatelessWidget {
                 if (provider.formKey.currentState!.validate()) {
                   provider.nextPage(false);
                 }
-              }),
+              }, 'التالي'),
             ],
           ),
         );

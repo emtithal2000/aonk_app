@@ -1,4 +1,5 @@
 import 'package:aonk_app/location.dart';
+import 'package:aonk_app/pages/navigation.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
@@ -15,16 +16,8 @@ class FirstTime extends StatelessWidget {
     return Scaffold(
       body: Consumer<PagesProvider>(
         builder: (_, provider, __) {
-          return Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/images/aonk-png.png'),
-                  opacity: 0.2,
-                  fit: BoxFit.cover),
-            ),
-            child: Form(
+          return buildContainer(
+            Form(
               key: provider.loginKey,
               child: SingleChildScrollView(
                 child: Padding(
@@ -193,9 +186,9 @@ class FirstTime extends StatelessWidget {
                         width: MediaQuery.of(context).size.width,
                         child: FloatingActionButton(
                           heroTag: null,
-                          onPressed: () {
+                          onPressed: () async {
                             if (provider.loginKey.currentState!.validate()) {
-                              GetStorage().write('userData', {
+                              await GetStorage().write('userData', {
                                 'name': provider.controllers[0].text,
                                 'phone': provider.controllers[1].text,
                                 'email': provider.controllers[2].text,
@@ -204,6 +197,15 @@ class FirstTime extends StatelessWidget {
                                 'city': provider.selectedCity,
                                 'country': provider.selectedCountry,
                               });
+
+                              if (context.mounted) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const Navigation(),
+                                  ),
+                                );
+                              }
                             }
                           },
                           backgroundColor: const Color(0xff81bdaf),
