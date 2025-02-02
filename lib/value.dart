@@ -68,6 +68,17 @@ List<String> associationName = [
   // //
 ];
 
+List<String> contactImage = [
+  'assets/images/whatsapp.png',
+  'assets/images/instagram.png',
+  'assets/images/social-media.png',
+];
+List<String> contactLinks = [
+  'https://wa.link/a8oi1t',
+  'https://www.instagram.com/aonk_app?igsh=MXV4NGtobXlyb2l0bg==',
+  'https://twitter.com/example',
+];
+
 List<String> donationDetails = [
   'ملابس',
   'أدوات واواني منزلية ',
@@ -76,11 +87,11 @@ List<String> donationDetails = [
   'احذية وحقائب',
   'كتب واوراق',
 ];
-
 List<String> donationImage = [
   'assets/images/camera.png',
   'assets/images/gallery.png',
 ];
+
 List<String> donationPhoto = [
   'كاميرا',
   'الاستوديو',

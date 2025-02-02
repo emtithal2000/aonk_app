@@ -54,7 +54,7 @@ class CustomerInfo extends StatelessWidget {
                               horizontal: width(5),
                             ),
                             hint: Text(
-                              'الولاية',
+                              'الدولة',
                               style: TextStyle(
                                 fontSize: height(16),
                                 color: const Color(0xff52b8a0),
@@ -152,14 +152,23 @@ class CustomerInfo extends StatelessWidget {
                   ),
                   buildInput(
                       'الاسم', IconsaxPlusBroken.user, provider.controllers[0]),
-                  buildInput('رقم الهاتف', IconsaxPlusBroken.call,
-                      provider.controllers[1]),
+                  buildInput(
+                    'رقم الهاتف',
+                    IconsaxPlusBroken.call,
+                    provider.controllers[1],
+                    maxLength: 8,
+                    keyboardType: TextInputType.number,
+                    counterText: '',
+                  ),
                   buildInput('البريد الإلكتروني', IconsaxPlusBroken.sms,
-                      provider.controllers[2]),
+                      provider.controllers[2],
+                      validator: (value) => null),
                   buildInput('رقم الشارع', IconsaxPlusBroken.home,
-                      provider.controllers[3]),
+                      provider.controllers[3],
+                      validator: (value) => null),
                   buildInput('رقم المبنى', IconsaxPlusBroken.building_4,
-                      provider.controllers[4]),
+                      provider.controllers[4],
+                      validator: (value) => null),
                   Gap(height(10)),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
@@ -202,21 +211,22 @@ class CustomerInfo extends StatelessWidget {
   }
 
   Widget buildInput(
-      String hintText, IconData icon, TextEditingController controller) {
+      String hintText, IconData icon, TextEditingController controller,
+      {int? maxLength,
+      TextInputType? keyboardType,
+      String? counterText,
+      String? Function(String?)? validator}) {
     return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
       child: TextFormField(
         controller: controller,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'يرجى إدخال $hintText';
-          }
-          return null;
-        },
+        validator: validator ??
+            (value) {
+              if (value!.isEmpty) {
+                return 'يرجى إدخال $hintText';
+              }
+              return null;
+            },
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
@@ -242,8 +252,11 @@ class CustomerInfo extends StatelessWidget {
             icon,
             color: const Color(0xff52b8a0),
           ),
+          counterText: counterText,
         ),
         onChanged: (value) {},
+        maxLength: maxLength,
+        keyboardType: keyboardType,
       ),
     );
   }
