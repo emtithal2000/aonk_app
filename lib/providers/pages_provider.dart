@@ -76,19 +76,9 @@ class PagesProvider extends ChangeNotifier {
   Future<void> getCharities() async {
     try {
       final dio = Dio();
-      // Set timeout to 30 seconds for better reliability
-      dio.options.connectTimeout =
-          const Duration(seconds: 60); // Time to establish connection
-      dio.options.receiveTimeout =
-          const Duration(seconds: 60); // Time to receive data
-      dio.options.sendTimeout =
-          const Duration(seconds: 60); // Time to send data
 
       final response = await dio.get(
         'https://api.aonk.app/charities_mobile',
-        options: Options(
-          validateStatus: (status) => status! < 500,
-        ),
       );
 
       if (response.statusCode == 200) {
@@ -99,7 +89,7 @@ class PagesProvider extends ChangeNotifier {
         notifyListeners();
       }
     } on DioException catch (e) {
-      log(e.toString());
+      log(e.response?.data.toString() ?? 'No response data');
       msg = e.response?.data;
     }
   }
