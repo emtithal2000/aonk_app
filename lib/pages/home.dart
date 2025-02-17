@@ -16,6 +16,12 @@ class Home extends StatelessWidget {
         builder: (context, provider, _) => Column(
           children: [
             Gap(height(10)),
+            provider.msg != ''
+                ? Text(
+                    provider.msg,
+                    style: const TextStyle(color: Colors.red),
+                  )
+                : const CircularProgressIndicator(),
             Expanded(
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

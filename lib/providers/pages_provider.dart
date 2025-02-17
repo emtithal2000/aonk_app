@@ -61,6 +61,8 @@ class PagesProvider extends ChangeNotifier {
 
   List<CustomerModel> customerModel = [];
 
+  String msg = '';
+
   PagesProvider() {
     getCharities();
   }
@@ -73,7 +75,21 @@ class PagesProvider extends ChangeNotifier {
 
   Future<void> getCharities() async {
     try {
-      final response = await Dio().get('https://api.aonk.app/charities_mobile');
+      final dio = Dio();
+      // Set timeout to 30 seconds for better reliability
+      dio.options.connectTimeout =
+          const Duration(seconds: 60); // Time to establish connection
+      dio.options.receiveTimeout =
+          const Duration(seconds: 60); // Time to receive data
+      dio.options.sendTimeout =
+          const Duration(seconds: 60); // Time to send data
+
+      final response = await dio.get(
+        'https://api.aonk.app/charities_mobile',
+        options: Options(
+          validateStatus: (status) => status! < 500,
+        ),
+      );
 
       if (response.statusCode == 200) {
         final List<dynamic> charitiesJson = response.data['charities_mobile'];
@@ -82,8 +98,9 @@ class PagesProvider extends ChangeNotifier {
 
         notifyListeners();
       }
-    } catch (e) {
+    } on DioException catch (e) {
       log(e.toString());
+      msg = e.response?.data;
     }
   }
 
