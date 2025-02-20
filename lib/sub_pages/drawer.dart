@@ -3,8 +3,12 @@ import 'package:aonk_app/pages/about_us.dart';
 import 'package:aonk_app/pages/notification.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:aonk_app/providers/theme_provider.dart';
+import 'package:aonk_app/theme/theme_colors.dart';
 
-const _primaryColor = Color(0xff84beb0);
+// Update the _primaryColor constant to use ThemeColors
+const _primaryColor = ThemeColors.primaryColor;
 
 // Create a reusable text style
 final _menuTextStyle = TextStyle(
@@ -14,6 +18,7 @@ final _menuTextStyle = TextStyle(
 
 Drawer buildDrawer(BuildContext context) {
   return Drawer(
+    backgroundColor: ThemeColors.getBackgroundColor(context),
     child: buildContainer(
       Column(
         spacing: 5,
@@ -30,7 +35,7 @@ Drawer buildDrawer(BuildContext context) {
               children: [
                 CircleAvatar(
                   radius: height(45),
-                  backgroundColor: Colors.white,
+                  backgroundColor: ThemeColors.getCardColor(context),
                   child: Padding(
                     padding: EdgeInsets.all(width(15)),
                     child: Image.asset(
@@ -107,7 +112,7 @@ Drawer buildDrawer(BuildContext context) {
               },
             );
           }),
-          drawerItems(context, Icons.settings, 'الاعدادات', null),
+          drawerItems(context, Icons.settings, 'الاعدادات', () => showSettingsDialog(context)),
           // drawerItems(
           //     context, Icons.logout, 'تسجيل الخروج', const SplashScreen()),
         ],
@@ -119,12 +124,14 @@ Drawer buildDrawer(BuildContext context) {
 ListTile drawerItems(
     BuildContext context, IconData icon, String title, dynamic page) {
   return ListTile(
-    leading: Icon(icon, color: const Color(0xff81bdaf)),
-    title: Text(title,
-        style: const TextStyle(
-          fontFamily: 'Marhey',
-          color: Colors.black87,
-        )),
+    leading: Icon(icon, color: ThemeColors.iconColor),
+    title: Text(
+      title,
+      style: TextStyle(
+        fontFamily: 'Marhey',
+        color: ThemeColors.getTextColor(context),
+      ),
+    ),
     onTap: () {
       if (page is Widget) {
         Navigator.push(
@@ -134,6 +141,57 @@ ListTile drawerItems(
       } else if (page is Function) {
         page();
       }
+    },
+  );
+}
+
+void showSettingsDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: ThemeColors.getCardColor(context),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
+        title: Text(
+          'الاعدادات',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: ThemeColors.accentColor,
+            fontFamily: 'Marhey',
+          ),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Consumer<ThemeProvider>(
+              builder: (context, themeProvider, child) {
+                return ListTile(
+                  leading: Icon(
+                    themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
+                    color: ThemeColors.iconColor,
+                  ),
+                  title: Text(
+                    themeProvider.isDarkMode ? 'الوضع الداكن' : 'الوضع الفاتح',
+                    style: TextStyle(
+                      fontFamily: 'Marhey',
+                      color: ThemeColors.getTextColor(context),
+                    ),
+                  ),
+                  trailing: Switch(
+                    value: themeProvider.isDarkMode,
+                    onChanged: (value) {
+                      themeProvider.toggleTheme();
+                    },
+                    activeColor: ThemeColors.accentColor,
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      );
     },
   );
 }

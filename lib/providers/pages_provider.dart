@@ -63,10 +63,6 @@ class PagesProvider extends ChangeNotifier {
 
   String msg = '';
 
-  PagesProvider() {
-    getCharities();
-  }
-
   void addSelected(String donation) {
     selected.add(donation);
 
@@ -101,8 +97,6 @@ class PagesProvider extends ChangeNotifier {
         final List<dynamic> charitiesJson = response.data['charities_mobile'];
         charities =
             charitiesJson.map((json) => Charity.fromJson(json)).toList();
-
-        notifyListeners();
       }
     } on DioException catch (e) {
       log(e.response?.data.toString() ?? 'No response data');
