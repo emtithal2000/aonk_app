@@ -14,10 +14,23 @@ class FirstTime extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Consumer<PagesProvider>(
         builder: (_, provider, __) {
-          return buildContainer(
-            Form(
+          return Container(
+            height: double.infinity,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: const AssetImage('assets/images/aonk-background.png'),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                  Colors.white.withOpacity(0.8),
+                  BlendMode.srcOver,
+                ),
+              ),
+            ),
+            child: Form(
               key: provider.loginKey,
               child: SingleChildScrollView(
                 child: Padding(
@@ -188,15 +201,18 @@ class FirstTime extends StatelessWidget {
                           heroTag: null,
                           onPressed: () async {
                             if (provider.loginKey.currentState!.validate()) {
-                              await GetStorage().write('userData', {
-                                'name': provider.controllers[0].text,
-                                'phone': provider.controllers[1].text,
-                                'email': provider.controllers[2].text,
-                                'street': provider.controllers[3].text,
-                                'building': provider.controllers[4].text,
-                                'city': provider.selectedCity,
-                                'country': provider.selectedCountry,
-                              });
+                              await GetStorage().write(
+                                'userData',
+                                {
+                                  'name': provider.controllers[0].text,
+                                  'phone': provider.controllers[1].text,
+                                  'email': provider.controllers[2].text,
+                                  'street': provider.controllers[3].text,
+                                  'building': provider.controllers[4].text,
+                                  'city': provider.selectedCity,
+                                  'country': provider.selectedCountry,
+                                },
+                              );
 
                               if (context.mounted) {
                                 Navigator.pushReplacement(

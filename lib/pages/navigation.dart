@@ -19,35 +19,32 @@ class Navigation extends StatelessWidget {
       builder: (context, provider, child) {
         return Scaffold(
           drawer: buildDrawer(context),
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(width(80)),
-            child: AppBar(
-              backgroundColor: const Color(0xff81bdaf),
-              centerTitle: true,
-              leading: Builder(builder: (context) {
-                return IconButton(
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                  icon: const Icon(IconsaxPlusLinear.menu),
-                  color: Colors.white,
-                  iconSize: width(23),
-                );
-              }),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(50),
-                ),
-              ),
-              shadowColor: Colors.grey.withOpacity(0.4),
-              elevation: 8,
-              title: Text(
-                title[provider.pageIndex],
-                style: TextStyle(
-                  fontSize: height(23),
-                  fontFamily: 'Marhey',
-                  color: Colors.white,
-                ),
+          appBar: AppBar(
+            backgroundColor: const Color(0xff81bdaf),
+            centerTitle: true,
+            leading: Builder(builder: (context) {
+              return IconButton(
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                icon: const Icon(IconsaxPlusLinear.menu),
+                color: Colors.white,
+                iconSize: width(23),
+              );
+            }),
+            // shape: const RoundedRectangleBorder(
+            //   borderRadius: BorderRadius.vertical(
+            //     bottom: Radius.circular(50),
+            //   ),
+            // ),
+            shadowColor: Colors.grey.withOpacity(0.4),
+            elevation: 8,
+            title: Text(
+              title[provider.pageIndex],
+              style: TextStyle(
+                fontSize: height(23),
+                fontFamily: 'Marhey',
+                color: Colors.white,
               ),
             ),
           ),

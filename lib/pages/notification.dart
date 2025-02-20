@@ -33,7 +33,7 @@ class NotificationScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Lottie.asset(
-              'assets/images/notification.json',
+              'assets/images/Animation - 1739950326716.json',
               height: height(300),
               repeat: false,
             ),

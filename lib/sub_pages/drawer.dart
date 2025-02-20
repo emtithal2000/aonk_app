@@ -1,7 +1,6 @@
 import 'package:aonk_app/location.dart';
 import 'package:aonk_app/pages/about_us.dart';
 import 'package:aonk_app/pages/notification.dart';
-import 'package:aonk_app/pages/splash.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 
@@ -81,10 +80,36 @@ Drawer buildDrawer(BuildContext context) {
               },
             );
           }),
-          drawerItems(context, Icons.shopping_bag, 'حالة الطلب', null),
+          drawerItems(context, Icons.shopping_bag, 'حالة الطلب', () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  title: const Text(
+                    'حالة الطلب',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xff52b8a0),
+                      fontFamily: 'Marhey',
+                    ),
+                  ),
+                  content: const Text(
+                    'قريباً',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Marhey',
+                    ),
+                  ),
+                );
+              },
+            );
+          }),
           drawerItems(context, Icons.settings, 'الاعدادات', null),
-          drawerItems(
-              context, Icons.logout, 'تسجيل الخروج', const SplashScreen()),
+          // drawerItems(
+          //     context, Icons.logout, 'تسجيل الخروج', const SplashScreen()),
         ],
       ),
     ),

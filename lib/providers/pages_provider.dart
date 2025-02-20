@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:aonk_app/models/charities_model.dart';
 import 'package:aonk_app/models/customer_model.dart';
@@ -9,7 +8,6 @@ import 'package:aonk_app/sub_pages/donation_images.dart';
 import 'package:aonk_app/sub_pages/donation_type.dart';
 import 'package:aonk_app/sub_pages/gift.dart';
 import 'package:dio/dio.dart';
-import 'package:dio/io.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -75,18 +73,28 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getCharities() async {
-    try {
-      final dio = Dio();
-      (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
-        final client = HttpClient();
-        client.badCertificateCallback =
-            (X509Certificate cert, String host, int port) => true;
-        return client;
-      };
+  String changer(String country) {
+    String result = '';
+    switch (country) {
+      case 'سلطنة عُمان':
+        result = 'Oman';
+        break;
+      case 'قطر':
+        result = 'Qatar';
+        break;
+      case 'الكويت':
+        result = 'Kuwait';
+        break;
+    }
+    return result;
+  }
 
-      final response = await dio.get(
-        'https://api.aonk.app/charities_mobile',
+  Future<void> getCharities() async {
+    final country = changer(GetStorage().read('userData')['country']);
+
+    try {
+      final response = await Dio().get(
+        'https://api.aonk.app/charities_mobile?country=$country',
       );
 
       if (response.statusCode == 200) {
