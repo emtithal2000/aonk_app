@@ -1,7 +1,7 @@
 import 'package:aonk_app/location.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:lottie/lottie.dart';
 
@@ -21,11 +21,10 @@ class NotificationScreen extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: const Icon(IconsaxPlusBroken.arrow_left_2),
+            icon: const Icon(IconsaxPlusBroken.arrow_right_3),
             color: const Color(0xff84beb0),
-            iconSize: height(30),
+            iconSize: height(35),
           ),
-          Gap(width(10)),
         ],
       ),
       body: buildContainer(
@@ -42,7 +41,7 @@ class NotificationScreen extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: 'الاشعارات',
+                    text: AppLocalizations.of(context)!.notifications,
                     style: TextStyle(
                       fontSize: height(25),
                       color: Colors.black,
@@ -54,7 +53,8 @@ class NotificationScreen extends StatelessWidget {
                     text: '\n',
                   ),
                   TextSpan(
-                    text: 'لا يوجد اشعارات',
+                    text:
+                        AppLocalizations.of(context)!.notificationsDescription,
                     style: TextStyle(
                       fontSize: height(24),
                       color: Colors.black,

@@ -2,6 +2,7 @@ import 'package:aonk_app/location.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -54,7 +55,7 @@ class CustomerInfo extends StatelessWidget {
                               horizontal: width(5),
                             ),
                             hint: Text(
-                              'الدولة',
+                              AppLocalizations.of(context)!.country,
                               style: TextStyle(
                                 fontSize: height(16),
                                 color: const Color(0xff52b8a0),
@@ -115,7 +116,7 @@ class CustomerInfo extends StatelessWidget {
                               isDense: true,
                             ),
                             hint: Text(
-                              'المنطقة',
+                              AppLocalizations.of(context)!.city,
                               style: TextStyle(
                                 fontSize: height(16),
                                 color: const Color(0xff52b8a0),
@@ -150,24 +151,24 @@ class CustomerInfo extends StatelessWidget {
                       ),
                     ],
                   ),
+                  buildInput(AppLocalizations.of(context)!.name,
+                      IconsaxPlusBroken.user, provider.controllers[0]),
                   buildInput(
-                      'الاسم', IconsaxPlusBroken.user, provider.controllers[0]),
-                  buildInput(
-                    'رقم الهاتف',
+                    AppLocalizations.of(context)!.phoneNumber,
                     IconsaxPlusBroken.call,
                     provider.controllers[1],
                     maxLength: 8,
                     keyboardType: TextInputType.number,
                     counterText: '',
                   ),
-                  buildInput('البريد الإلكتروني', IconsaxPlusBroken.sms,
-                      provider.controllers[2],
+                  buildInput(AppLocalizations.of(context)!.email,
+                      IconsaxPlusBroken.sms, provider.controllers[2],
                       validator: (value) => null),
-                  buildInput('رقم الشارع', IconsaxPlusBroken.home,
-                      provider.controllers[3],
+                  buildInput(AppLocalizations.of(context)!.streetNumber,
+                      IconsaxPlusBroken.home, provider.controllers[3],
                       validator: (value) => null),
-                  buildInput('رقم المبنى', IconsaxPlusBroken.building_4,
-                      provider.controllers[4],
+                  buildInput(AppLocalizations.of(context)!.buildingNumber,
+                      IconsaxPlusBroken.building_4, provider.controllers[4],
                       validator: (value) => null),
                   Gap(height(10)),
                   SizedBox(
@@ -192,7 +193,7 @@ class CustomerInfo extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Text(
-                        'حفظ ',
+                        AppLocalizations.of(context)!.save,
                         style: TextStyle(
                           fontSize: height(18),
                           color: Colors.white,

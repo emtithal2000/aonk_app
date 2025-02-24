@@ -1,6 +1,7 @@
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +18,7 @@ class Gift extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'أدخل بيانات الشخص',
+                AppLocalizations.of(context)!.enterPersonalData,
                 style: TextStyle(
                   fontSize: width(15),
                   fontWeight: FontWeight.bold,
@@ -27,20 +28,22 @@ class Gift extends StatelessWidget {
               ),
               Gap(height(15)),
               customInput(
-                'الاسم',
+                AppLocalizations.of(context)!.name,
                 provider.controllers[5],
+                context,
               ),
               Gap(height(10)),
               customInput(
-                'رقم الهاتف',
+                AppLocalizations.of(context)!.phoneNumber,
                 provider.controllers[6],
+                context,
               ),
               Gap(height(15)),
               customButton(context, provider, () {
                 if (provider.formKey.currentState!.validate()) {
                   provider.nextPage(false);
                 }
-              }, 'التالي'),
+              }, AppLocalizations.of(context)!.next),
             ],
           ),
         );
@@ -51,13 +54,14 @@ class Gift extends StatelessWidget {
   Widget customInput(
     String hintText,
     TextEditingController controller,
+    BuildContext context,
   ) {
     return TextFormField(
       controller: controller,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value!.isEmpty) {
-          return 'يرجى إدخال $hintText';
+          return '${AppLocalizations.of(context)!.pleaseEnter} $hintText';
         }
         return null;
       },

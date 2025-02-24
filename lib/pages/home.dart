@@ -4,6 +4,7 @@ import 'package:aonk_app/sub_pages/association_info.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -109,7 +110,9 @@ class Home extends StatelessWidget {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: const Text('تبرع الان'),
+                                  child: Text(
+                                    AppLocalizations.of(context)!.donate,
+                                  ),
                                 ),
                               ),
                               Gap(height(10)),
@@ -150,7 +153,9 @@ class Home extends StatelessWidget {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: const Text('معلومات'),
+                                  child: Text(
+                                    AppLocalizations.of(context)!.information,
+                                  ),
                                 ),
                               ),
                             ],

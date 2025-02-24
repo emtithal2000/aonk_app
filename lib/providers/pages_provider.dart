@@ -145,20 +145,19 @@ class PagesProvider extends ChangeNotifier {
         "gift_phone": controllers[6].text,
       });
 
-      log(formData.fields.toString());
-
       // Uncomment and update the API endpoint when ready
-      // await Dio().post(
-      //   'https://api.aonk.app/customer_donations',
-      //   data: formData,
-      //   options: Options(
-      //     headers: {
-      //       'Content-Type': 'multipart/form-data',
-      //     },
-      //   ),
-      // );
-    } catch (e) {
-      log(e.toString());
+      await Dio().post(
+        'https://api.aonk.app/customer_donations',
+        data: formData,
+        options: Options(
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        ),
+      );
+    } on DioException catch (e) {
+      log(e.response?.data.toString() ?? 'No response data');
+      msg = e.response?.data;
     }
   }
 
@@ -184,7 +183,10 @@ class PagesProvider extends ChangeNotifier {
 
   Future<void> selectImage(bool isCamera) async {
     await ImagePicker()
-        .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery)
+        .pickImage(
+      source: isCamera ? ImageSource.camera : ImageSource.gallery,
+      imageQuality: 50,
+    )
         .then((value) {
       if (value != null) {
         image = value;

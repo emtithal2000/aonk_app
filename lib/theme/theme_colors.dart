@@ -8,18 +8,24 @@ class ThemeColors {
   static Color getTextColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark 
         ? Colors.white 
-        : Colors.black87;
+        : const Color(0xFF2D2D2D);
   }
 
   static Color getBackgroundColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark 
-        ? Colors.grey[900]! 
+        ? const Color(0xFF1A1A1A)
         : Colors.white;
   }
 
   static Color getCardColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark 
-        ? Colors.grey[800]! 
+        ? const Color(0xFF2D2D2D)
         : Colors.white;
+  }
+
+  static Color getDialogTitleColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark 
+        ? accentColor.withOpacity(0.9)
+        : accentColor;
   }
 } 

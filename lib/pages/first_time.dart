@@ -3,6 +3,7 @@ import 'package:aonk_app/pages/navigation.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -42,7 +43,7 @@ class FirstTime extends StatelessWidget {
                     children: [
                       Gap(height(120)),
                       Text(
-                        'مرحبا بك في تطبيق عونك',
+                        AppLocalizations.of(context)!.welcomeToAonk,
                         style: TextStyle(
                           fontSize: height(22),
                           fontFamily: 'Marhey',
@@ -51,7 +52,7 @@ class FirstTime extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'قم بادخال بياناتك...',
+                        AppLocalizations.of(context)!.enterYourData,
                         style: TextStyle(
                           fontSize: height(19),
                           fontFamily: 'Marhey',
@@ -73,7 +74,7 @@ class FirstTime extends StatelessWidget {
                                     AutovalidateMode.onUserInteraction,
                                 validator: (value) {
                                   if (value == null) {
-                                    return 'يرجى إختيار الولاية';
+                                    return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.country}';
                                   }
                                   return null;
                                 },
@@ -87,7 +88,7 @@ class FirstTime extends StatelessWidget {
                                   horizontal: width(5),
                                 ),
                                 hint: Text(
-                                  'الولاية',
+                                  AppLocalizations.of(context)!.country,
                                   style: TextStyle(
                                     fontSize: height(16),
                                     color: const Color(0xff52b8a0),
@@ -134,7 +135,7 @@ class FirstTime extends StatelessWidget {
                                     AutovalidateMode.onUserInteraction,
                                 validator: (value) {
                                   if (value == null) {
-                                    return 'يرجى إختيار المنطقة';
+                                    return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.city}';
                                   }
                                   return null;
                                 },
@@ -148,7 +149,7 @@ class FirstTime extends StatelessWidget {
                                   isDense: true,
                                 ),
                                 hint: Text(
-                                  'المنطقة',
+                                  AppLocalizations.of(context)!.city,
                                   style: TextStyle(
                                     fontSize: height(16),
                                     color: const Color(0xff52b8a0),
@@ -184,15 +185,24 @@ class FirstTime extends StatelessWidget {
                           ),
                         ],
                       ),
-                      buildInput('الاسم', IconsaxPlusBroken.user,
-                          provider.controllers[0]),
-                      buildInput('رقم الهاتف', IconsaxPlusBroken.call,
+                      buildInput(context, AppLocalizations.of(context)!.name,
+                          IconsaxPlusBroken.user, provider.controllers[0]),
+                      buildInput(
+                          context,
+                          AppLocalizations.of(context)!.phoneNumber,
+                          IconsaxPlusBroken.call,
                           provider.controllers[1]),
-                      buildInput('البريد الإلكتروني', IconsaxPlusBroken.sms,
-                          provider.controllers[2]),
-                      buildInput('رقم الشارع', IconsaxPlusBroken.home,
+                      buildInput(context, AppLocalizations.of(context)!.email,
+                          IconsaxPlusBroken.sms, provider.controllers[2]),
+                      buildInput(
+                          context,
+                          AppLocalizations.of(context)!.streetNumber,
+                          IconsaxPlusBroken.home,
                           provider.controllers[3]),
-                      buildInput('رقم المبنى', IconsaxPlusBroken.building_4,
+                      buildInput(
+                          context,
+                          AppLocalizations.of(context)!.buildingNumber,
+                          IconsaxPlusBroken.building_4,
                           provider.controllers[4]),
                       Gap(height(10)),
                       SizedBox(
@@ -229,7 +239,7 @@ class FirstTime extends StatelessWidget {
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: Text(
-                            'حفظ ',
+                            AppLocalizations.of(context)!.save,
                             style: TextStyle(
                               fontSize: height(18),
                               color: Colors.white,
@@ -249,8 +259,8 @@ class FirstTime extends StatelessWidget {
     );
   }
 
-  Widget buildInput(
-      String hintText, IconData icon, TextEditingController controller) {
+  Widget buildInput(BuildContext context, String hintText, IconData icon,
+      TextEditingController controller) {
     return Card(
       elevation: 3,
       shape: RoundedRectangleBorder(
@@ -261,7 +271,7 @@ class FirstTime extends StatelessWidget {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
           if (value!.isEmpty) {
-            return 'يرجى إدخال $hintText';
+            return '${AppLocalizations.of(context)!.pleaseEnter} $hintText';
           }
           return null;
         },

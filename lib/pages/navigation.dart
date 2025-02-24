@@ -4,8 +4,8 @@ import 'package:aonk_app/pages/home.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/sub_pages/drawer.dart';
-import 'package:aonk_app/value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -40,7 +40,7 @@ class Navigation extends StatelessWidget {
             shadowColor: Colors.grey.withOpacity(0.4),
             elevation: 8,
             title: Text(
-              title[provider.pageIndex],
+              AppLocalizations.of(context)!.appbarTitle,
               style: TextStyle(
                 fontSize: height(23),
                 fontFamily: 'Marhey',

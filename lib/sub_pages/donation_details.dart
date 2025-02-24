@@ -4,6 +4,7 @@ import 'package:aonk_app/value.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DonationDetails extends StatelessWidget {
   const DonationDetails({super.key});
@@ -16,7 +17,7 @@ class DonationDetails extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'إختر نوع التبرع',
+              AppLocalizations.of(context)!.donationType,
               style: TextStyle(
                 fontSize: width(15),
                 fontWeight: FontWeight.bold,
@@ -79,7 +80,7 @@ class DonationDetails extends StatelessWidget {
               if (provider.selected.isNotEmpty) {
                 provider.nextPage(false);
               }
-            }, 'التالي'),
+            }, AppLocalizations.of(context)!.next),
           ],
         );
       },

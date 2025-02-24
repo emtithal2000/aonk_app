@@ -2,6 +2,7 @@ import 'package:aonk_app/location.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -22,9 +23,12 @@ class AboutUs extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: const Icon(IconsaxPlusBroken.arrow_left_2),
+            icon: Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: const Icon(IconsaxPlusBroken.arrow_right_3),
+            ),
             color: const Color(0xff84beb0),
-            iconSize: height(30),
+            iconSize: height(35),
           ),
         ],
       ),
@@ -81,7 +85,7 @@ class AboutUs extends StatelessWidget {
                         children: [
                           const TextSpan(text: '\n'),
                           TextSpan(
-                            text: 'ما هو عونك؟!!',
+                            text: AppLocalizations.of(context)!.whatIsAonk,
                             style: TextStyle(
                               fontSize: width(23),
                               color: Colors.black,
@@ -92,8 +96,7 @@ class AboutUs extends StatelessWidget {
                           const TextSpan(text: '\n'),
                           const TextSpan(text: '\n'),
                           TextSpan(
-                            text:
-                                'تطبيق ذكي للتخلص من كل ما هو قديم وفائض عن الحاجة',
+                            text: AppLocalizations.of(context)!.aonkDescription,
                             style: TextStyle(
                               fontSize: height(18),
                               color: const Color(0xff84beb0),
@@ -106,7 +109,7 @@ class AboutUs extends StatelessWidget {
                           const TextSpan(text: '\n'),
                           TextSpan(
                             text:
-                                'كـ الملابس👕👚👗👖 ، الاحذية والحقائب 👜👞 ، الستائر و البطانيات و الشراشف 🛏 ، العاب الاطفال🎠🏓🎡 ، الاواني المنزلية 🍽 ، الكتب و الروايات 📚 و الاجهزة الالكترونية📺🔌 ',
+                                AppLocalizations.of(context)!.aonkDescription3,
                             style: TextStyle(
                               fontSize: height(15),
                               color: Colors.black,
@@ -115,7 +118,7 @@ class AboutUs extends StatelessWidget {
                           const TextSpan(text: '\n'),
                           TextSpan(
                             text:
-                                '"لـ صالح الجهات الخيرية فالسلطنة  فــ هدفنا هو " تخفيف عبء النقل عنكم "',
+                                AppLocalizations.of(context)!.aonkDescription4,
                             style: TextStyle(
                               fontSize: height(13),
                               color: Colors.black,
@@ -124,7 +127,7 @@ class AboutUs extends StatelessWidget {
                           const TextSpan(text: '\n\n'),
                           TextSpan(
                             text:
-                                'و لرفع خلفية معلوماتك عنا اكثر، يمكنك تصفح مواقع التواصل الاجتماعي الخاصة بنا ',
+                                AppLocalizations.of(context)!.aonkDescription5,
                             style: TextStyle(
                               fontSize: height(15),
                               color: const Color(0xff84beb0),

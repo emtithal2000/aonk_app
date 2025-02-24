@@ -1,6 +1,7 @@
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +16,7 @@ class DonationType extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'إختر طبيعة التبرع',
+              AppLocalizations.of(context)!.donationType,
               style: TextStyle(
                 fontSize: width(15),
                 fontWeight: FontWeight.w500,
@@ -32,14 +33,14 @@ class DonationType extends StatelessWidget {
                     provider.setDonationType('gift');
                     provider.nextPage(false);
                   },
-                  child: buildSelection('gift'),
+                  child: buildSelection(context, 'gift'),
                 ),
                 GestureDetector(
                   onTap: () {
                     provider.setDonationType('clothes');
                     provider.nextPage(true);
                   },
-                  child: buildSelection('clothes'),
+                  child: buildSelection(context, 'clothes'),
                 ),
               ],
             ),
@@ -49,7 +50,7 @@ class DonationType extends StatelessWidget {
     );
   }
 
-  Widget buildSelection(String image) {
+  Widget buildSelection(BuildContext context, String image) {
     return Column(
       children: [
         Container(
@@ -74,7 +75,9 @@ class DonationType extends StatelessWidget {
         ),
         Gap(height(10)),
         Text(
-          image == 'gift' ? 'هدية عن شخص' : ' تبرع شخصي',
+          image == 'gift'
+              ? AppLocalizations.of(context)!.giftDonation
+              : AppLocalizations.of(context)!.personalDonation,
           style: TextStyle(
             fontSize: height(14),
             fontFamily: 'Marhey',

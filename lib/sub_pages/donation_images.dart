@@ -4,6 +4,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DonationImages extends StatelessWidget {
   const DonationImages({super.key});
@@ -16,7 +17,7 @@ class DonationImages extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'قم بإرفاق الصورة',
+              AppLocalizations.of(context)!.attachImages,
               style: TextStyle(
                 fontSize: width(15),
                 fontWeight: FontWeight.w500,
@@ -54,14 +55,16 @@ class DonationImages extends StatelessWidget {
                           ? DialogType.error
                           : DialogType.success,
                       animType: AnimType.rightSlide,
-                      title: provider.image == null ? 'خطأ' : 'تم تاكيد الطلب',
+                      title: provider.image == null
+                          ? AppLocalizations.of(context)!.error
+                          : AppLocalizations.of(context)!.success,
                       desc: provider.image == null
-                          ? 'يرجى اختيار صورة'
-                          : 'سوف يتم التواصل معك من قبل الفريق',
+                          ? AppLocalizations.of(context)!.errorDescription
+                          : AppLocalizations.of(context)!.successDescription,
                       titleTextStyle: const TextStyle(fontFamily: 'Marhey'),
                       descTextStyle: const TextStyle(fontFamily: 'Marhey'),
                       buttonsTextStyle: const TextStyle(fontFamily: 'Marhey'),
-                      btnOkText: 'حسناً',
+                      btnOkText: AppLocalizations.of(context)!.ok,
                       btnOkOnPress: () {
                         Navigator.pop(context);
                       },
@@ -69,24 +72,24 @@ class DonationImages extends StatelessWidget {
                   }
                 });
               }
-            }, 'التالي'),
+            }, AppLocalizations.of(context)!.next),
             Gap(height(15)),
             customButton(context, provider, () {
               AwesomeDialog(
                 context: context,
                 dialogType: DialogType.success,
                 animType: AnimType.rightSlide,
-                title: 'تم تاكيد الطلب',
-                desc: 'سوف يتم التواصل معك من قبل الفريق',
+                title: AppLocalizations.of(context)!.success,
+                desc: AppLocalizations.of(context)!.successDescription,
                 titleTextStyle: const TextStyle(fontFamily: 'Marhey'),
                 descTextStyle: const TextStyle(fontFamily: 'Marhey'),
                 buttonsTextStyle: const TextStyle(fontFamily: 'Marhey'),
-                btnOkText: 'حسناً',
+                btnOkText: AppLocalizations.of(context)!.ok,
                 btnOkOnPress: () {
                   Navigator.pop(context);
                 },
               ).show();
-            }, 'تخطي'),
+            }, AppLocalizations.of(context)!.skip),
           ],
         );
       },
