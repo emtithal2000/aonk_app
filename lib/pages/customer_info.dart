@@ -41,7 +41,7 @@ class CustomerInfo extends StatelessWidget {
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value == null) {
-                                return 'يرجى إختيار الولاية';
+                                return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.country}';
                               }
                               return null;
                             },
@@ -67,7 +67,7 @@ class CustomerInfo extends StatelessWidget {
                             ),
                             dropdownColor: Colors.white,
                             elevation: 1,
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(15),
                             isExpanded: true,
                             items: countryCities.keys.map((String country) {
                               return DropdownMenuItem<String>(
@@ -102,7 +102,7 @@ class CustomerInfo extends StatelessWidget {
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value == null) {
-                                return 'يرجى إختيار المنطقة';
+                                return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.city}';
                               }
                               return null;
                             },
@@ -128,7 +128,7 @@ class CustomerInfo extends StatelessWidget {
                             ),
                             dropdownColor: Colors.white,
                             elevation: 1,
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(10),
                             items: getCitiesForCountry(provider.selectedCountry)
                                 .map((String value) {
                               return DropdownMenuItem<String>(
@@ -152,24 +152,23 @@ class CustomerInfo extends StatelessWidget {
                     ],
                   ),
                   buildInput(AppLocalizations.of(context)!.name,
-                      IconsaxPlusBroken.user, provider.controllers[0]),
-                  buildInput(
-                    AppLocalizations.of(context)!.phoneNumber,
-                    IconsaxPlusBroken.call,
-                    provider.controllers[1],
-                    maxLength: 8,
-                    keyboardType: TextInputType.number,
-                    counterText: '',
-                  ),
+                      IconsaxPlusBroken.user, provider.controllers[0],
+                      context: context),
+                  buildInput(AppLocalizations.of(context)!.phoneNumber,
+                      IconsaxPlusBroken.call, provider.controllers[1],
+                      maxLength: 8,
+                      keyboardType: TextInputType.number,
+                      counterText: '',
+                      context: context),
                   buildInput(AppLocalizations.of(context)!.email,
                       IconsaxPlusBroken.sms, provider.controllers[2],
-                      validator: (value) => null),
+                      validator: (value) => null, context: context),
                   buildInput(AppLocalizations.of(context)!.streetNumber,
                       IconsaxPlusBroken.home, provider.controllers[3],
-                      validator: (value) => null),
+                      validator: (value) => null, context: context),
                   buildInput(AppLocalizations.of(context)!.buildingNumber,
                       IconsaxPlusBroken.building_4, provider.controllers[4],
-                      validator: (value) => null),
+                      validator: (value) => null, context: context),
                   Gap(height(10)),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
@@ -197,7 +196,7 @@ class CustomerInfo extends StatelessWidget {
                         style: TextStyle(
                           fontSize: height(18),
                           color: Colors.white,
-                          fontFamily: 'Marhey',
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -216,7 +215,8 @@ class CustomerInfo extends StatelessWidget {
       {int? maxLength,
       TextInputType? keyboardType,
       String? counterText,
-      String? Function(String?)? validator}) {
+      String? Function(String?)? validator,
+      required BuildContext context}) {
     return Card(
       child: TextFormField(
         controller: controller,
@@ -224,7 +224,7 @@ class CustomerInfo extends StatelessWidget {
         validator: validator ??
             (value) {
               if (value!.isEmpty) {
-                return 'يرجى إدخال $hintText';
+                return '${AppLocalizations.of(context)!.pleaseEnter} $hintText';
               }
               return null;
             },

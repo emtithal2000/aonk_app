@@ -38,6 +38,7 @@ class NotificationsPage extends StatelessWidget {
         ],
       ),
       body: buildContainer(
+        context,
         Column(
           children: [
             Expanded(

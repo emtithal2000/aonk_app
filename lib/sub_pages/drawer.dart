@@ -3,7 +3,6 @@ import 'package:aonk_app/location.dart';
 import 'package:aonk_app/pages/about_us.dart';
 import 'package:aonk_app/pages/notification.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
-import 'package:aonk_app/providers/theme_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/theme/theme_colors.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +22,7 @@ Drawer buildDrawer(BuildContext context) {
   return Drawer(
     backgroundColor: ThemeColors.getBackgroundColor(context),
     child: buildContainer(
+      context,
       Column(
         spacing: 5,
         children: [
@@ -179,36 +179,36 @@ void showSettingsDialog(BuildContext context) {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Consumer<ThemeProvider>(
-              builder: (context, themeProvider, child) {
-                return ListTile(
-                  leading: Icon(
-                    themeProvider.isDarkMode
-                        ? Icons.dark_mode
-                        : Icons.light_mode,
-                    color: ThemeColors.iconColor,
-                    size: height(24),
-                  ),
-                  title: Text(
-                    themeProvider.isDarkMode
-                        ? AppLocalizations.of(context)!.darkMode
-                        : AppLocalizations.of(context)!.lightMode,
-                    style: TextStyle(
-                      fontFamily: 'Marhey',
-                      color: ThemeColors.getTextColor(context),
-                      fontSize: height(16),
-                    ),
-                  ),
-                  trailing: Switch(
-                    value: themeProvider.isDarkMode,
-                    onChanged: (value) {
-                      themeProvider.toggleTheme();
-                    },
-                    activeColor: ThemeColors.accentColor,
-                  ),
-                );
-              },
-            ),
+            // Consumer<ThemeProvider>(
+            //   builder: (context, themeProvider, child) {
+            //     return ListTile(
+            //       leading: Icon(
+            //         themeProvider.isDarkMode
+            //             ? Icons.dark_mode
+            //             : Icons.light_mode,
+            //         color: ThemeColors.iconColor,
+            //         size: height(24),
+            //       ),
+            //       title: Text(
+            //         themeProvider.isDarkMode
+            //             ? AppLocalizations.of(context)!.darkMode
+            //             : AppLocalizations.of(context)!.lightMode,
+            //         style: TextStyle(
+            //           fontFamily: 'Marhey',
+            //           color: ThemeColors.getTextColor(context),
+            //           fontSize: height(16),
+            //         ),
+            //       ),
+            //       trailing: Switch(
+            //         value: themeProvider.isDarkMode,
+            //         onChanged: (value) {
+            //           themeProvider.toggleTheme();
+            //         },
+            //         activeColor: ThemeColors.accentColor,
+            //       ),
+            //     );
+            //   },
+            // ),
             Consumer<LocaleProvider>(builder: (context, localeProvider, child) {
               return ListTile(
                 leading: Icon(
@@ -224,10 +224,12 @@ void showSettingsDialog(BuildContext context) {
                       fontFamily: 'Marhey',
                       color: ThemeColors.getTextColor(context),
                       fontSize: height(16),
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 trailing: DropdownButton<Locale>(
+                  borderRadius: BorderRadius.circular(10),
                   value: localeProvider.locale,
                   items: L10n.all.map((locale) {
                     return DropdownMenuItem(

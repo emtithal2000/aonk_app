@@ -28,6 +28,7 @@ class NotificationScreen extends StatelessWidget {
         ],
       ),
       body: buildContainer(
+        context,
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

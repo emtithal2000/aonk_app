@@ -18,6 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: buildContainer(
+        context,
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

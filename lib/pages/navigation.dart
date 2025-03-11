@@ -97,6 +97,7 @@ class Navigation extends StatelessWidget {
           //   ),
           // ),
           body: buildContainer(
+            context,
             PageView(
               physics: const NeverScrollableScrollPhysics(),
               controller: provider.pageController,

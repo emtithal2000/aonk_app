@@ -60,7 +60,15 @@
     "successDescription": "سوف يتم التواصل معك من قبل الفريق",
     "ok": "حسناً",
     "skip": "تخطي",
-    "enterPersonalData": "ادخل بيانات الشخص"
- 
+    "enterPersonalData": "ادخل بيانات الشخص",
+    "donationDetail1": "ملابس",
+    "donationDetail2": "اجهزة منزلية",
+    "donationDetail3": "كتب واوراق",
+    "donationDetail4": "ستائر وبطانيات",
+    "donationDetail5": "احذية وحقائب",
+    "donationDetail6": "العاب اطفال",
+    "pleaseEnterCountry":"يرجى ادخال الدولة",
+    "pleaseEnterCity": "يرجى ادخال المدينة",
+    "pleaseEnter":"يرجى ادخال"
 
 } 

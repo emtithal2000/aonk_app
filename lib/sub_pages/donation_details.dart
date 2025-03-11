@@ -1,16 +1,16 @@
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
-import 'package:aonk_app/value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DonationDetails extends StatelessWidget {
   const DonationDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final donationDetails = getDonationDetails(context);
     return Consumer<PagesProvider>(
       builder: (__, provider, _) {
         return Column(
@@ -66,6 +66,7 @@ class DonationDetails extends StatelessWidget {
                       ),
                       child: Text(
                         donationDetails[index],
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: width(14),
                           fontWeight: FontWeight.bold,
@@ -86,4 +87,13 @@ class DonationDetails extends StatelessWidget {
       },
     );
   }
+
+  List<String> getDonationDetails(BuildContext context) => [
+        AppLocalizations.of(context)!.donationDetail1,
+        AppLocalizations.of(context)!.donationDetail2,
+        AppLocalizations.of(context)!.donationDetail3,
+        AppLocalizations.of(context)!.donationDetail4,
+        AppLocalizations.of(context)!.donationDetail5,
+        AppLocalizations.of(context)!.donationDetail6,
+      ];
 }

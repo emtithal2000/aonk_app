@@ -60,7 +60,14 @@
     "successDescription": "We will contact you soon",
     "ok": "Ok",
     "skip": "Skip",
-    "enterPersonalData": "Enter personal data"
-
-
+    "enterPersonalData": "Enter personal data",
+    "donationDetail1": "Clothes",
+    "donationDetail2": "Kitchenware",
+    "donationDetail3": "Electronics",
+    "donationDetail4": "Curtains & Blankets",
+    "donationDetail5": "Shoes & Bags",
+    "donationDetail6": "Books & Papers",
+    "pleaseEnterCity": "Please enter city",
+    "pleaseEnterCountry":"Please enter country",
+    "pleaseEnter":"Please enter"
 } 

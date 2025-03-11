@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:aonk_app/models/charities_model.dart';
-import 'package:aonk_app/models/customer_model.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/sub_pages/donation_details.dart';
 import 'package:aonk_app/sub_pages/donation_images.dart';
@@ -59,8 +58,6 @@ class PagesProvider extends ChangeNotifier {
   String? selectedGiftPhone;
   bool isGift = false;
 
-  List<CustomerModel> customerModel = [];
-
   String msg = '';
 
   void addSelected(String donation) {
@@ -102,6 +99,7 @@ class PagesProvider extends ChangeNotifier {
       log(e.response?.data.toString() ?? 'No response data');
       msg = e.response?.data;
     }
+    notifyListeners();
   }
 
   void jumpToPage(int page) {

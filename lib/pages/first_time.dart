@@ -3,6 +3,7 @@ import 'package:aonk_app/pages/navigation.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:get_storage/get_storage.dart';
@@ -100,7 +101,7 @@ class FirstTime extends StatelessWidget {
                                 ),
                                 dropdownColor: Colors.white,
                                 elevation: 1,
-                                borderRadius: BorderRadius.circular(30),
+                                borderRadius: BorderRadius.circular(15),
                                 isExpanded: true,
                                 items: countryCities.keys.map((String country) {
                                   return DropdownMenuItem<String>(
@@ -161,7 +162,7 @@ class FirstTime extends StatelessWidget {
                                 ),
                                 dropdownColor: Colors.white,
                                 elevation: 1,
-                                borderRadius: BorderRadius.circular(30),
+                                borderRadius: BorderRadius.circular(15),
                                 items: getCitiesForCountry(
                                         provider.selectedCountry)
                                     .map((String value) {
@@ -269,9 +270,31 @@ class FirstTime extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         autovalidateMode: AutovalidateMode.onUserInteraction,
+        keyboardType: hintText.toLowerCase().contains('phone')
+            ? TextInputType.phone
+            : hintText.toLowerCase().contains('email')
+                ? TextInputType.emailAddress
+                : hintText.toLowerCase().contains('street') ||
+                        hintText.toLowerCase().contains('building')
+                    ? TextInputType.number
+                    : TextInputType.name,
+        inputFormatters: [
+          if (hintText.toLowerCase().contains('phone') ||
+              hintText.toLowerCase().contains('street') ||
+              hintText.toLowerCase().contains('building'))
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+          else if (hintText.toLowerCase().contains('email'))
+            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9@._-]'))
+          else
+            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+        ],
         validator: (value) {
           if (value!.isEmpty) {
             return '${AppLocalizations.of(context)!.pleaseEnter} $hintText';
+          }
+          if (hintText.toLowerCase().contains('email') &&
+              !value.contains('@')) {
+            return '${AppLocalizations.of(context)!.pleaseEnter} valid email';
           }
           return null;
         },

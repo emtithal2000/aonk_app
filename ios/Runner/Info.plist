@@ -45,5 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs camera access to take photos of donations</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs photos access to select donation images</string>
 </dict>
 </plist>

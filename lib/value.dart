@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
-
 // var names = List.generate(10, (index) => TextEditingController());
 
 List<String> associationInfo = [
@@ -79,14 +78,6 @@ List<String> contactLinks = [
   'https://twitter.com/example',
 ];
 
-List<String> donationDetails = [
-  'ملابس',
-  'أدوات واواني منزلية ',
-  'الكترونيات',
-  'بطانيات و ستائر',
-  'احذية وحقائب',
-  'كتب واوراق',
-];
 List<String> donationImage = [
   'assets/images/camera.png',
   'assets/images/gallery.png',
