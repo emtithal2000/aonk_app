@@ -12,12 +12,6 @@ import 'package:provider/provider.dart';
 // Update the _primaryColor constant to use ThemeColors
 const _primaryColor = ThemeColors.primaryColor;
 
-// Create a reusable text style
-final _menuTextStyle = TextStyle(
-  fontFamily: 'Marhey',
-  fontSize: height(16),
-);
-
 Drawer buildDrawer(BuildContext context) {
   return Drawer(
     backgroundColor: ThemeColors.getBackgroundColor(context),
