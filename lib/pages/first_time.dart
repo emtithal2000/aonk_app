@@ -4,7 +4,7 @@ import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -36,8 +36,10 @@ class FirstTime extends StatelessWidget {
               key: provider.loginKey,
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: width(30),
+                  padding: EdgeInsets.only(
+                    left: width(30),
+                    right: width(30),
+                    bottom: MediaQuery.of(context).viewInsets.bottom + height(20),
                   ),
                   child: Column(
                     spacing: height(10),

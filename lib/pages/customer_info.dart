@@ -2,7 +2,7 @@ import 'package:aonk_app/location.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';

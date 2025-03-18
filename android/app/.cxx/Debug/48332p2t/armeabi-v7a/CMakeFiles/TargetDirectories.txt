@@ -1,0 +1,2 @@
+/Users/aonk/Desktop/aonk_app/android/app/.cxx/Debug/48332p2t/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/aonk/Desktop/aonk_app/android/app/.cxx/Debug/48332p2t/armeabi-v7a/CMakeFiles/rebuild_cache.dir

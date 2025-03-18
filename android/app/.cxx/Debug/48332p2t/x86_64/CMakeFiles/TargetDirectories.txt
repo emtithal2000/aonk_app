@@ -1,0 +1,2 @@
+/Users/aonk/Desktop/aonk_app/android/app/.cxx/Debug/48332p2t/x86_64/CMakeFiles/edit_cache.dir
+/Users/aonk/Desktop/aonk_app/android/app/.cxx/Debug/48332p2t/x86_64/CMakeFiles/rebuild_cache.dir

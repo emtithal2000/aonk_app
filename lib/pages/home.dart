@@ -3,7 +3,7 @@ import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/sub_pages/association_info.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
