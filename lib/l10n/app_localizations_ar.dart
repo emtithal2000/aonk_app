@@ -217,4 +217,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pleaseEnterCountry => 'يرجى ادخال الدولة';
+
+  @override
+  String get validEmail => 'بريد إلكتروني صحيح';
 }

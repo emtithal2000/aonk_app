@@ -15,15 +15,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
 
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    systemNavigationBarColor: Colors.transparent,
-    systemNavigationBarDividerColor: Colors.transparent,
-  ));
+  
   
   // Enable edge-to-edge
-  SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.edgeToEdge,
+  await SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.immersiveSticky,
   );
 
   runApp(

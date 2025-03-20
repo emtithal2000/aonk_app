@@ -69,5 +69,6 @@
     "donationDetail6": "Books & Papers",
     "pleaseEnterCity": "Please enter city",
     "pleaseEnterCountry":"Please enter country",
-    "pleaseEnter":"Please enter"
+    "pleaseEnter":"Please enter",
+    "validEmail": "Valid Email"
 } 

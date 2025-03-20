@@ -27,9 +27,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>This app needs camera access to take photos of donations</string>
+	<string>This app needs camera access to take photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app needs photos access to select donation images</string>
+	<string>This app needs photos access to let you choose images</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

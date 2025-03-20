@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -21,6 +22,9 @@ class _HomeState extends State<Home> {
       padding: EdgeInsets.symmetric(horizontal: width(30)),
       child: Consumer<PagesProvider>(
         builder: (context, provider, _) {
+          if (provider.charities.isEmpty) {
+            return _buildShimmerLoading();
+          }
           return Column(
             children: [
               Gap(height(10)),
@@ -162,6 +166,77 @@ class _HomeState extends State<Home> {
           );
         },
       ),
+    );
+  }
+
+  Widget _buildShimmerLoading() {
+    return Column(
+      children: [
+        Gap(height(10)),
+        Expanded(
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: height(10),
+              crossAxisSpacing: height(20),
+              childAspectRatio: 0.75,
+            ),
+            itemCount: 6, // Show 6 shimmer items while loading
+            clipBehavior: Clip.none,
+            shrinkWrap: true,
+            itemBuilder: (context, index) => Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,             
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    Gap(height(10)),
+                    Container(
+                      height: height(60),
+                      width: height(60),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    Gap(height(10)),
+                    Container(
+                      width: width(120),
+                      height: height(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    Gap(height(10)),
+                    Container(
+                      height: height(30),
+                      width: width(100),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    Gap(height(10)),
+                    Container(
+                      height: height(30),
+                      width: width(100),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

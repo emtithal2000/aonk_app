@@ -39,7 +39,8 @@ class FirstTime extends StatelessWidget {
                   padding: EdgeInsets.only(
                     left: width(30),
                     right: width(30),
-                    bottom: MediaQuery.of(context).viewInsets.bottom + height(20),
+                    bottom:
+                        MediaQuery.of(context).viewInsets.bottom + height(20),
                   ),
                   child: Column(
                     spacing: height(10),
@@ -188,25 +189,125 @@ class FirstTime extends StatelessWidget {
                           ),
                         ],
                       ),
-                      buildInput(context, AppLocalizations.of(context)!.name,
-                          IconsaxPlusBroken.user, provider.controllers[0]),
-                      buildInput(
-                          context,
-                          AppLocalizations.of(context)!.phoneNumber,
-                          IconsaxPlusBroken.call,
-                          provider.controllers[1]),
-                      buildInput(context, AppLocalizations.of(context)!.email,
-                          IconsaxPlusBroken.sms, provider.controllers[2]),
-                      buildInput(
-                          context,
-                          AppLocalizations.of(context)!.streetNumber,
-                          IconsaxPlusBroken.home,
-                          provider.controllers[3]),
-                      buildInput(
-                          context,
-                          AppLocalizations.of(context)!.buildingNumber,
-                          IconsaxPlusBroken.building_4,
-                          provider.controllers[4]),
+                      Card(
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: TextFormField(
+                          controller: provider.controllers[0],
+                          keyboardType: TextInputType.name,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.name}';
+                            }
+                            return null;
+                          },
+                          decoration: inputDecoration(
+                            context,
+                            AppLocalizations.of(context)!.name,
+                            IconsaxPlusBroken.user,
+                          ),
+                          onChanged: (value) {},
+                        ),
+                      ),
+                      Card(
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: TextFormField(
+                          controller: provider.controllers[1],
+                          autovalidateMode: AutovalidateMode.onUnfocus,
+                          keyboardType: TextInputType.phone,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.phoneNumber}';
+                            }
+                            return null;
+                          },
+                          decoration: inputDecoration(
+                            context,
+                            AppLocalizations.of(context)!.phoneNumber,
+                            IconsaxPlusBroken.call,
+                          ),
+                          onChanged: (value) {},
+                        ),
+                      ),
+                      Card(
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          controller: provider.controllers[2],
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.email}';
+                            }
+                            if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                .hasMatch(value)) {
+                              return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.validEmail}';
+                            }
+
+                            return null;
+                          },
+                          decoration: inputDecoration(
+                            context,
+                            AppLocalizations.of(context)!.email,
+                            IconsaxPlusBroken.sms,
+                          ),
+                          onChanged: (value) {},
+                        ),
+                      ),
+                      Card(
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: TextFormField(
+                          controller: provider.controllers[3],
+                          autovalidateMode: AutovalidateMode.onUnfocus,
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.streetNumber}';
+                            }
+                            return null;
+                          },
+                          decoration: inputDecoration(
+                            context,
+                              AppLocalizations.of(context)!.streetNumber,
+                            IconsaxPlusBroken.location,
+                          ),
+                          onChanged: (value) {},
+                        ),
+                      ),
+                      Card(
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: TextFormField(
+                          controller: provider.controllers[4],
+                          autovalidateMode: AutovalidateMode.onUnfocus,
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.buildingNumber}';
+                            }
+                            return null;
+                          },
+                          decoration: inputDecoration(
+                            context,
+                            AppLocalizations.of(context)!.buildingNumber,
+                            IconsaxPlusBroken.building_4,
+                          ),
+                          onChanged: (value) {},
+                        ),
+                      ),
                       Gap(height(10)),
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
@@ -262,72 +363,33 @@ class FirstTime extends StatelessWidget {
     );
   }
 
-  Widget buildInput(BuildContext context, String hintText, IconData icon,
-      TextEditingController controller) {
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(
+
+}
+  InputDecoration inputDecoration(BuildContext context, String hintText, IconData icon) {
+    return InputDecoration(
+      border: OutlineInputBorder(
+        borderSide: BorderSide.none,
         borderRadius: BorderRadius.circular(15),
       ),
-      child: TextFormField(
-        controller: controller,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        keyboardType: hintText.toLowerCase().contains('phone')
-            ? TextInputType.phone
-            : hintText.toLowerCase().contains('email')
-                ? TextInputType.emailAddress
-                : hintText.toLowerCase().contains('street') ||
-                        hintText.toLowerCase().contains('building')
-                    ? TextInputType.number
-                    : TextInputType.name,
-        inputFormatters: [
-          if (hintText.toLowerCase().contains('phone') ||
-              hintText.toLowerCase().contains('street') ||
-              hintText.toLowerCase().contains('building'))
-            FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
-          else if (hintText.toLowerCase().contains('email'))
-            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9@._-]'))
-          else
-            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
-        ],
-        validator: (value) {
-          if (value!.isEmpty) {
-            return '${AppLocalizations.of(context)!.pleaseEnter} $hintText';
-          }
-          if (hintText.toLowerCase().contains('email') &&
-              !value.contains('@')) {
-            return '${AppLocalizations.of(context)!.pleaseEnter} valid email';
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          fillColor: Colors.white,
-          filled: true,
-          hintText: hintText,
-          isDense: true,
-          hintStyle: TextStyle(
-            color: const Color(0xff84beb0),
-            fontSize: height(16),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          prefixIcon: Icon(
-            icon,
-            color: const Color(0xff52b8a0),
-          ),
-        ),
-        onChanged: (value) {},
+      fillColor: Colors.white,
+      filled: true,
+      hintText: hintText,
+      isDense: true,
+      hintStyle: TextStyle(
+        color: const Color(0xff84beb0),
+        fontSize: height(16),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      prefixIcon: Icon(
+        icon,
+        color: const Color(0xff52b8a0),
       ),
     );
   }
-}

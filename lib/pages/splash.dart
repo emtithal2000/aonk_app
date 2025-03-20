@@ -49,20 +49,23 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(
-      const Duration(seconds: 3),
-      () {
-        if (mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => GetStorage().read('userData') != null
-                  ? const Navigation()
-                  : const FirstTime(),
-            ),
-          );
-        }
-      },
-    );
+    // Request permissions first, then proceed with navigation
+    if (mounted) {
+      Future.delayed(
+        const Duration(seconds: 3),
+        () {
+          if (mounted) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => GetStorage().read('userData') != null
+                    ? const Navigation()
+                    : const FirstTime(),
+              ),
+            );
+          }
+        },
+      );
+    }
   }
 }
