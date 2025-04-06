@@ -1,12 +1,16 @@
 import 'package:aonk_app/l10n/l10n.dart';
 import 'package:aonk_app/location.dart';
 import 'package:aonk_app/pages/about_us.dart';
+import 'package:aonk_app/pages/first_time.dart';
 import 'package:aonk_app/pages/notification.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
+import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/theme/theme_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:aonk_app/l10n/app_localizations.dart';
+import 'package:gap/gap.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 
 // Update the _primaryColor constant to use ThemeColors
@@ -115,13 +119,88 @@ Drawer buildDrawer(BuildContext context) {
               },
             );
           }),
-          drawerItems(
-              context,
-              Icons.settings,
-              AppLocalizations.of(context)!.settings,
-              () => showSettingsDialog(context)),
+
           // drawerItems(
-          //     context, Icons.logout, 'تسجيل الخروج', const SplashScreen()),
+          //     context,
+          //     Icons.settings,
+          //     AppLocalizations.of(context)!.settings,
+          //     () => showSettingsDialog(context)),
+
+          Spacer(),
+          FloatingActionButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    title: Text(
+                      'تنبيه',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xff52b8a0),
+                        fontFamily: 'Marhey',
+                      ),
+                    ),
+                    content: Text(
+                      'هل أنت متأكد من حذف الحساب؟',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Marhey',
+                      ),
+                    ),
+                    actionsAlignment: MainAxisAlignment.spaceEvenly,
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context); // Close dialog
+                          GetStorage().erase();
+                          Provider.of<PagesProvider>(context, listen: false)
+                              .resetValues();
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const FirstTime()),
+                            (route) => false,
+                          );
+                        },
+                        child: Text(
+                          'نعم',
+                          style: TextStyle(
+                            color: Color(0xff52b8a0),
+                            fontFamily: 'Marhey',
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context); // Close dialog
+                        },
+                        child: Text(
+                          'لا',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontFamily: 'Marhey',
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            heroTag: null,
+            tooltip: 'Delete Account',
+            backgroundColor: Colors.red,
+            child: Icon(
+              Icons.clear,
+              color: Colors.white,
+              size: width(30),
+            ),
+          ),
+          Gap(height(10)),
         ],
       ),
     ),

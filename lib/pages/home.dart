@@ -186,7 +186,8 @@ class _HomeState extends State<Home> {
             shrinkWrap: true,
             itemBuilder: (context, index) => Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,             
+              highlightColor: Colors.grey[100]!,      
+                     
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),

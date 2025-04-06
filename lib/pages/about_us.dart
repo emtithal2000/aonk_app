@@ -19,17 +19,17 @@ class AboutUs extends StatelessWidget {
       body: buildContainer(
         context,
         Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Gap(height(40)),
+            Gap(height(15)),
             IconButton(
               onPressed: () {
                 Navigator.pop(context);
               },
               icon: Icon(
                 Provider.of<LocaleProvider>(context).locale.languageCode == 'ar'
-                    ? IconsaxPlusBroken.arrow_right_3
-                    : IconsaxPlusBroken.arrow_left_2,
+                    ? IconsaxPlusBroken.arrow_left_2
+                    : IconsaxPlusBroken.arrow_right_3,
                 color: const Color(0xff84beb0),
                 size: height(35),
               ),

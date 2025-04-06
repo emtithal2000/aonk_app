@@ -7,24 +7,55 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:aonk_app/providers/pages_provider.dart';
+import 'package:aonk_app/sub_pages/drawer.dart';
+import 'package:aonk_app/pages/first_time.dart';
 
-import 'package:aonk_app/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Account deletion test', (WidgetTester tester) async {
+    // Initialize GetStorage for testing
+    await GetStorage.init();
+    
+    // Create a mock PagesProvider
+    final pagesProvider = PagesProvider();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Build the drawer widget wrapped with necessary providers
+    await tester.pumpWidget(
+      MaterialApp(
+        home: MultiProvider(
+          providers: [
+            ChangeNotifierProvider<PagesProvider>.value(
+              value: pagesProvider,
+            ),
+          ],
+          child: Scaffold(
+            drawer: buildDrawer(tester.element(find.byType(MaterialApp))),
+          ),
+        ),
+      ),
+    );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Open the drawer
+    await tester.dragFrom(const Offset(0, 100), const Offset(300, 100));
+    await tester.pumpAndSettle();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Find and tap the account deletion button
+    final accountDeletionButton = find.text('إلغاء التفعيل');
+    expect(accountDeletionButton, findsOneWidget);
+    await tester.tap(accountDeletionButton);
+    await tester.pumpAndSettle();
+
+    // Verify that GetStorage is cleared
+    final storage = GetStorage();
+    expect(storage.getKeys().length, equals(0));
+
+    // Verify that PagesProvider values are reset
+    // Add specific assertions based on your PagesProvider implementation
+
+    // Verify navigation to FirstTime screen
+    expect(find.byType(FirstTime), findsOneWidget);
   });
 }

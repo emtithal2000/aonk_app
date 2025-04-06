@@ -9,7 +9,7 @@ class LocaleProvider extends ChangeNotifier {
     String? savedLocale = _storage.read(_key);
     return savedLocale != null 
         ? Locale(savedLocale) 
-        : const Locale('en');
+        : const Locale('ar');
   }
 
   void setLocale(Locale locale) {

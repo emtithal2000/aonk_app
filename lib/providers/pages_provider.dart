@@ -49,7 +49,6 @@ class PagesProvider extends ChangeNotifier {
   int pageIndex = 0;
 
   XFile? image;
-  String? currentCountry;
   String? selectedCity;
   String? selectedCountry;
   String? selectedCharity;
@@ -69,14 +68,14 @@ class PagesProvider extends ChangeNotifier {
   String changer(String country) {
     String result = '';
     switch (country) {
-      case 'سلطنة عُمان':
-        result = 'Oman';
-        break;
       case 'قطر':
         result = 'Qatar';
         break;
       case 'الكويت':
         result = 'Kuwait';
+        break;
+      default:
+        result = 'Oman';
         break;
     }
     return result;
@@ -216,6 +215,21 @@ class PagesProvider extends ChangeNotifier {
 
   void setGift() {
     isGift = !isGift;
+    notifyListeners();
+  }
+
+  resetValues() {
+    selectedCity = null;
+    selectedCountry = null;
+    for (int x = 0; x < 5; x++) {
+      controllers[x].clear();
+    }
+    clearCharities();
+    notifyListeners();
+  }
+
+  void clearCharities() {
+    charities.clear();
     notifyListeners();
   }
 }

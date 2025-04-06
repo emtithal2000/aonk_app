@@ -287,6 +287,8 @@ class CustomerInfo extends StatelessWidget {
                             'city': provider.selectedCity,
                             'country': provider.selectedCountry,
                           });
+                          Provider.of<PagesProvider>(context, listen: false)
+                              .clearCharities();
                         }
                       },
                       backgroundColor: const Color(0xff81bdaf),

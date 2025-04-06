@@ -15,8 +15,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
 
-  
-  
   // Enable edge-to-edge
   await SystemChrome.setEnabledSystemUIMode(
     SystemUiMode.immersiveSticky,
@@ -42,16 +40,16 @@ class MyApp extends StatelessWidget {
     SizeConfig(context);
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
-        return MaterialApp( 
+        return MaterialApp(
           debugShowCheckedModeBanner: false,
-          locale: Locale('ar'),
+          locale: context.watch<LocaleProvider>().locale,
           supportedLocales: L10n.all,
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
             AppLocalizations.delegate,
-          ],  
+          ],
           themeMode: ThemeMode.light,
           theme: ThemeData(
             useMaterial3: true,
