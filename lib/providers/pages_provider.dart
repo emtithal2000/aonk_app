@@ -81,6 +81,11 @@ class PagesProvider extends ChangeNotifier {
     return result;
   }
 
+  void clearCharities() {
+    charities.clear();
+    notifyListeners();
+  }
+
   Future<void> getCharities() async {
     final country = changer(GetStorage().read('userData')['country']);
 
@@ -178,6 +183,16 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  resetValues() {
+    selectedCity = null;
+    selectedCountry = null;
+    for (int x = 0; x < 5; x++) {
+      controllers[x].clear();
+    }
+    clearCharities();
+    notifyListeners();
+  }
+
   Future<void> selectImage(bool isCamera) async {
     await ImagePicker()
         .pickImage(
@@ -215,21 +230,6 @@ class PagesProvider extends ChangeNotifier {
 
   void setGift() {
     isGift = !isGift;
-    notifyListeners();
-  }
-
-  resetValues() {
-    selectedCity = null;
-    selectedCountry = null;
-    for (int x = 0; x < 5; x++) {
-      controllers[x].clear();
-    }
-    clearCharities();
-    notifyListeners();
-  }
-
-  void clearCharities() {
-    charities.clear();
     notifyListeners();
   }
 }

@@ -1,4 +1,4 @@
-import 'package:aonk_app/l10n/l10n.dart';
+import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/location.dart';
 import 'package:aonk_app/pages/about_us.dart';
 import 'package:aonk_app/pages/first_time.dart';
@@ -8,7 +8,6 @@ import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/theme/theme_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
@@ -119,85 +118,89 @@ Drawer buildDrawer(BuildContext context) {
               },
             );
           }),
-
-          // drawerItems(
-          //     context,
-          //     Icons.settings,
-          //     AppLocalizations.of(context)!.settings,
-          //     () => showSettingsDialog(context)),
-
+          drawerItems(
+              context,
+              Icons.settings,
+              AppLocalizations.of(context)!.settings,
+              () => showSettingsDialog(context)),
           Spacer(),
-          FloatingActionButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    title: Text(
-                      'تنبيه',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xff52b8a0),
-                        fontFamily: 'Marhey',
-                      ),
-                    ),
-                    content: Text(
-                      'هل أنت متأكد من حذف الحساب؟',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Marhey',
-                      ),
-                    ),
-                    actionsAlignment: MainAxisAlignment.spaceEvenly,
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context); // Close dialog
-                          GetStorage().erase();
-                          Provider.of<PagesProvider>(context, listen: false)
-                              .resetValues();
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const FirstTime()),
-                            (route) => false,
-                          );
-                        },
-                        child: Text(
-                          'نعم',
+          Padding(
+            padding: EdgeInsets.only(left: width(10)),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: FloatingActionButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        title: Text(
+                          'تنبيه',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Color(0xff52b8a0),
                             fontFamily: 'Marhey',
                           ),
                         ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context); // Close dialog
-                        },
-                        child: Text(
-                          'لا',
+                        content: Text(
+                          'هل أنت متأكد من حذف الحساب؟',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Colors.red,
                             fontFamily: 'Marhey',
                           ),
                         ),
-                      ),
-                    ],
+                        actionsAlignment: MainAxisAlignment.spaceEvenly,
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context); // Close dialog
+                              GetStorage().erase();
+                              Provider.of<PagesProvider>(context, listen: false)
+                                  .resetValues();
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const FirstTime()),
+                                (route) => false,
+                              );
+                            },
+                            child: Text(
+                              'نعم',
+                              style: TextStyle(
+                                color: Color(0xff52b8a0),
+                                fontFamily: 'Marhey',
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context); // Close dialog
+                            },
+                            child: Text(
+                              'لا',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontFamily: 'Marhey',
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   );
                 },
-              );
-            },
-            heroTag: null,
-            tooltip: 'Delete Account',
-            backgroundColor: Colors.red,
-            child: Icon(
-              Icons.clear,
-              color: Colors.white,
-              size: width(30),
+                heroTag: null,
+                tooltip: 'Delete Account',
+                backgroundColor: Color(0xff84beb0),
+                child: Icon(
+                  Icons.logout,
+                  color: Colors.white,
+                  size: width(20),
+                ),
+              ),
             ),
           ),
           Gap(height(10)),
@@ -296,33 +299,33 @@ void showSettingsDialog(BuildContext context) {
                     style: TextStyle(
                       fontFamily: 'Marhey',
                       color: ThemeColors.getTextColor(context),
-                      fontSize: height(16),
+                      fontSize: height(14),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                trailing: DropdownButton<Locale>(
-                  borderRadius: BorderRadius.circular(10),
-                  value: localeProvider.locale,
-                  items: L10n.all.map((locale) {
-                    return DropdownMenuItem(
-                      value: locale,
-                      child: Text(
-                        locale.languageCode == 'ar'
-                            ? AppLocalizations.of(context)!.arabic
-                            : AppLocalizations.of(context)!.english,
-                        style: TextStyle(
-                          fontFamily: 'Marhey',
-                          color: ThemeColors.getTextColor(context),
-                        ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      localeProvider.locale.languageCode == 'ar'
+                          ? 'عربي'
+                          : 'English',
+                      style: TextStyle(
+                        fontFamily: 'Marhey',
+                        color: ThemeColors.getTextColor(context),
+                        fontSize: height(12),
                       ),
-                    );
-                  }).toList(),
-                  onChanged: (Locale? newLocale) {
-                    if (newLocale != null) {
-                      localeProvider.setLocale(newLocale);
-                    }
-                  },
+                    ),
+                    Switch(
+                      value: localeProvider.locale.languageCode == 'ar',
+                      onChanged: (value) {
+                        localeProvider.setLocale(
+                            value ? const Locale('ar') : const Locale('en'));
+                      },
+                      activeColor: ThemeColors.accentColor,
+                    ),
+                  ],
                 ),
               );
             }),

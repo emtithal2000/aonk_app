@@ -1,14 +1,47 @@
+import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/location.dart';
 import 'package:aonk_app/pages/navigation.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
+
+InputDecoration inputDecoration(
+    BuildContext context, String hintText, IconData icon) {
+  return InputDecoration(
+    border: OutlineInputBorder(
+      borderSide: BorderSide.none,
+      borderRadius: BorderRadius.circular(15),
+    ),
+    fillColor: Colors.white,
+    filled: true,
+    hintText: hintText,
+    isDense: true,
+    hintStyle: TextStyle(
+      color: const Color(0xff84beb0),
+      fontSize: height(16),
+    ),
+    errorStyle: TextStyle(
+      height: 0,
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide.none,
+      borderRadius: BorderRadius.circular(15),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide.none,
+      borderRadius: BorderRadius.circular(15),
+    ),
+    prefixIcon: Icon(
+      icon,
+      color: const Color(0xff52b8a0),
+    ),
+  );
+}
 
 class FirstTime extends StatelessWidget {
   const FirstTime({super.key});
@@ -47,7 +80,8 @@ class FirstTime extends StatelessWidget {
                         margin: EdgeInsets.all(width(20)),
                         child: FloatingActionButton(
                           onPressed: () {
-                            final localeProvider = context.read<LocaleProvider>();
+                            final localeProvider =
+                                context.read<LocaleProvider>();
                             if (localeProvider.locale.languageCode == 'ar') {
                               localeProvider.setLocale(const Locale('en'));
                             } else {
@@ -60,7 +94,10 @@ class FirstTime extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Text(
-                            context.watch<LocaleProvider>().locale.languageCode ==
+                            context
+                                        .watch<LocaleProvider>()
+                                        .locale
+                                        .languageCode ==
                                     'ar'
                                 ? 'En'
                                 : 'Ar',
@@ -82,7 +119,7 @@ class FirstTime extends StatelessWidget {
                         bottom: MediaQuery.of(context).viewInsets.bottom +
                             height(20),
                       ),
-                      child: Column(                        
+                      child: Column(
                         children: [
                           Text(
                             AppLocalizations.of(context)!.welcomeToAonk,
@@ -280,7 +317,7 @@ class FirstTime extends StatelessWidget {
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: TextFormField(
-                                autovalidateMode:
+                              autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               controller: provider.controllers[2],
                               keyboardType: TextInputType.emailAddress,
@@ -445,37 +482,4 @@ class FirstTime extends StatelessWidget {
       ),
     );
   }
-}
-
-InputDecoration inputDecoration(
-    BuildContext context, String hintText, IconData icon) {
-  return InputDecoration(
-    border: OutlineInputBorder(
-      borderSide: BorderSide.none,
-      borderRadius: BorderRadius.circular(15),
-    ),
-    fillColor: Colors.white,
-    filled: true,
-    hintText: hintText,
-    isDense: true,
-    hintStyle: TextStyle(
-      color: const Color(0xff84beb0),
-      fontSize: height(16),
-    ),
-    errorStyle: TextStyle(
-      height: 0,
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide.none,
-      borderRadius: BorderRadius.circular(15),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide.none,
-      borderRadius: BorderRadius.circular(15),
-    ),
-    prefixIcon: Icon(
-      icon,
-      color: const Color(0xff52b8a0),
-    ),
-  );
 }
