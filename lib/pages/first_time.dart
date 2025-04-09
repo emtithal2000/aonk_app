@@ -67,52 +67,13 @@ class FirstTime extends StatelessWidget {
             ),
             child: Form(
               key: provider.loginKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  spacing: height(10),
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        height: height(40),
-                        width: width(40),
-                        margin: EdgeInsets.all(width(20)),
-                        child: FloatingActionButton(
-                          onPressed: () {
-                            final localeProvider =
-                                context.read<LocaleProvider>();
-                            if (localeProvider.locale.languageCode == 'ar') {
-                              localeProvider.setLocale(const Locale('en'));
-                            } else {
-                              localeProvider.setLocale(const Locale('ar'));
-                            }
-                          },
-                          backgroundColor: Colors.white,
-                          elevation: 2,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            context
-                                        .watch<LocaleProvider>()
-                                        .locale
-                                        .languageCode ==
-                                    'ar'
-                                ? 'En'
-                                : 'Ar',
-                            style: TextStyle(
-                              fontSize: width(17),
-                              fontFamily: 'Marhey',
-                              color: const Color(0xff52b8a0),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Gap(height(35)),
-
-                    Padding(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                spacing: height(10),
+                children: [
+                  SingleChildScrollView(
+                    child: Padding(
                       padding: EdgeInsets.only(
                         left: width(30),
                         right: width(30),
@@ -435,46 +396,34 @@ class FirstTime extends StatelessWidget {
                         ],
                       ),
                     ),
-
-                    // SizedBox(
-                    //   height: height(50),
-                    //   child: Card(
-                    //     elevation: 3,
-                    //     child: TextButton(
-                    //       onPressed: () {
-                    //         final localeProvider =
-                    //             context.read<LocaleProvider>();
-                    //         if (localeProvider.locale.languageCode == 'ar') {
-                    //           localeProvider.setLocale(const Locale('en'));
-                    //         } else {
-                    //           localeProvider.setLocale(const Locale('ar'));
-                    //         }
-                    //       },
-                    //       style: TextButton.styleFrom(
-                    //         backgroundColor: Colors.transparent,
-                    //         shape: RoundedRectangleBorder(
-                    //           borderRadius: BorderRadius.circular(10),
-                    //         ),
-                    //       ),
-                    //       child: Text(
-                    //         context
-                    //                     .watch<LocaleProvider>()
-                    //                     .locale
-                    //                     .languageCode ==
-                    //                 'ar'
-                    //             ? 'En'
-                    //             : 'Ar',
-                    //         style: TextStyle(
-                    //           fontSize: height(16),
-                    //           fontFamily: 'Marhey',
-                    //           color: const Color(0xff52b8a0),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
-                ),
+                  ),
+                  FloatingActionButton(
+                    onPressed: () {
+                      final localeProvider = context.read<LocaleProvider>();
+                      if (localeProvider.locale.languageCode == 'ar') {
+                        localeProvider.setLocale(const Locale('en'));
+                      } else {
+                        localeProvider.setLocale(const Locale('ar'));
+                      }
+                    },
+                    backgroundColor: Colors.white,
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      context.watch<LocaleProvider>().locale.languageCode ==
+                              'ar'
+                          ? 'Enlish'
+                          : 'Arabic',
+                      style: TextStyle(
+                        fontSize: width(17),
+                        fontFamily: 'Marhey',
+                        color: const Color(0xff52b8a0),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           );
