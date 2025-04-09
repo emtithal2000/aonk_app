@@ -397,7 +397,19 @@ class FirstTime extends StatelessWidget {
                       ),
                     ),
                   ),
-                  FloatingActionButton(
+                  FloatingActionButton.extended(
+                    label: Text(
+                      context.watch<LocaleProvider>().locale.languageCode ==
+                              'ar'
+                          ? 'Enlish'
+                          : 'Arabic',
+                    ),
+                    icon: Icon(
+                      context.watch<LocaleProvider>().locale.languageCode ==
+                              'ar'
+                          ? IconsaxPlusBroken.language_square
+                          : IconsaxPlusBroken.language_square,
+                    ),
                     onPressed: () {
                       final localeProvider = context.read<LocaleProvider>();
                       if (localeProvider.locale.languageCode == 'ar') {
@@ -410,17 +422,6 @@ class FirstTime extends StatelessWidget {
                     elevation: 2,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      context.watch<LocaleProvider>().locale.languageCode ==
-                              'ar'
-                          ? 'Enlish'
-                          : 'Arabic',
-                      style: TextStyle(
-                        fontSize: width(17),
-                        fontFamily: 'Marhey',
-                        color: const Color(0xff52b8a0),
-                      ),
                     ),
                   ),
                 ],
