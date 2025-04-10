@@ -69,6 +69,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterYourData => 'Enter your data...';
 
   @override
+  String get login => 'Login...';
+
+  @override
   String get save => 'Save';
 
   @override
@@ -220,4 +223,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get validEmail => 'Valid Email';
+
+  @override
+  String get username => 'Username';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get loginButton => 'Login';
+
+  @override
+  String get orders => 'Orders';
+
+  @override
+  String get search => 'Search';
 }

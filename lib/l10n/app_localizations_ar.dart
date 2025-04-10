@@ -69,6 +69,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enterYourData => 'قم بادخال بياناتك...';
 
   @override
+  String get login => 'قم بتسجيل الدخول ...';
+
+  @override
   String get save => 'حفظ';
 
   @override
@@ -220,4 +223,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get validEmail => 'بريد إلكتروني صحيح';
+
+  @override
+  String get username => 'اسم المستخدم';
+
+  @override
+  String get password => 'كلمة السر';
+
+  @override
+  String get loginButton => 'دخول';
+
+  @override
+  String get orders => 'الطلبات';
+
+  @override
+  String get search => 'بحث';
 }

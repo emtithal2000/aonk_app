@@ -1,5 +1,6 @@
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/location.dart';
+import 'package:aonk_app/pages/login.dart';
 import 'package:aonk_app/pages/navigation.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
@@ -68,10 +69,41 @@ class FirstTime extends StatelessWidget {
             child: Form(
               key: provider.loginKey,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 spacing: height(10),
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: Card(
+                        elevation: 2,
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Login(),
+                              ),
+                            );
+                          },
+                          borderRadius: BorderRadius.circular(10),
+                          child: Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Icon(
+                              IconsaxPlusBroken.user,
+                              color: const Color(0xff52b8a0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.only(
@@ -82,6 +114,7 @@ class FirstTime extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
+                          Gap(height(40)),
                           Text(
                             AppLocalizations.of(context)!.welcomeToAonk,
                             style: TextStyle(
@@ -397,31 +430,39 @@ class FirstTime extends StatelessWidget {
                       ),
                     ),
                   ),
-                  FloatingActionButton.extended(
-                    label: Text(
-                      context.watch<LocaleProvider>().locale.languageCode ==
-                              'ar'
-                          ? 'Enlish'
-                          : 'Arabic',
-                    ),
-                    icon: Icon(
-                      context.watch<LocaleProvider>().locale.languageCode ==
-                              'ar'
-                          ? IconsaxPlusBroken.language_square
-                          : IconsaxPlusBroken.language_square,
-                    ),
-                    onPressed: () {
-                      final localeProvider = context.read<LocaleProvider>();
-                      if (localeProvider.locale.languageCode == 'ar') {
-                        localeProvider.setLocale(const Locale('en'));
-                      } else {
-                        localeProvider.setLocale(const Locale('ar'));
-                      }
-                    },
-                    backgroundColor: Colors.white,
+                  Card(
                     elevation: 2,
+                    color: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        final localeProvider = context.read<LocaleProvider>();
+                        if (localeProvider.locale.languageCode == 'ar') {
+                          localeProvider.setLocale(const Locale('en'));
+                        } else {
+                          localeProvider.setLocale(const Locale('ar'));
+                        }
+                      },
+                      borderRadius: BorderRadius.circular(15),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: width(16),
+                          vertical: height(8),
+                        ),
+                        child: Text(
+                          context.watch<LocaleProvider>().locale.languageCode ==
+                                  'ar'
+                              ? 'Enlish'
+                              : 'Arabic',
+                          style: TextStyle(
+                            fontFamily: 'Marhey',
+                            fontSize: height(14),
+                            color: const Color(0xff52b8a0),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],

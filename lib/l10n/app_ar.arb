@@ -19,6 +19,7 @@
     "city": "المدينة",
     "welcomeToAonk": "مرحبا بك في تطبيق عونك",
     "enterYourData": "قم بادخال بياناتك...",
+    "login": "قم بتسجيل الدخول ...",
     "save": "حفظ",
     "pleaseEnter": "يرجى إدخال",
     "phoneNumber": "رقم الهاتف",
@@ -70,5 +71,13 @@
     "pleaseEnterCountry":"يرجى ادخال الدولة",
     "pleaseEnterCity": "يرجى ادخال المدينة",
     "pleaseEnter":"يرجى ادخال",
-    "validEmail": "بريد إلكتروني صحيح"
-} 
+    "validEmail": "بريد إلكتروني صحيح",
+    "username":"اسم المستخدم",
+    "password":"كلمة السر",
+    "loginButton":"دخول",
+    "orders": "الطلبات",
+    "search":"بحث",
+    "filterOrders":"تصفيه التطلبات",
+    "inProgressOrders":"قيد المعالجة 
+    "
+}

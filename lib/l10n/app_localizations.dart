@@ -215,6 +215,12 @@ abstract class AppLocalizations {
   /// **'Enter your data...'**
   String get enterYourData;
 
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login...'**
+  String get login;
+
   /// No description provided for @save.
   ///
   /// In en, this message translates to:
@@ -520,6 +526,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Valid Email'**
   String get validEmail;
+
+  /// No description provided for @username.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get username;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @loginButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get loginButton;
+
+  /// No description provided for @orders.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders'**
+  String get orders;
+
+  /// No description provided for @search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

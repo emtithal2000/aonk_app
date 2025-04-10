@@ -1,6 +1,6 @@
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/l10n/l10n.dart';
-import 'package:aonk_app/pages/splash.dart';
+import 'package:aonk_app/pages/driver_page.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/providers/theme_provider.dart';
@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
               brightness: Brightness.dark,
             ),
           ),
-          home: const SplashScreen(),
+          home: const DriverPage(),
         );
       },
     );

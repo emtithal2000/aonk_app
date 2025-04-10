@@ -19,6 +19,7 @@
     "city": "City",
     "welcomeToAonk": "Welcome to Aonk",
     "enterYourData": "Enter your data...",
+    "login": "Login...",
     "save": "Save",
     "pleaseEnter": "Please enter",
     "phoneNumber": "Phone Number",
@@ -70,5 +71,15 @@
     "pleaseEnterCity": "Please enter city",
     "pleaseEnterCountry":"Please enter country",
     "pleaseEnter":"Please enter",
-    "validEmail": "Valid Email"
+    "validEmail": "Valid Email",
+    "username":"Username",
+    "password":"Password",
+    "loginButton":"Login",
+    "orders":"Orders",
+    "search":"Search",
+    "filterOrders":"Filter Orders",
+    "allOrders":"All Orders",
+    "inProgress":"In Progress",
+
+    
 } 
