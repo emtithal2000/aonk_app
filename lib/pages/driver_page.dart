@@ -15,192 +15,266 @@ class _DriverPageState extends State<DriverPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: const AssetImage('assets/images/aonk-background.png'),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-              Colors.white.withOpacity(0.8),
-              BlendMode.srcOver,
+      body: SafeArea(
+        child: Container(
+          height: double.infinity,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: const AssetImage('assets/images/aonk-background.png'),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                Colors.white.withOpacity(0.8),
+                BlendMode.srcOver,
+              ),
             ),
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          spacing: height(10),
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(40.0),
-              child: Text(
-                AppLocalizations.of(context)!.orders,
-                style: TextStyle(
-                  fontSize: height(22),
-                  fontFamily: 'Marhey',
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xff52b8a0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(50.0),
+                  child: Text(
+                    AppLocalizations.of(context)!.orders,
+                    style: TextStyle(
+                      fontSize: height(22),
+                      fontFamily: 'Marhey',
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xff52b8a0),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: width(30),
-                  right: width(30),
-                  bottom: MediaQuery.of(context).viewInsets.bottom,
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(bottom: height(20)),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Card(
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width(30)),
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(bottom: height(20)),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Card(
+                                elevation: 3,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: SizedBox(
+                                  height: height(50),
+                                  child: TextFormField(
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      fillColor: Colors.white,
+                                      filled: true,
+                                      hintText:
+                                          AppLocalizations.of(context)!.search,
+                                      isDense: true,
+                                      hintStyle: TextStyle(
+                                        color: const Color(0xff84beb0),
+                                        fontSize: height(16),
+                                      ),
+                                      prefixIcon: const Icon(
+                                        Icons.search,
+                                        color: Color(0xff52b8a0),
+                                      ),
+                                    ),
+                                    onChanged: (value) {},
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Card(
                               elevation: 3,
+                              color: const Color(0xff84beb0),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              child: SizedBox(
-                                height: height(50),
-                                child: TextFormField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide.none,
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                    hintText:
-                                        AppLocalizations.of(context)!.search,
-                                    isDense: true,
-                                    hintStyle: TextStyle(
-                                      color: const Color(0xff84beb0),
-                                      fontSize: height(16),
-                                    ),
-                                    prefixIcon: const Icon(
-                                      Icons.search,
-                                      color: Color(0xff52b8a0),
-                                    ),
-                                  ),
-                                  onChanged: (value) {
-                                    // Implement search functionality
-                                  },
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.calendar_today,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () async {
+                                  final selectedDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime.now(),
+                                    lastDate: DateTime.now()
+                                        .add(const Duration(days: 365)),
+                                  );
+                                  if (selectedDate != null) {}
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        itemCount: 7,
+                        separatorBuilder: (context, index) {
+                          return Gap(height(5));
+                        },
+                        itemBuilder: (context, index) {
+                          return Card(
+                            elevation: 2,
+                            color: Colors.white,
+                            child: ExpansionTile(
+                              title: Text(
+                                '${AppLocalizations.of(context)!.order} ${index + 1}',
+                                style: TextStyle(
+                                  fontSize: height(14),
+                                  fontFamily: 'Marhey',
+                                  color: const Color(0xff52b8a0),
                                 ),
                               ),
-                            ),
-                          ),
-                          Card(
-                            elevation: 3,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.filter_list,
-                                color: Color(0xff52b8a0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              onPressed: () {
-                                // Show filter options
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: (context) => Container(
-                                    padding: const EdgeInsets.all(20),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          'Filter Orders',
-                                          style: TextStyle(
-                                            fontSize: height(18),
-                                            fontFamily: 'Marhey',
-                                            fontWeight: FontWeight.bold,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: width(20),
+                                    vertical: height(10),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Name: Emtithal',
+                                        style: TextStyle(
+                                          fontSize: height(12),
+                                          fontFamily: 'Marhey',
+                                        ),
+                                      ),
+                                      Gap(height(5)),
+                                      Text(
+                                        ' Date: 10/04/2025',
+                                        style: TextStyle(
+                                          fontSize: height(10),
+                                          fontFamily: 'Marhey',
+                                        ),
+                                      ),
+                                      Gap(height(5)),
+                                      Text(
+                                        'Time: 10:30 AM',
+                                        style: TextStyle(
+                                          fontSize: height(10),
+                                          fontFamily: 'Marhey',
+                                        ),
+                                      ),
+                                      Gap(height(10)),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.menu,
+                                              color: Color(0xff52b8a0),
+                                            ),
+                                            onPressed: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    AlertDialog(
+                                                  title: Text(
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .orderStatus,
+                                                    style: const TextStyle(
+                                                      fontFamily: 'Marhey',
+                                                      color: Color(0xff52b8a0),
+                                                    ),
+                                                  ),
+                                                  content: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      ListTile(
+                                                        leading: const Icon(
+                                                            Icons
+                                                                .check_circle_outline_rounded,
+                                                            color: Color(
+                                                                0xff52b8a0)),
+                                                        title: const Text(
+                                                            'Received'),
+                                                        onTap: () =>
+                                                            Navigator.pop(
+                                                                context),
+                                                      ),
+                                                      ListTile(
+                                                        leading: const Icon(
+                                                            Icons
+                                                                .pending_actions,
+                                                            color:
+                                                                Colors.black),
+                                                        title: const Text(
+                                                            'Postponed'),
+                                                        onTap: () =>
+                                                            Navigator.pop(
+                                                                context),
+                                                      ),
+                                                      ListTile(
+                                                        leading: const Icon(
+                                                            Icons
+                                                                .cancel_outlined,
+                                                            color: Colors.red),
+                                                        title: const Text(
+                                                            'Cancelled'),
+                                                        onTap: () =>
+                                                            Navigator.pop(
+                                                                context),
+                                                      ),
+                                                      ListTile(
+                                                        leading: const Icon(
+                                                            Icons
+                                                                .pending_outlined,
+                                                            color: Colors
+                                                                .blueGrey),
+                                                        title: const Text(
+                                                            'No response'),
+                                                        onTap: () =>
+                                                            Navigator.pop(
+                                                                context),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            },
                                           ),
-                                        ),
-                                        const Divider(),
-                                        ListTile(
-                                          title: const Text('All Orders'),
-                                          onTap: () {
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                        ListTile(
-                                          title: const Text('Pending Orders'),
-                                          onTap: () {
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                        ListTile(
-                                          title: const Text('Completed Orders'),
-                                          onTap: () {
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                      ],
-                                    ),
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.share,
+                                              size: 20,
+                                              color: Color(0xff52b8a0),
+                                            ),
+                                            onPressed: () {},
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                );
-                              },
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
-                    ),
-                    ExpansionTile(
-                      title: Text(
-                        'Order #123',
-                        style: TextStyle(
-                          fontSize: height(18),
-                          fontFamily: 'Marhey',
-                          color: const Color(0xff52b8a0),
-                        ),
-                      ),
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: width(20),
-                            vertical: height(10),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Name: John Doe',
-                                style: TextStyle(
-                                  fontSize: height(16),
-                                  fontFamily: 'Marhey',
-                                ),
-                              ),
-                              Gap(height(5)),
-                              Text(
-                                'ID: DRV-2024-123',
-                                style: TextStyle(
-                                  fontSize: height(16),
-                                  fontFamily: 'Marhey',
-                                ),
-                              ),
-                              Gap(height(5)),
-                              Text(
-                                'Time: 10:30 AM',
-                                style: TextStyle(
-                                  fontSize: height(16),
-                                  fontFamily: 'Marhey',
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

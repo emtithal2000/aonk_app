@@ -238,4 +238,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get search => 'بحث';
+
+  @override
+  String get filterOrders => 'تصفيه التطلبات';
+
+  @override
+  String get allOrders => 'كل الطلبات';
+
+  @override
+  String get inProgressOrders => 'قيد المعالجة ';
+
+  @override
+  String get order => 'الطلب';
+
+  @override
+  String get completed => 'مكتملة';
 }

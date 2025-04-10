@@ -238,4 +238,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get search => 'Search';
+
+  @override
+  String get filterOrders => 'Filter Orders';
+
+  @override
+  String get allOrders => 'All Orders';
+
+  @override
+  String get inProgressOrders => 'In Progress';
+
+  @override
+  String get order => 'Order';
+
+  @override
+  String get completed => 'Completed';
 }

@@ -78,6 +78,10 @@
     "orders": "الطلبات",
     "search":"بحث",
     "filterOrders":"تصفيه التطلبات",
-    "inProgressOrders":"قيد المعالجة 
-    "
+    "allOrders":"كل الطلبات",
+    "inProgressOrders":"قيد المعالجة ",
+    "completed":"مكتملة",
+    "order":"الطلب",
+    "orderStatus":"حالة الطلب"
+    
 }

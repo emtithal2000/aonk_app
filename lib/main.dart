@@ -1,6 +1,7 @@
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/l10n/l10n.dart';
 import 'package:aonk_app/pages/driver_page.dart';
+import 'package:aonk_app/providers/driver_provider.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/providers/theme_provider.dart';
@@ -26,6 +27,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => PagesProvider()),
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
         ChangeNotifierProvider(create: (context) => LocaleProvider()),
+        ChangeNotifierProvider(create: (context) => DriverProvider()),
       ],
       child: const MyApp(),
     ),
