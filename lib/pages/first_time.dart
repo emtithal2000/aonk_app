@@ -66,23 +66,18 @@ class FirstTime extends StatelessWidget {
                 ),
               ),
             ),
-            child: Form(
-              key: provider.loginKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                spacing: height(10),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: Card(
-                        elevation: 2,
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+            child: SafeArea(
+              child: Form(
+                key: provider.loginKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: height(10),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Align(
+                        alignment: Alignment.topRight,
                         child: InkWell(
                           onTap: () {
                             Navigator.push(
@@ -93,379 +88,391 @@ class FirstTime extends StatelessWidget {
                             );
                           },
                           borderRadius: BorderRadius.circular(10),
-                          child: Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Icon(
-                              IconsaxPlusBroken.user,
-                              color: const Color(0xff52b8a0),
+                          child: Card(
+                            elevation: 2,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Icon(
+                                IconsaxPlusBroken.user,
+                                color: const Color(0xff52b8a0),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        left: width(30),
-                        right: width(30),
-                        bottom: MediaQuery.of(context).viewInsets.bottom +
-                            height(20),
-                      ),
-                      child: Column(
-                        children: [
-                          Gap(height(40)),
-                          Text(
-                            AppLocalizations.of(context)!.welcomeToAonk,
-                            style: TextStyle(
-                              fontSize: height(22),
-                              fontFamily: 'Marhey',
-                              fontWeight: FontWeight.bold,
-                              color: const Color(0xff52b8a0),
+                    SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: width(30),
+                          right: width(30),
+                          bottom: MediaQuery.of(context).viewInsets.bottom +
+                              height(20),
+                        ),
+                        child: Column(
+                          children: [
+                            Gap(height(40)),
+                            Text(
+                              AppLocalizations.of(context)!.welcomeToAonk,
+                              style: TextStyle(
+                                fontSize: height(22),
+                                fontFamily: 'Marhey',
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xff52b8a0),
+                              ),
                             ),
-                          ),
-                          Text(
-                            AppLocalizations.of(context)!.enterYourData,
-                            style: TextStyle(
-                              fontSize: height(19),
-                              fontFamily: 'Marhey',
-                              color: const Color(0xff52b8a0),
+                            Text(
+                              AppLocalizations.of(context)!.enterYourData,
+                              style: TextStyle(
+                                fontSize: height(19),
+                                fontFamily: 'Marhey',
+                                color: const Color(0xff52b8a0),
+                              ),
                             ),
-                          ),
-                          Gap(height(50)),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Card(
-                                  elevation: 3,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  color: Colors.white,
-                                  child: DropdownButtonFormField<String>(
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    validator: (value) {
-                                      if (value == null) {
-                                        return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.country}';
-                                      }
-                                      return null;
-                                    },
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      isDense: true,
+                            Gap(height(50)),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Card(
+                                    elevation: 3,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: width(5),
-                                    ),
-                                    hint: Text(
-                                      AppLocalizations.of(context)!.country,
-                                      style: TextStyle(
-                                        fontSize: height(16),
-                                        color: const Color(0xff52b8a0),
-                                      ),
-                                    ),
-                                    icon: const Icon(
-                                      Icons.arrow_drop_down,
-                                      color: Color(0xff52b8a0),
-                                    ),
-                                    dropdownColor: Colors.white,
-                                    elevation: 1,
-                                    borderRadius: BorderRadius.circular(15),
-                                    isExpanded: true,
-                                    items: countryCities.keys
-                                        .map((String country) {
-                                      return DropdownMenuItem<String>(
-                                        value: country,
-                                        child: Text(
-                                          country,
-                                          style: TextStyle(
-                                            fontSize: height(16),
-                                            color: const Color(0xff52b8a0),
-                                          ),
+                                    color: Colors.white,
+                                    child: DropdownButtonFormField<String>(
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      validator: (value) {
+                                        if (value == null) {
+                                          return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.country}';
+                                        }
+                                        return null;
+                                      },
+                                      decoration: const InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide.none,
                                         ),
-                                      );
-                                    }).toList(),
-                                    onChanged: (String? newValue) {
-                                      provider.setCountry(newValue!);
-                                      provider.resetSelected();
-                                    },
-                                    value: provider.selectedCountry,
+                                        isDense: true,
+                                      ),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: width(5),
+                                      ),
+                                      hint: Text(
+                                        AppLocalizations.of(context)!.country,
+                                        style: TextStyle(
+                                          fontSize: height(16),
+                                          color: const Color(0xff52b8a0),
+                                        ),
+                                      ),
+                                      icon: const Icon(
+                                        Icons.arrow_drop_down,
+                                        color: Color(0xff52b8a0),
+                                      ),
+                                      dropdownColor: Colors.white,
+                                      elevation: 1,
+                                      borderRadius: BorderRadius.circular(15),
+                                      isExpanded: true,
+                                      items: countryCities.keys
+                                          .map((String country) {
+                                        return DropdownMenuItem<String>(
+                                          value: country,
+                                          child: Text(
+                                            country,
+                                            style: TextStyle(
+                                              fontSize: height(16),
+                                              color: const Color(0xff52b8a0),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onChanged: (String? newValue) {
+                                        provider.setCountry(newValue!);
+                                        provider.resetSelected();
+                                      },
+                                      value: provider.selectedCountry,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                child: Card(
-                                  elevation: 3,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  color: Colors.white,
-                                  child: DropdownButtonFormField<String>(
-                                    isExpanded: true,
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    validator: (value) {
-                                      if (value == null) {
-                                        return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.city}';
-                                      }
-                                      return null;
-                                    },
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: width(5),
+                                Expanded(
+                                  child: Card(
+                                    elevation: 3,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
+                                    color: Colors.white,
+                                    child: DropdownButtonFormField<String>(
+                                      isExpanded: true,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      validator: (value) {
+                                        if (value == null) {
+                                          return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.city}';
+                                        }
+                                        return null;
+                                      },
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: width(5),
                                       ),
-                                      isDense: true,
-                                    ),
-                                    hint: Text(
-                                      AppLocalizations.of(context)!.city,
-                                      style: TextStyle(
-                                        fontSize: height(16),
-                                        color: const Color(0xff52b8a0),
-                                      ),
-                                    ),
-                                    icon: const Icon(
-                                      Icons.arrow_drop_down,
-                                      color: Color(0xff52b8a0),
-                                    ),
-                                    dropdownColor: Colors.white,
-                                    elevation: 1,
-                                    borderRadius: BorderRadius.circular(15),
-                                    items: getCitiesForCountry(
-                                            provider.selectedCountry)
-                                        .map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(
-                                          value,
-                                          style: TextStyle(
-                                            fontSize: height(16),
-                                            color: const Color(0xff52b8a0),
-                                          ),
+                                      decoration: const InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide.none,
                                         ),
-                                      );
-                                    }).toList(),
-                                    onChanged: (String? newValue) {
-                                      provider.setCity(newValue!);
-                                    },
-                                    value: provider.selectedCity,
+                                        isDense: true,
+                                      ),
+                                      hint: Text(
+                                        AppLocalizations.of(context)!.city,
+                                        style: TextStyle(
+                                          fontSize: height(16),
+                                          color: const Color(0xff52b8a0),
+                                        ),
+                                      ),
+                                      icon: const Icon(
+                                        Icons.arrow_drop_down,
+                                        color: Color(0xff52b8a0),
+                                      ),
+                                      dropdownColor: Colors.white,
+                                      elevation: 1,
+                                      borderRadius: BorderRadius.circular(15),
+                                      items: getCitiesForCountry(
+                                              provider.selectedCountry)
+                                          .map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(
+                                            value,
+                                            style: TextStyle(
+                                              fontSize: height(16),
+                                              color: const Color(0xff52b8a0),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onChanged: (String? newValue) {
+                                        provider.setCity(newValue!);
+                                      },
+                                      value: provider.selectedCity,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Card(
-                            elevation: 3,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
+                              ],
                             ),
-                            child: TextFormField(
-                              controller: provider.controllers[0],
-                              autovalidateMode: AutovalidateMode.onUnfocus,
-                              keyboardType: TextInputType.name,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.name}';
-                                }
-                                return null;
-                              },
-                              decoration: inputDecoration(
-                                context,
-                                AppLocalizations.of(context)!.name,
-                                IconsaxPlusBroken.user,
-                              ),
-                              onChanged: (value) {},
-                            ),
-                          ),
-                          Card(
-                            elevation: 3,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: TextFormField(
-                              controller: provider.controllers[1],
-                              autovalidateMode: AutovalidateMode.onUnfocus,
-                              keyboardType: TextInputType.phone,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.phoneNumber}';
-                                }
-                                return null;
-                              },
-                              decoration: inputDecoration(
-                                context,
-                                AppLocalizations.of(context)!.phoneNumber,
-                                IconsaxPlusBroken.call,
-                              ),
-                              onChanged: (value) {},
-                            ),
-                          ),
-                          Card(
-                            elevation: 3,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: TextFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              controller: provider.controllers[2],
-                              keyboardType: TextInputType.emailAddress,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.email}';
-                                }
-                                if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                    .hasMatch(value)) {
-                                  return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.validEmail}';
-                                }
-
-                                return null;
-                              },
-                              decoration: inputDecoration(
-                                context,
-                                AppLocalizations.of(context)!.email,
-                                IconsaxPlusBroken.sms,
-                              ),
-                              onChanged: (value) {},
-                            ),
-                          ),
-                          Card(
-                            elevation: 3,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: TextFormField(
-                              autovalidateMode: AutovalidateMode.onUnfocus,
-                              controller: provider.controllers[3],
-                              keyboardType: TextInputType.number,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.streetNumber}';
-                                }
-                                return null;
-                              },
-                              decoration: inputDecoration(
-                                context,
-                                AppLocalizations.of(context)!.streetNumber,
-                                IconsaxPlusBroken.location,
-                              ),
-                              onChanged: (value) {},
-                            ),
-                          ),
-                          Card(
-                            elevation: 3,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: TextFormField(
-                              controller: provider.controllers[4],
-                              autovalidateMode: AutovalidateMode.onUnfocus,
-                              keyboardType: TextInputType.number,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.buildingNumber}';
-                                }
-                                return null;
-                              },
-                              decoration: inputDecoration(
-                                context,
-                                AppLocalizations.of(context)!.buildingNumber,
-                                IconsaxPlusBroken.building_4,
-                              ),
-                              onChanged: (value) {},
-                            ),
-                          ),
-                          Gap(height(25)),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: FloatingActionButton(
-                              heroTag: null,
-                              onPressed: () async {
-                                if (provider.loginKey.currentState!
-                                    .validate()) {
-                                  await GetStorage().write(
-                                    'userData',
-                                    {
-                                      'name': provider.controllers[0].text,
-                                      'phone': provider.controllers[1].text,
-                                      'email': provider.controllers[2].text,
-                                      'street': provider.controllers[3].text,
-                                      'building': provider.controllers[4].text,
-                                      'city': provider.selectedCity,
-                                      'country': provider.selectedCountry,
-                                    },
-                                  );
-
-                                  if (context.mounted) {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const Navigation(),
-                                      ),
-                                    );
-                                  }
-                                }
-                              },
-                              backgroundColor: const Color(0xff81bdaf),
+                            Card(
+                              elevation: 3,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
-                              child: Text(
-                                AppLocalizations.of(context)!.save,
-                                style: TextStyle(
-                                  fontSize: height(18),
-                                  color: Colors.white,
-                                  fontFamily: 'Marhey',
+                              child: TextFormField(
+                                controller: provider.controllers[0],
+                                autovalidateMode: AutovalidateMode.onUnfocus,
+                                keyboardType: TextInputType.name,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.name}';
+                                  }
+                                  return null;
+                                },
+                                decoration: inputDecoration(
+                                  context,
+                                  AppLocalizations.of(context)!.name,
+                                  IconsaxPlusBroken.user,
+                                ),
+                                onChanged: (value) {},
+                              ),
+                            ),
+                            Card(
+                              elevation: 3,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: TextFormField(
+                                controller: provider.controllers[1],
+                                autovalidateMode: AutovalidateMode.onUnfocus,
+                                keyboardType: TextInputType.phone,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.phoneNumber}';
+                                  }
+                                  return null;
+                                },
+                                decoration: inputDecoration(
+                                  context,
+                                  AppLocalizations.of(context)!.phoneNumber,
+                                  IconsaxPlusBroken.call,
+                                ),
+                                onChanged: (value) {},
+                              ),
+                            ),
+                            Card(
+                              elevation: 3,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                controller: provider.controllers[2],
+                                keyboardType: TextInputType.emailAddress,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.email}';
+                                  }
+                                  if (!RegExp(
+                                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                      .hasMatch(value)) {
+                                    return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.validEmail}';
+                                  }
+
+                                  return null;
+                                },
+                                decoration: inputDecoration(
+                                  context,
+                                  AppLocalizations.of(context)!.email,
+                                  IconsaxPlusBroken.sms,
+                                ),
+                                onChanged: (value) {},
+                              ),
+                            ),
+                            Card(
+                              elevation: 3,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: TextFormField(
+                                autovalidateMode: AutovalidateMode.onUnfocus,
+                                controller: provider.controllers[3],
+                                keyboardType: TextInputType.number,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.streetNumber}';
+                                  }
+                                  return null;
+                                },
+                                decoration: inputDecoration(
+                                  context,
+                                  AppLocalizations.of(context)!.streetNumber,
+                                  IconsaxPlusBroken.location,
+                                ),
+                                onChanged: (value) {},
+                              ),
+                            ),
+                            Card(
+                              elevation: 3,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: TextFormField(
+                                controller: provider.controllers[4],
+                                autovalidateMode: AutovalidateMode.onUnfocus,
+                                keyboardType: TextInputType.number,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.buildingNumber}';
+                                  }
+                                  return null;
+                                },
+                                decoration: inputDecoration(
+                                  context,
+                                  AppLocalizations.of(context)!.buildingNumber,
+                                  IconsaxPlusBroken.building_4,
+                                ),
+                                onChanged: (value) {},
+                              ),
+                            ),
+                            Gap(height(25)),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: FloatingActionButton(
+                                heroTag: null,
+                                onPressed: () async {
+                                  if (provider.loginKey.currentState!
+                                      .validate()) {
+                                    await GetStorage().write(
+                                      'userData',
+                                      {
+                                        'name': provider.controllers[0].text,
+                                        'phone': provider.controllers[1].text,
+                                        'email': provider.controllers[2].text,
+                                        'street': provider.controllers[3].text,
+                                        'building':
+                                            provider.controllers[4].text,
+                                        'city': provider.selectedCity,
+                                        'country': provider.selectedCountry,
+                                      },
+                                    );
+
+                                    if (context.mounted) {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const Navigation(),
+                                        ),
+                                      );
+                                    }
+                                  }
+                                },
+                                backgroundColor: const Color(0xff81bdaf),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Text(
+                                  AppLocalizations.of(context)!.save,
+                                  style: TextStyle(
+                                    fontSize: height(18),
+                                    color: Colors.white,
+                                    fontFamily: 'Marhey',
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Card(
-                    elevation: 2,
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        final localeProvider = context.read<LocaleProvider>();
-                        if (localeProvider.locale.languageCode == 'ar') {
-                          localeProvider.setLocale(const Locale('en'));
-                        } else {
-                          localeProvider.setLocale(const Locale('ar'));
-                        }
-                      },
-                      borderRadius: BorderRadius.circular(15),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: width(16),
-                          vertical: height(8),
-                        ),
-                        child: Text(
-                          context.watch<LocaleProvider>().locale.languageCode ==
-                                  'ar'
-                              ? 'Enlish'
-                              : 'Arabic',
-                          style: TextStyle(
-                            fontFamily: 'Marhey',
-                            fontSize: height(14),
-                            color: const Color(0xff52b8a0),
-                          ),
+                          ],
                         ),
                       ),
                     ),
-                  ),
-                ],
+                    Card(
+                      elevation: 2,
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          final localeProvider = context.read<LocaleProvider>();
+                          if (localeProvider.locale.languageCode == 'ar') {
+                            localeProvider.setLocale(const Locale('en'));
+                          } else {
+                            localeProvider.setLocale(const Locale('ar'));
+                          }
+                        },
+                        borderRadius: BorderRadius.circular(10),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: width(16),
+                            vertical: height(8),
+                          ),
+                          child: Text(
+                            context
+                                        .watch<LocaleProvider>()
+                                        .locale
+                                        .languageCode ==
+                                    'ar'
+                                ? 'Enlish'
+                                : 'Arabic',
+                            style: TextStyle(
+                              fontFamily: 'Marhey',
+                              fontSize: height(14),
+                              color: const Color(0xff52b8a0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

@@ -69,7 +69,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterYourData => 'Enter your data...';
 
   @override
-  String get login => 'Login...';
+  String get login => 'Login';
 
   @override
   String get save => 'Save';
