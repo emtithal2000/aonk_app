@@ -1,11 +1,10 @@
 import 'package:aonk_app/l10n/app_localizations.dart';
-import 'package:aonk_app/pages/navigation.dart';
+import 'package:aonk_app/pages/driver_page.dart';
+import 'package:aonk_app/providers/driver_provider.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
-import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
 
@@ -49,7 +48,7 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Consumer<PagesProvider>(
+      body: Consumer<DriverProvider>(
         builder: (_, provider, __) {
           return Container(
             height: double.infinity,
@@ -65,7 +64,7 @@ class Login extends StatelessWidget {
               ),
             ),
             child: Form(
-              key: provider.loginKey,
+              key: provider.formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -105,7 +104,7 @@ class Login extends StatelessWidget {
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: TextFormField(
-                              controller: provider.controllers[0],
+                              controller: provider.username,
                               autovalidateMode: AutovalidateMode.onUnfocus,
                               keyboardType: TextInputType.name,
                               validator: (value) {
@@ -129,8 +128,9 @@ class Login extends StatelessWidget {
                             ),
                             child: TextFormField(
                               autovalidateMode: AutovalidateMode.onUnfocus,
-                              controller: provider.controllers[3],
+                              controller: provider.password,
                               keyboardType: TextInputType.number,
+                              obscureText: true,
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.password}';
@@ -151,25 +151,26 @@ class Login extends StatelessWidget {
                             child: FloatingActionButton(
                               heroTag: null,
                               onPressed: () async {
-                                if (provider.loginKey.currentState!
-                                    .validate()) {
-                                  await GetStorage().write(
-                                    'userData',
-                                    {
-                                      'username': provider.controllers[0].text,
-                                      'password': provider.controllers[1].text,
+                                if (provider.formKey.currentState!.validate()) {
+                                  provider.login().then(
+                                    (value) {
+                                      if (context.mounted) {
+                                        if (value) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DriverPage(),
+                                              ));
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      'Invalid Username/Password!')));
+                                        }
+                                      }
                                     },
                                   );
-
-                                  if (context.mounted) {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const Navigation(),
-                                      ),
-                                    );
-                                  }
                                 }
                               },
                               backgroundColor: const Color(0xff81bdaf),
@@ -205,7 +206,7 @@ class Login extends StatelessWidget {
                           localeProvider.setLocale(const Locale('ar'));
                         }
                       },
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(10),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: width(16),

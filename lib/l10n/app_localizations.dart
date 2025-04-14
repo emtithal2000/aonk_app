@@ -218,7 +218,7 @@ abstract class AppLocalizations {
   /// No description provided for @login.
   ///
   /// In en, this message translates to:
-  /// **'Login...'**
+  /// **'Login'**
   String get login;
 
   /// No description provided for @save.

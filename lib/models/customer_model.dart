@@ -1,64 +1,58 @@
 class CustomerDonation {
   final int id;
-  final String building;
-  final String charityName;
   final String city;
-  final String country;
-  final String date;
-  final String donationImage;
+  final String? date;
+  final String? deliveryDate;
+  final String? deliveryStatus;
+  final String? deliveryTime;
   final List<String> donationTypes;
-  final String email;
-  final bool gift;
-  final String giftName;
-  final String giftPhone;
+  final String? driverName;
   final String name;
   final String phone;
-  final String street;
+  final String status;
 
   CustomerDonation({
     required this.id,
-    required this.building,
-    required this.charityName,
     required this.city,
-    required this.country,
-    required this.date,
-    required this.donationImage,
+    this.date,
+    this.deliveryDate,
+    this.deliveryStatus,
+    this.deliveryTime,
     required this.donationTypes,
-    required this.email,
-    required this.gift,
-    required this.giftName,
-    required this.giftPhone,
+    this.driverName,
     required this.name,
     required this.phone,
-    required this.street,
+    required this.status,
   });
 
   factory CustomerDonation.fromJson(Map<String, dynamic> json) {
     return CustomerDonation(
       id: json['id'] as int,
-      building: json['building'] as String,
-      charityName: json['charity_name'] as String,
       city: json['city'] as String,
-      country: json['country'] as String,
-      date: json['date'] as String,
-      donationImage: json['donation_image'] as String,
+      date: json['date'] as String?,
+      deliveryDate: json['delivery_date'] as String?,
+      deliveryStatus: json['delivery_status'] as String?,
+      deliveryTime: json['delivery_time'] as String?,
       donationTypes: _parseDonationTypes(json['donation_types']),
-      email: json['email'] as String,
-      gift: json['gift'] as bool,
-      giftName: json['gift_name'] as String,
-      giftPhone: json['gift_phone'] as String,
+      driverName: json['driver_name'] as String?,
       name: json['name'] as String,
       phone: json['phone'] as String,
-      street: json['street'] as String,
+      status: json['status'] as String,
     );
   }
 
   static List<String> _parseDonationTypes(String donationTypesStr) {
-    // Remove the brackets and split the string
-    String cleanStr = donationTypesStr.replaceAll('[', '').replaceAll(']', '');
-    if (cleanStr.isEmpty) return [];
+    try {
+      // Remove the brackets and split the string
+      String cleanStr =
+          donationTypesStr.replaceAll('[', '').replaceAll(']', '');
+      if (cleanStr.isEmpty) return [];
 
-    // Split by comma and trim each element
-    return cleanStr.split(',').map((e) => e.trim()).toList();
+      // Split by comma and trim each element, handling Arabic text
+      return cleanStr.split(',').map((e) => e.trim()).toList();
+    } catch (e) {
+      // Return empty list if parsing fails
+      return [];
+    }
   }
 }

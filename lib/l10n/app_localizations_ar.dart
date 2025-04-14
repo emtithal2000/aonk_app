@@ -69,7 +69,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enterYourData => 'قم بادخال بياناتك...';
 
   @override
-  String get login => 'قم بتسجيل الدخول ...';
+  String get login => 'تسجيل الدخول';
 
   @override
   String get save => 'حفظ';
