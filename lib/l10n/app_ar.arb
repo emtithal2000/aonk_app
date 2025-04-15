@@ -82,6 +82,12 @@
     "inProgressOrders":"قيد المعالجة ",
     "completed":"مكتملة",
     "order":"الطلب",
-    "orderStatus":"حالة الطلب"
+    "orderStatus":"حالة الطلب",
+    "date":"التاريخ",
+    "time":"الوقت",
+    "received":"مكتمل",
+    "postponed":"تاجيل",
+    "cancelled":"الغاء",
+    "noResponse":"عدم الرد"
     
 }

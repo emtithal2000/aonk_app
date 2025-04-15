@@ -10,6 +10,22 @@ import 'app_localizations_en.dart';
 
 // ignore_for_file: type=lint
 
+AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when only language code is specified.
+  switch (locale.languageCode) {
+    case 'ar':
+      return AppLocalizationsAr();
+    case 'en':
+      return AppLocalizationsEn();
+  }
+
+  throw FlutterError(
+      'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
+}
+
 /// Callers can lookup localized strings with an instance of AppLocalizations
 /// returned by `AppLocalizations.of(context)`.
 ///
@@ -46,12 +62,12 @@ import 'app_localizations_en.dart';
 ///
 /// iOS applications define key application metadata, including supported
 /// locales, in an Info.plist file that is built into the application bundle.
-/// To configure the locales supported by your app, you’ll need to edit this
+/// To configure the locales supported by your app, you'll need to edit this
 /// file.
 ///
-/// First, open your project’s ios/Runner.xcworkspace Xcode workspace file.
+/// First, open your project's ios/Runner.xcworkspace Xcode workspace file.
 /// Then, in the Project Navigator, open the Info.plist file under the Runner
-/// project’s Runner folder.
+/// project's Runner folder.
 ///
 /// Next, select the Information Property List item, select Add Item from the
 /// Editor menu, then select Localizations from the pop-up menu.
@@ -62,15 +78,8 @@ import 'app_localizations_en.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
-
-  final String localeName;
-
-  static AppLocalizations? of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations);
-  }
-
-  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -82,7 +91,8 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -95,11 +105,10 @@ abstract class AppLocalizations {
     Locale('en')
   ];
 
-  /// No description provided for @appbarTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Associations'**
-  String get appbarTitle;
+  final String localeName;
+
+  AppLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   /// No description provided for @aboutAonk.
   ///
@@ -107,209 +116,17 @@ abstract class AppLocalizations {
   /// **'About Aonk'**
   String get aboutAonk;
 
-  /// No description provided for @notification.
+  /// No description provided for @allOrders.
   ///
   /// In en, this message translates to:
-  /// **'Notifications'**
-  String get notification;
-
-  /// No description provided for @loyaltyProgram.
-  ///
-  /// In en, this message translates to:
-  /// **'Loyalty Program'**
-  String get loyaltyProgram;
-
-  /// No description provided for @loyaltyProgramSoon.
-  ///
-  /// In en, this message translates to:
-  /// **'Coming Soon'**
-  String get loyaltyProgramSoon;
-
-  /// No description provided for @settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Settings'**
-  String get settings;
-
-  /// No description provided for @language.
-  ///
-  /// In en, this message translates to:
-  /// **'Language'**
-  String get language;
-
-  /// No description provided for @arabic.
-  ///
-  /// In en, this message translates to:
-  /// **'Arabic'**
-  String get arabic;
-
-  /// No description provided for @english.
-  ///
-  /// In en, this message translates to:
-  /// **'English'**
-  String get english;
-
-  /// No description provided for @darkMode.
-  ///
-  /// In en, this message translates to:
-  /// **'Dark Mode'**
-  String get darkMode;
-
-  /// No description provided for @lightMode.
-  ///
-  /// In en, this message translates to:
-  /// **'Light Mode'**
-  String get lightMode;
-
-  /// No description provided for @orderStatus.
-  ///
-  /// In en, this message translates to:
-  /// **'Order Status'**
-  String get orderStatus;
-
-  /// No description provided for @orderStatusSoon.
-  ///
-  /// In en, this message translates to:
-  /// **'Coming Soon'**
-  String get orderStatusSoon;
+  /// **'All Orders'**
+  String get allOrders;
 
   /// No description provided for @aonk.
   ///
   /// In en, this message translates to:
   /// **'Aonk'**
   String get aonk;
-
-  /// No description provided for @donate.
-  ///
-  /// In en, this message translates to:
-  /// **'Donate'**
-  String get donate;
-
-  /// No description provided for @information.
-  ///
-  /// In en, this message translates to:
-  /// **'Information'**
-  String get information;
-
-  /// No description provided for @country.
-  ///
-  /// In en, this message translates to:
-  /// **'Country'**
-  String get country;
-
-  /// No description provided for @city.
-  ///
-  /// In en, this message translates to:
-  /// **'City'**
-  String get city;
-
-  /// No description provided for @welcomeToAonk.
-  ///
-  /// In en, this message translates to:
-  /// **'Welcome to Aonk'**
-  String get welcomeToAonk;
-
-  /// No description provided for @enterYourData.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter your data...'**
-  String get enterYourData;
-
-  /// No description provided for @login.
-  ///
-  /// In en, this message translates to:
-  /// **'Login'**
-  String get login;
-
-  /// No description provided for @save.
-  ///
-  /// In en, this message translates to:
-  /// **'Save'**
-  String get save;
-
-  /// No description provided for @pleaseEnter.
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter'**
-  String get pleaseEnter;
-
-  /// No description provided for @phoneNumber.
-  ///
-  /// In en, this message translates to:
-  /// **'Phone Number'**
-  String get phoneNumber;
-
-  /// No description provided for @email.
-  ///
-  /// In en, this message translates to:
-  /// **'Email'**
-  String get email;
-
-  /// No description provided for @name.
-  ///
-  /// In en, this message translates to:
-  /// **'Name'**
-  String get name;
-
-  /// No description provided for @streetNumber.
-  ///
-  /// In en, this message translates to:
-  /// **'Street Number'**
-  String get streetNumber;
-
-  /// No description provided for @buildingNumber.
-  ///
-  /// In en, this message translates to:
-  /// **'Building Number'**
-  String get buildingNumber;
-
-  /// No description provided for @floorNumber.
-  ///
-  /// In en, this message translates to:
-  /// **'Floor Number'**
-  String get floorNumber;
-
-  /// No description provided for @oman.
-  ///
-  /// In en, this message translates to:
-  /// **'Oman'**
-  String get oman;
-
-  /// No description provided for @uae.
-  ///
-  /// In en, this message translates to:
-  /// **'UAE'**
-  String get uae;
-
-  /// No description provided for @ksa.
-  ///
-  /// In en, this message translates to:
-  /// **'KSA'**
-  String get ksa;
-
-  /// No description provided for @kuwait.
-  ///
-  /// In en, this message translates to:
-  /// **'Kuwait'**
-  String get kuwait;
-
-  /// No description provided for @bahrain.
-  ///
-  /// In en, this message translates to:
-  /// **'Bahrain'**
-  String get bahrain;
-
-  /// No description provided for @qatar.
-  ///
-  /// In en, this message translates to:
-  /// **'Qatar'**
-  String get qatar;
-
-  /// No description provided for @whatIsAonk.
-  ///
-  /// In en, this message translates to:
-  /// **'What is Aonk?'**
-  String get whatIsAonk;
 
   /// No description provided for @aonkDescription.
   ///
@@ -341,83 +158,17 @@ abstract class AppLocalizations {
   /// **'To raise your information about us, you can browse our social media sites'**
   String get aonkDescription5;
 
-  /// No description provided for @notifications.
+  /// No description provided for @appbarTitle.
   ///
   /// In en, this message translates to:
-  /// **'Notifications'**
-  String get notifications;
+  /// **'Associations'**
+  String get appbarTitle;
 
-  /// No description provided for @notificationsDescription.
+  /// No description provided for @arabic.
   ///
   /// In en, this message translates to:
-  /// **'No notifications found'**
-  String get notificationsDescription;
-
-  /// No description provided for @donationType.
-  ///
-  /// In en, this message translates to:
-  /// **'Select donation type'**
-  String get donationType;
-
-  /// No description provided for @personalDonation.
-  ///
-  /// In en, this message translates to:
-  /// **'Personal'**
-  String get personalDonation;
-
-  /// No description provided for @giftDonation.
-  ///
-  /// In en, this message translates to:
-  /// **'Gift'**
-  String get giftDonation;
-
-  /// No description provided for @clothes.
-  ///
-  /// In en, this message translates to:
-  /// **'Clothes'**
-  String get clothes;
-
-  /// No description provided for @shoesAndBags.
-  ///
-  /// In en, this message translates to:
-  /// **'Shoes and Bags'**
-  String get shoesAndBags;
-
-  /// No description provided for @curtainsAndBlankets.
-  ///
-  /// In en, this message translates to:
-  /// **'Curtains and Blankets'**
-  String get curtainsAndBlankets;
-
-  /// No description provided for @childrenToys.
-  ///
-  /// In en, this message translates to:
-  /// **'Children\'s Toys'**
-  String get childrenToys;
-
-  /// No description provided for @kitchenware.
-  ///
-  /// In en, this message translates to:
-  /// **'Kitchenware'**
-  String get kitchenware;
-
-  /// No description provided for @booksAndpapers.
-  ///
-  /// In en, this message translates to:
-  /// **'Books and Papers'**
-  String get booksAndpapers;
-
-  /// No description provided for @electronicDevices.
-  ///
-  /// In en, this message translates to:
-  /// **'Electronic Devices'**
-  String get electronicDevices;
-
-  /// No description provided for @next.
-  ///
-  /// In en, this message translates to:
-  /// **'Next'**
-  String get next;
+  /// **'Arabic'**
+  String get arabic;
 
   /// No description provided for @attachImages.
   ///
@@ -425,53 +176,89 @@ abstract class AppLocalizations {
   /// **'Attach Images'**
   String get attachImages;
 
+  /// No description provided for @bahrain.
+  ///
+  /// In en, this message translates to:
+  /// **'Bahrain'**
+  String get bahrain;
+
+  /// No description provided for @booksAndpapers.
+  ///
+  /// In en, this message translates to:
+  /// **'Books and Papers'**
+  String get booksAndpapers;
+
+  /// No description provided for @buildingNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Building Number'**
+  String get buildingNumber;
+
+  /// No description provided for @cancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get cancelled;
+
+  /// No description provided for @childrenToys.
+  ///
+  /// In en, this message translates to:
+  /// **'Children\'s Toys'**
+  String get childrenToys;
+
+  /// No description provided for @city.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get city;
+
+  /// No description provided for @clothes.
+  ///
+  /// In en, this message translates to:
+  /// **'Clothes'**
+  String get clothes;
+
+  /// No description provided for @completed.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completed;
+
   /// No description provided for @confirmDonation.
   ///
   /// In en, this message translates to:
   /// **'Confirm '**
   String get confirmDonation;
 
-  /// No description provided for @error.
+  /// No description provided for @country.
   ///
   /// In en, this message translates to:
-  /// **'Error'**
-  String get error;
+  /// **'Country'**
+  String get country;
 
-  /// No description provided for @success.
+  /// No description provided for @curtainsAndBlankets.
   ///
   /// In en, this message translates to:
-  /// **'Success'**
-  String get success;
+  /// **'Curtains and Blankets'**
+  String get curtainsAndBlankets;
 
-  /// No description provided for @errorDescription.
+  /// No description provided for @darkMode.
   ///
   /// In en, this message translates to:
-  /// **'Please select an image'**
-  String get errorDescription;
+  /// **'Dark Mode'**
+  String get darkMode;
 
-  /// No description provided for @successDescription.
+  /// No description provided for @date.
   ///
   /// In en, this message translates to:
-  /// **'We will contact you soon'**
-  String get successDescription;
+  /// **'Date'**
+  String get date;
 
-  /// No description provided for @ok.
+  /// No description provided for @donate.
   ///
   /// In en, this message translates to:
-  /// **'Ok'**
-  String get ok;
-
-  /// No description provided for @skip.
-  ///
-  /// In en, this message translates to:
-  /// **'Skip'**
-  String get skip;
-
-  /// No description provided for @enterPersonalData.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter personal data'**
-  String get enterPersonalData;
+  /// **'Donate'**
+  String get donate;
 
   /// No description provided for @donationDetail1.
   ///
@@ -509,6 +296,234 @@ abstract class AppLocalizations {
   /// **'Books & Papers'**
   String get donationDetail6;
 
+  /// No description provided for @donationType.
+  ///
+  /// In en, this message translates to:
+  /// **'Select donation type'**
+  String get donationType;
+
+  /// No description provided for @electronicDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'Electronic Devices'**
+  String get electronicDevices;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// No description provided for @enterPersonalData.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter personal data'**
+  String get enterPersonalData;
+
+  /// No description provided for @enterYourData.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your data...'**
+  String get enterYourData;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// No description provided for @errorDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select an image'**
+  String get errorDescription;
+
+  /// No description provided for @filterOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter Orders'**
+  String get filterOrders;
+
+  /// No description provided for @floorNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor Number'**
+  String get floorNumber;
+
+  /// No description provided for @giftDonation.
+  ///
+  /// In en, this message translates to:
+  /// **'Gift'**
+  String get giftDonation;
+
+  /// No description provided for @information.
+  ///
+  /// In en, this message translates to:
+  /// **'Information'**
+  String get information;
+
+  /// No description provided for @inProgressOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'In Progress'**
+  String get inProgressOrders;
+
+  /// No description provided for @kitchenware.
+  ///
+  /// In en, this message translates to:
+  /// **'Kitchenware'**
+  String get kitchenware;
+
+  /// No description provided for @ksa.
+  ///
+  /// In en, this message translates to:
+  /// **'KSA'**
+  String get ksa;
+
+  /// No description provided for @kuwait.
+  ///
+  /// In en, this message translates to:
+  /// **'Kuwait'**
+  String get kuwait;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @lightMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Light Mode'**
+  String get lightMode;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @loginButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get loginButton;
+
+  /// No description provided for @loyaltyProgram.
+  ///
+  /// In en, this message translates to:
+  /// **'Loyalty Program'**
+  String get loyaltyProgram;
+
+  /// No description provided for @loyaltyProgramSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming Soon'**
+  String get loyaltyProgramSoon;
+
+  /// No description provided for @name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// No description provided for @noResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'No response'**
+  String get noResponse;
+
+  /// No description provided for @notification.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notification;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @notificationsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications found'**
+  String get notificationsDescription;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'Ok'**
+  String get ok;
+
+  /// No description provided for @oman.
+  ///
+  /// In en, this message translates to:
+  /// **'Oman'**
+  String get oman;
+
+  /// No description provided for @order.
+  ///
+  /// In en, this message translates to:
+  /// **'Order'**
+  String get order;
+
+  /// No description provided for @orders.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders'**
+  String get orders;
+
+  /// No description provided for @orderStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Order Status'**
+  String get orderStatus;
+
+  /// No description provided for @orderStatusSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming Soon'**
+  String get orderStatusSoon;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @personalDonation.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal'**
+  String get personalDonation;
+
+  /// No description provided for @phoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phoneNumber;
+
+  /// No description provided for @pleaseEnter.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter'**
+  String get pleaseEnter;
+
   /// No description provided for @pleaseEnterCity.
   ///
   /// In en, this message translates to:
@@ -521,35 +536,29 @@ abstract class AppLocalizations {
   /// **'Please enter country'**
   String get pleaseEnterCountry;
 
-  /// No description provided for @validEmail.
+  /// No description provided for @postponed.
   ///
   /// In en, this message translates to:
-  /// **'Valid Email'**
-  String get validEmail;
+  /// **'Postponed'**
+  String get postponed;
 
-  /// No description provided for @username.
+  /// No description provided for @qatar.
   ///
   /// In en, this message translates to:
-  /// **'Username'**
-  String get username;
+  /// **'Qatar'**
+  String get qatar;
 
-  /// No description provided for @password.
+  /// No description provided for @received.
   ///
   /// In en, this message translates to:
-  /// **'Password'**
-  String get password;
+  /// **'Received'**
+  String get received;
 
-  /// No description provided for @loginButton.
+  /// No description provided for @save.
   ///
   /// In en, this message translates to:
-  /// **'Login'**
-  String get loginButton;
-
-  /// No description provided for @orders.
-  ///
-  /// In en, this message translates to:
-  /// **'Orders'**
-  String get orders;
+  /// **'Save'**
+  String get save;
 
   /// No description provided for @search.
   ///
@@ -557,39 +566,90 @@ abstract class AppLocalizations {
   /// **'Search'**
   String get search;
 
-  /// No description provided for @filterOrders.
+  /// No description provided for @settings.
   ///
   /// In en, this message translates to:
-  /// **'Filter Orders'**
-  String get filterOrders;
+  /// **'Settings'**
+  String get settings;
 
-  /// No description provided for @allOrders.
+  /// No description provided for @shoesAndBags.
   ///
   /// In en, this message translates to:
-  /// **'All Orders'**
-  String get allOrders;
+  /// **'Shoes and Bags'**
+  String get shoesAndBags;
 
-  /// No description provided for @inProgressOrders.
+  /// No description provided for @skip.
   ///
   /// In en, this message translates to:
-  /// **'In Progress'**
-  String get inProgressOrders;
+  /// **'Skip'**
+  String get skip;
 
-  /// No description provided for @order.
+  /// No description provided for @streetNumber.
   ///
   /// In en, this message translates to:
-  /// **'Order'**
-  String get order;
+  /// **'Street Number'**
+  String get streetNumber;
 
-  /// No description provided for @completed.
+  /// No description provided for @success.
   ///
   /// In en, this message translates to:
-  /// **'Completed'**
-  String get completed;
+  /// **'Success'**
+  String get success;
+
+  /// No description provided for @successDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'We will contact you soon'**
+  String get successDescription;
+
+  /// No description provided for @time.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get time;
+
+  /// No description provided for @uae.
+  ///
+  /// In en, this message translates to:
+  /// **'UAE'**
+  String get uae;
+
+  /// No description provided for @username.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get username;
+
+  /// No description provided for @validEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid Email'**
+  String get validEmail;
+
+  /// No description provided for @welcomeToAonk.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Aonk'**
+  String get welcomeToAonk;
+
+  /// No description provided for @whatIsAonk.
+  ///
+  /// In en, this message translates to:
+  /// **'What is Aonk?'**
+  String get whatIsAonk;
+
+  static AppLocalizations? of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  }
 }
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
+
+  @override
+  bool isSupported(Locale locale) =>
+      <String>['ar', 'en'].contains(locale.languageCode);
 
   @override
   Future<AppLocalizations> load(Locale locale) {
@@ -597,25 +657,5 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['ar', 'en'].contains(locale.languageCode);
-
-  @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
-}
-
-AppLocalizations lookupAppLocalizations(Locale locale) {
-
-
-  // Lookup logic when only language code is specified.
-  switch (locale.languageCode) {
-    case 'ar': return AppLocalizationsAr();
-    case 'en': return AppLocalizationsEn();
-  }
-
-  throw FlutterError(
-    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
-  );
 }

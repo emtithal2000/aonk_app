@@ -139,7 +139,7 @@ class _DriverPageState extends State<DriverPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Name: ${provider.donations[index].name}',
+                                    '${AppLocalizations.of(context)!.name}: ${provider.donations[index].name}',
                                     style: TextStyle(
                                       fontSize: height(12),
                                       fontFamily: 'Marhey',
@@ -147,7 +147,7 @@ class _DriverPageState extends State<DriverPage> {
                                   ),
                                   Gap(height(5)),
                                   Text(
-                                    ' Date: ${provider.donations[index].deliveryDate}',
+                                    '${AppLocalizations.of(context)!.date}: ${provider.donations[index].deliveryDate}',
                                     style: TextStyle(
                                       fontSize: height(10),
                                       fontFamily: 'Marhey',
@@ -155,7 +155,7 @@ class _DriverPageState extends State<DriverPage> {
                                   ),
                                   Gap(height(5)),
                                   Text(
-                                    'Time: ${provider.donations[index].deliveryTime}',
+                                    '${AppLocalizations.of(context)!.time}: ${provider.donations[index].deliveryTime}',
                                     style: TextStyle(
                                       fontSize: height(10),
                                       fontFamily: 'Marhey',
@@ -192,8 +192,9 @@ class _DriverPageState extends State<DriverPage> {
                                                             .check_circle_outline_rounded,
                                                         color:
                                                             Color(0xff52b8a0)),
-                                                    title:
-                                                        const Text('Received'),
+                                                    title: Text(AppLocalizations
+                                                        .of(context)!
+                                                        .received),
                                                     onTap: () =>
                                                         Navigator.pop(context),
                                                   ),
@@ -201,8 +202,9 @@ class _DriverPageState extends State<DriverPage> {
                                                     leading: const Icon(
                                                         Icons.pending_actions,
                                                         color: Colors.black),
-                                                    title:
-                                                        const Text('Postponed'),
+                                                    title: Text(AppLocalizations
+                                                          .of(context)!
+                                                          .postponed),
                                                     onTap: () =>
                                                         Navigator.pop(context),
                                                   ),
@@ -210,8 +212,9 @@ class _DriverPageState extends State<DriverPage> {
                                                     leading: const Icon(
                                                         Icons.cancel_outlined,
                                                         color: Colors.red),
-                                                    title:
-                                                        const Text('Cancelled'),
+                                                    title: Text(AppLocalizations
+                                                            .of(context)!
+                                                            .cancelled),
                                                     onTap: () =>
                                                         Navigator.pop(context),
                                                   ),
@@ -219,8 +222,9 @@ class _DriverPageState extends State<DriverPage> {
                                                     leading: const Icon(
                                                         Icons.pending_outlined,
                                                         color: Colors.blueGrey),
-                                                    title: const Text(
-                                                        'No response'),
+                                                    title: Text(AppLocalizations
+                                                        .of(context)!
+                                                        .noResponse),
                                                     onTap: () =>
                                                         Navigator.pop(context),
                                                   ),

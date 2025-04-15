@@ -11,6 +11,21 @@ class DriverProvider extends ChangeNotifier {
 
   List<CustomerDonation> donations = [];
 
+  Future<void> getDonations(String driverName) async {
+    try {
+      final response = await Dio().get(
+          'https://api.aonk.app/customer_donations?driver_name=$driverName');
+
+      final jsonData = response.data['driver_donations'] as List<dynamic>;
+
+      donations = jsonData.map((e) => CustomerDonation.fromJson(e)).toList();
+
+      notifyListeners();
+    } on DioException catch (e) {
+      log(e.response?.data.toString() ?? 'No response data');
+    }
+  }
+
   Future<bool> login() async {
     try {
       final response = await Dio().post(
@@ -29,21 +44,6 @@ class DriverProvider extends ChangeNotifier {
       return false;
     } on DioException catch (_) {
       return false;
-    }
-  }
-
-  Future<void> getDonations(String driverName) async {
-    try {
-      final response = await Dio().get(
-          'https://api.aonk.app/customer_donations?driver_name=$driverName');
-
-      final jsonData = response.data['driver_donations'] as List<dynamic>;
-
-      donations = jsonData.map((e) => CustomerDonation.fromJson(e)).toList();
-
-      notifyListeners();
-    } on DioException catch (e) {
-      log(e.response?.data.toString() ?? 'No response data');
     }
   }
 }

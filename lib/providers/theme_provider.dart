@@ -13,4 +13,4 @@ class ThemeProvider extends ChangeNotifier {
     _storage.write(_key, !isDarkMode);
     notifyListeners();
   }
-} 
+}

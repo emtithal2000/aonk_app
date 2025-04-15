@@ -82,5 +82,14 @@
     "inProgressOrders":"In Progress",
     "order":"Order",
     "completed":"Completed",
-    "orderStatus":"Order Status"
+    "orderStatus":"Order Status",
+    "date:"Date",
+    "time:":"Time",
+    "received":"Received",
+    "postponed":"Postponed",
+    "cancelled":"Cancelled",
+    "noResponse":"No Response"
+    
+
+    
 } 
