@@ -10,7 +10,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 
 Widget customButton(BuildContext context, PagesProvider provider,
     Function() onPressed, String title) {
@@ -131,10 +130,9 @@ class PagesProvider extends ChangeNotifier {
 
       final formData = FormData.fromMap({
         "charity_name": selectedCharity,
-        "donation_types": selected.toString(),
+        "donation_types": selected,
         "donation_image": MultipartFile.fromBytes(imageBytes,
             filename: 'image_${image?.path.split('/').last}.jpg'),
-        "date": DateFormat('dd-MM-yyyy').format(DateTime.now()),
         "country": storage['country'],
         "city": storage['city'],
         "name": storage['name'],
@@ -147,16 +145,18 @@ class PagesProvider extends ChangeNotifier {
         "gift_phone": controllers[6].text,
       });
 
+      log(formData.toString());
       // Uncomment and update the API endpoint when ready
-      await Dio().post(
-        'https://api.aonk.app/customer_donations',
-        data: formData,
-        options: Options(
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        ),
-      );
+      // await Dio().post(
+      //   'https://api.aonk.app/customer_donations',
+      //   data: formData,
+      //   options: Options(
+      //     headers: {
+      //       'Content-Type': 'multipart/form-data',
+      //     },
+      //   ),
+      // );
+      log('Donation posted successfully');
     } on DioException catch (e) {
       log(e.response?.data.toString() ?? 'No response data');
       msg = e.response?.data;

@@ -25,25 +25,27 @@ class DonationImages extends StatelessWidget {
               ),
             ),
             Gap(height(15)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Provider.of<PagesProvider>(context, listen: false)
-                        .selectImage(true);
-                  },
-                  child: buildSelection('camera2'),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Provider.of<PagesProvider>(context, listen: false)
-                        .selectImage(false);
-                  },
-                  child: buildSelection('gallery'),
-                ),
-              ],
-            ),
+            provider.image != null
+                ? Text('image selected')
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Provider.of<PagesProvider>(context, listen: false)
+                              .selectImage(true);
+                        },
+                        child: buildSelection('camera2'),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Provider.of<PagesProvider>(context, listen: false)
+                              .selectImage(false);
+                        },
+                        child: buildSelection('gallery'),
+                      ),
+                    ],
+                  ),
             Gap(height(15)),
             customButton(context, provider, () {
               if (provider.image != null) {
