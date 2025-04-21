@@ -271,4 +271,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noResponse => 'عدم الرد';
+
+  @override
+  String get send => 'ارسال';
 }

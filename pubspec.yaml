@@ -32,9 +32,9 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  intl: ^0.19.0
+  intl: 
   get_storage:
-  # geolocator:
+
   dio:
   url_launcher:
   image_picker:
@@ -49,6 +49,7 @@ dependencies:
   shimmer:
   sidebarx:
   clipboard:
+  intl_phone_field: ^3.2.0
 
 dev_dependencies:
   flutter_test:

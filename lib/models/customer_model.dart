@@ -1,7 +1,7 @@
 class CustomerDonation {
-  final int id;
+  final int requestId;
   final String city;
-  final String? date;
+  final String? requestDate;
   final String? deliveryDate;
   final String? deliveryStatus;
   final String? deliveryTime;
@@ -12,9 +12,9 @@ class CustomerDonation {
   final String status;
 
   CustomerDonation({
-    required this.id,
+    required this.requestId,
     required this.city,
-    this.date,
+    this.requestDate,
     this.deliveryDate,
     this.deliveryStatus,
     this.deliveryTime,
@@ -27,13 +27,14 @@ class CustomerDonation {
 
   factory CustomerDonation.fromJson(Map<String, dynamic> json) {
     return CustomerDonation(
-      id: json['id'] as int,
+      requestId: json['request_id'] as int,
       city: json['city'] as String,
-      date: json['date'] as String?,
+      requestDate: json['request_date'] as String?,
       deliveryDate: json['delivery_date'] as String?,
       deliveryStatus: json['delivery_status'] as String?,
       deliveryTime: json['delivery_time'] as String?,
-      donationTypes: _parseDonationTypes(json['donation_types']),
+      donationTypes:
+          (json['donation_types'] as List).map((e) => e.toString()).toList(),
       driverName: json['driver_name'] as String?,
       name: json['name'] as String,
       phone: json['phone'] as String,
@@ -54,5 +55,21 @@ class CustomerDonation {
       // Return empty list if parsing fails
       return [];
     }
+  }
+}
+
+class DriverDonationsResponse {
+  final List<CustomerDonation> driverDonations;
+
+  DriverDonationsResponse({
+    required this.driverDonations,
+  });
+
+  factory DriverDonationsResponse.fromJson(Map<String, dynamic> json) {
+    return DriverDonationsResponse(
+      driverDonations: (json['driver_donations'] as List)
+          .map((e) => CustomerDonation.fromJson(e))
+          .toList(),
+    );
   }
 }

@@ -78,6 +78,8 @@ List<String> contactLinks = [
   'https://twitter.com/example',
 ];
 
+final Map<String, String> countryPhoneCodes = {'Oman': '+968', 'Qatar': '+974'};
+
 List<String> donationImage = [
   'assets/images/camera.png',
   'assets/images/gallery.png',
@@ -87,7 +89,6 @@ List<String> donationPhoto = [
   'كاميرا',
   'الاستوديو',
 ];
-
 List<String> donationType = [
   'هدية عن شخص',
   'شخصي',
@@ -108,6 +109,7 @@ final List<String> images = [
   'd2.png',
   'd3.png',
 ];
+
 List<String> personalInfo = [
   'الاسم',
   'رقم الهاتف',

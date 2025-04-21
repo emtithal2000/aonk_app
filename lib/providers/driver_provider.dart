@@ -29,7 +29,7 @@ class DriverProvider extends ChangeNotifier {
   Future<bool> login() async {
     try {
       final response = await Dio().post(
-        'https://api.aonk.app/drivers',
+        'https://api.aonk.app/driver/login',
         data: {
           'username': username.text,
           'password': password.text,

@@ -271,4 +271,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noResponse => 'No Response';
+
+  @override
+  String get send => 'Send';
 }
