@@ -89,6 +89,6 @@
     "postponed":"تاجيل",
     "cancelled":"الغاء",
     "noResponse":"عدم الرد",
-    "send":"ارسال"
-    
+    "send":"ارسال",
+    "comingSoon": "قريباً"
 }

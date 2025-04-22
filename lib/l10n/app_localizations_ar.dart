@@ -274,4 +274,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get send => 'ارسال';
+
+  @override
+  String get comingSoon => 'قريباً';
 }

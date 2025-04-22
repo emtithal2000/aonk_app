@@ -1,7 +1,7 @@
+import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
@@ -29,9 +29,30 @@ class DonationType extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    provider.setGift();
-                    provider.setDonationType('gift');
-                    provider.nextPage(false);
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text(
+                          AppLocalizations.of(context)!.comingSoon,
+                          style: TextStyle(
+                            fontSize: width(16),
+                            fontFamily: 'Marhey',
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text(
+                              AppLocalizations.of(context)!.ok,
+                              style: TextStyle(
+                                fontSize: width(14),
+                                fontFamily: 'Marhey',
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
                   },
                   child: buildSelection(context, 'gift'),
                 ),
