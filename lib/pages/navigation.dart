@@ -1,3 +1,4 @@
+import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/location.dart';
 import 'package:aonk_app/pages/customer_info.dart';
 import 'package:aonk_app/pages/home.dart';
@@ -5,7 +6,6 @@ import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/sub_pages/drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';

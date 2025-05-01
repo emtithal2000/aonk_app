@@ -201,9 +201,9 @@ class Login extends StatelessWidget {
                       onTap: () {
                         final localeProvider = context.read<LocaleProvider>();
                         if (localeProvider.locale.languageCode == 'ar') {
-                          localeProvider.setLocale(const Locale('en'));
+                          localeProvider.setLocale(const Locale('en'), context);
                         } else {
-                          localeProvider.setLocale(const Locale('ar'));
+                          localeProvider.setLocale(const Locale('ar'), context);
                         }
                       },
                       borderRadius: BorderRadius.circular(10),

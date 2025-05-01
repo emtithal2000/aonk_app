@@ -1,9 +1,9 @@
+import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/sub_pages/association_info.dart';
 import 'package:flutter/material.dart';
-import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -56,7 +56,13 @@ class _HomeState extends State<Home> {
                           SizedBox(
                             width: width(120),
                             child: Text(
-                              provider.charities[index].charityName,
+                              context
+                                          .watch<LocaleProvider>()
+                                          .locale
+                                          .languageCode ==
+                                      'ar'
+                                  ? provider.charities[index].charityAr
+                                  : provider.charities[index].charityEn,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -76,7 +82,7 @@ class _HomeState extends State<Home> {
                               heroTag: null,
                               onPressed: () {
                                 provider.setCharity(
-                                    provider.charities[index].charityName);
+                                    provider.charities[index].charityEn);
                                 showDialog(
                                   context: context,
                                   builder: (dialogContext) =>
@@ -84,7 +90,15 @@ class _HomeState extends State<Home> {
                                     builder: (_, dialogProvider, __) =>
                                         AlertDialog(
                                       title: Text(
-                                        provider.charities[index].charityName,
+                                        context
+                                                    .watch<LocaleProvider>()
+                                                    .locale
+                                                    .languageCode ==
+                                                'ar'
+                                            ? provider
+                                                .charities[index].charityAr
+                                            : provider
+                                                .charities[index].charityEn,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: width(20),
@@ -129,7 +143,7 @@ class _HomeState extends State<Home> {
                                     builder: (_, dialogProvider, __) {
                                       return AlertDialog(
                                         title: Text(
-                                          provider.charities[index].charityName,
+                                          provider.charities[index].charityEn,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontSize: height(22),
@@ -169,6 +183,12 @@ class _HomeState extends State<Home> {
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<PagesProvider>(context, listen: false).getCharities();
+  }
+
   Widget _buildShimmerLoading() {
     return Column(
       children: [
@@ -186,8 +206,7 @@ class _HomeState extends State<Home> {
             shrinkWrap: true,
             itemBuilder: (context, index) => Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,      
-                     
+              highlightColor: Colors.grey[100]!,
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -239,11 +258,5 @@ class _HomeState extends State<Home> {
         ),
       ],
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<PagesProvider>(context, listen: false).getCharities();
   }
 }

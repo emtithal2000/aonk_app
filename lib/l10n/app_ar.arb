@@ -90,5 +90,10 @@
     "cancelled":"الغاء",
     "noResponse":"عدم الرد",
     "send":"ارسال",
-    "comingSoon": "قريباً"
+    "comingSoon": "قريباً",
+    "imageSelected": "تم اختيار الصورة",
+    "alert":"تنبيه",
+    "alert2":"هل انت متاكد من حذف الحساب؟",
+    "cancel":"الغاء",
+    "deleteAccount":"حذف الحساب"
 }

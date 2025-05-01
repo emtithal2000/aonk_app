@@ -90,8 +90,10 @@
     "cancelled":"Cancelled",
     "noResponse":"No Response",
     "send":"Send",
-    "comingSoon":"Coming Soon"
-    
-
-    
+    "comingSoon":"Coming Soon",
+    "imageSelected": "Image Selected",
+    "alert":"Alert",
+    "alert2":"Are you soure want to delete this account?",
+    "cancel":"Cancel",
+    "deleteAccount":"Delete Account"
 } 

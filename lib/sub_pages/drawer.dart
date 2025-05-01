@@ -138,15 +138,17 @@ Drawer buildDrawer(BuildContext context) {
                           borderRadius: BorderRadius.circular(25),
                         ),
                         title: Text(
-                          'تنبيه',
+                          AppLocalizations.of(context)!.alert,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Color(0xff52b8a0),
+                            fontWeight: FontWeight.bold,
                             fontFamily: 'Marhey',
+                            fontSize: height(20),
                           ),
                         ),
                         content: Text(
-                          'هل أنت متأكد من حذف الحساب؟',
+                          AppLocalizations.of(context)!.alert2,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'Marhey',
@@ -168,10 +170,11 @@ Drawer buildDrawer(BuildContext context) {
                               );
                             },
                             child: Text(
-                              'نعم',
+                              AppLocalizations.of(context)!.deleteAccount,
                               style: TextStyle(
-                                color: Color(0xff52b8a0),
+                                color: Colors.red,
                                 fontFamily: 'Marhey',
+                                fontSize: height(12),
                               ),
                             ),
                           ),
@@ -180,10 +183,11 @@ Drawer buildDrawer(BuildContext context) {
                               Navigator.pop(context); // Close dialog
                             },
                             child: Text(
-                              'لا',
+                              AppLocalizations.of(context)!.cancel,
                               style: TextStyle(
-                                color: Colors.red,
+                                color: Color(0xff52b8a0),
                                 fontFamily: 'Marhey',
+                                fontSize: height(12),
                               ),
                             ),
                           ),
@@ -193,7 +197,7 @@ Drawer buildDrawer(BuildContext context) {
                   );
                 },
                 heroTag: null,
-                tooltip: 'Delete Account',
+                tooltip: AppLocalizations.of(context)!.deleteAccount,
                 backgroundColor: Color(0xff84beb0),
                 child: Icon(
                   Icons.logout,
@@ -321,7 +325,8 @@ void showSettingsDialog(BuildContext context) {
                       value: localeProvider.locale.languageCode == 'ar',
                       onChanged: (value) {
                         localeProvider.setLocale(
-                            value ? const Locale('ar') : const Locale('en'));
+                            value ? const Locale('ar') : const Locale('en'),
+                            context);
                       },
                       activeColor: ThemeColors.accentColor,
                     ),

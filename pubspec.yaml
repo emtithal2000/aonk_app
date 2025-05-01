@@ -34,11 +34,12 @@ dependencies:
     sdk: flutter
   intl: 
   get_storage:
-
+  location:
   dio:
   url_launcher:
   image_picker:
   sliding_clipped_nav_bar:
+  app_settings:
   awesome_dialog:
   flutter_launcher_icons:
   cupertino_icons:

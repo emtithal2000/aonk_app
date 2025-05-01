@@ -277,4 +277,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get comingSoon => 'Coming Soon';
+
+  @override
+  String get imageSelected => 'Image Selected';
+
+  @override
+  String get alert => 'Alert';
+
+  @override
+  String get alert2 => 'Are you soure want to delete this account?';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get deleteAccount => 'Delete Account';
 }

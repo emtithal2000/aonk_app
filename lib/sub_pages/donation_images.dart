@@ -1,8 +1,8 @@
+import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +26,7 @@ class DonationImages extends StatelessWidget {
             ),
             Gap(height(15)),
             provider.image != null
-                ? Text('image selected')
+                ? Text(AppLocalizations.of(context)!.imageSelected)
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [

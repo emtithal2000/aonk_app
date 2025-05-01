@@ -277,4 +277,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get comingSoon => 'قريباً';
+
+  @override
+  String get imageSelected => 'تم اختيار الصورة';
+
+  @override
+  String get alert => 'تنبيه';
+
+  @override
+  String get alert2 => 'هل انت متاكد من حذف الحساب؟';
+
+  @override
+  String get cancel => 'الغاء';
+
+  @override
+  String get deleteAccount => 'حذف الحساب';
 }

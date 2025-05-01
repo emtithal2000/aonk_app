@@ -49,7 +49,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Request permissions first, then proceed with navigation
+    _initializeLocation();
+  }
+
+  Future<void> _initializeLocation() async {
     if (mounted) {
       Future.delayed(
         const Duration(seconds: 3),

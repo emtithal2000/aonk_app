@@ -1,16 +1,22 @@
 class Charity {
   final int charityId;
-  final String charityName;
+  final String charityAr;
+  final String charityEn;
   final String contactPhone;
+  final String country;
   final String description;
+  final bool isnamed;
   final String logo;
   final String website;
 
   Charity({
     required this.charityId,
-    required this.charityName,
+    required this.charityAr,
+    required this.charityEn,
     required this.contactPhone,
+    required this.country,
     required this.description,
+    required this.isnamed,
     required this.logo,
     required this.website,
   });
@@ -18,9 +24,12 @@ class Charity {
   factory Charity.fromJson(Map<String, dynamic> json) {
     return Charity(
       charityId: json['charity_id'],
-      charityName: json['charity_name'],
+      charityAr: json['charity_ar'],
+      charityEn: json['charity_en'],
       contactPhone: json['contact_phone'],
+      country: json['country'],
       description: json['description'],
+      isnamed: json['isnamed'],
       logo: json['logo'],
       website: json['website'],
     );
@@ -29,9 +38,12 @@ class Charity {
   Map<String, dynamic> toJson() {
     return {
       'charity_id': charityId,
-      'charity_name': charityName,
+      'charity_ar': charityAr,
+      'charity_en': charityEn,
       'contact_phone': contactPhone,
+      'country': country,
       'description': description,
+      'isnamed': isnamed,
       'logo': logo,
       'website': website,
     };

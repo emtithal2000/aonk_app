@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:aonk_app/models/charities_model.dart';
 import 'package:aonk_app/size_config.dart';
+import 'package:aonk_app/static_values.dart';
 import 'package:aonk_app/sub_pages/donation_details.dart';
 import 'package:aonk_app/sub_pages/donation_images.dart';
 import 'package:aonk_app/sub_pages/donation_type.dart';
@@ -10,6 +11,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:location/location.dart';
 
 Widget customButton(BuildContext context, PagesProvider provider,
     Function() onPressed, String title) {
@@ -54,6 +56,7 @@ class PagesProvider extends ChangeNotifier {
   String? selectedDonationType;
   String? selectedGiftName;
   String? selectedGiftPhone;
+  String? locationData;
   bool isGift = false;
 
   String msg = '';
@@ -105,6 +108,49 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<String> getCitiesForCountry(String? country, BuildContext context) {
+    if (country == null) return [];
+    final locale = Localizations.localeOf(context);
+    final cities = countryCities[country]?[locale.languageCode] ?? [];
+    return cities;
+  }
+
+  List<String> getLocalizedCountryNames(BuildContext context) {
+    final locale = Localizations.localeOf(context);
+    return countryNames.keys
+        .map((country) => countryNames[country]![locale.languageCode]!)
+        .toList();
+  }
+
+  Future<bool> getLocation() async {
+    Location location = Location();
+
+    bool serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        return false;
+      }
+    }
+
+    PermissionStatus permissionGranted = await location.hasPermission();
+    while (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted == PermissionStatus.granted) {
+        break;
+      }
+    }
+
+    try {
+      locationData = await location.getLocation().then((value) {
+        return '${value.latitude},${value.longitude}';
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   void jumpToPage(int page) {
     pageIndex = page;
     pageController.jumpToPage(page);
@@ -141,22 +187,25 @@ class PagesProvider extends ChangeNotifier {
         "street": storage['street'],
         "building": storage['building'],
         "gift": isGift,
+        "location": storage['location'],
         "gift_name": controllers[5].text,
         "gift_phone": controllers[6].text,
+        "created_by": storage['name'],
       });
 
-      log(formData.toString());
+      // log(formData.fields.toString());
+
       // Uncomment and update the API endpoint when ready
-      // await Dio().post(
-      //   'https://api.aonk.app/customer_donations',
-      //   data: formData,
-      //   options: Options(
-      //     headers: {
-      //       'Content-Type': 'multipart/form-data',
-      //     },
-      //   ),
-      // );
-      log('Donation posted successfully');
+      await Dio().post(
+        'https://api.aonk.app/customer_donations',
+        data: formData,
+        options: Options(
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        ),
+      );
+      // log('Donation posted successfully');
     } on DioException catch (e) {
       log(e.response?.data.toString() ?? 'No response data');
       msg = e.response?.data;
@@ -220,6 +269,7 @@ class PagesProvider extends ChangeNotifier {
 
   void setCountry(String country) {
     selectedCountry = country;
+    selectedCity = null;
     notifyListeners();
   }
 
