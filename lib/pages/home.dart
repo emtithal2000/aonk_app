@@ -143,7 +143,15 @@ class _HomeState extends State<Home> {
                                     builder: (_, dialogProvider, __) {
                                       return AlertDialog(
                                         title: Text(
-                                          provider.charities[index].charityEn,
+                                          context
+                                                      .watch<LocaleProvider>()
+                                                      .locale
+                                                      .languageCode ==
+                                                  'ar'
+                                              ? provider
+                                                  .charities[index].charityAr
+                                              : provider
+                                                  .charities[index].charityEn,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontSize: height(22),

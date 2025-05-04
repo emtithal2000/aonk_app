@@ -1,7 +1,9 @@
 import 'package:aonk_app/models/charities_model.dart';
+import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -17,7 +19,9 @@ class AssociationInfo extends StatelessWidget {
         children: [
           Center(
             child: Text(
-              charity.description,
+              context.watch<LocaleProvider>().locale.languageCode == 'ar'
+                  ? charity.descriptionAr
+                  : charity.descriptionEn,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: width(19),

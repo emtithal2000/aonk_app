@@ -4,7 +4,8 @@ class Charity {
   final String charityEn;
   final String contactPhone;
   final String country;
-  final String description;
+  final String descriptionAr;
+  final String descriptionEn;
   final bool isnamed;
   final String logo;
   final String website;
@@ -15,7 +16,8 @@ class Charity {
     required this.charityEn,
     required this.contactPhone,
     required this.country,
-    required this.description,
+    required this.descriptionAr,
+    required this.descriptionEn,
     required this.isnamed,
     required this.logo,
     required this.website,
@@ -28,7 +30,8 @@ class Charity {
       charityEn: json['charity_en'],
       contactPhone: json['contact_phone'],
       country: json['country'],
-      description: json['description'],
+      descriptionAr: json['description_ar'],
+      descriptionEn: json['description_en'],
       isnamed: json['isnamed'],
       logo: json['logo'],
       website: json['website'],
@@ -42,7 +45,8 @@ class Charity {
       'charity_en': charityEn,
       'contact_phone': contactPhone,
       'country': country,
-      'description': description,
+      'description_ar': descriptionAr,
+      'description_en': descriptionEn,
       'isnamed': isnamed,
       'logo': logo,
       'website': website,
