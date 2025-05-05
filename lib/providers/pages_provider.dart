@@ -111,7 +111,16 @@ class PagesProvider extends ChangeNotifier {
   List<String> getCitiesForCountry(String? country, BuildContext context) {
     if (country == null) return [];
     final locale = Localizations.localeOf(context);
-    final cities = countryCities[country]?[locale.languageCode] ?? [];
+
+    // Convert country name to code (Oman/Qatar)
+    String countryCode = countryNames.entries
+        .firstWhere(
+          (entry) => entry.value[locale.languageCode] == country,
+          orElse: () => MapEntry('Oman', {'en': 'Oman', 'ar': 'سلطنة عمان'}),
+        )
+        .key;
+
+    final cities = countryCities[countryCode]?[locale.languageCode] ?? [];
     return cities;
   }
 
@@ -176,7 +185,7 @@ class PagesProvider extends ChangeNotifier {
 
       final formData = FormData.fromMap({
         "charity_name": selectedCharity,
-        "donation_types": selected,
+        "types": selected,
         "donation_image": MultipartFile.fromBytes(imageBytes,
             filename: 'image_${image?.path.split('/').last}.jpg'),
         "country": storage['country'],
@@ -191,9 +200,11 @@ class PagesProvider extends ChangeNotifier {
         "gift_name": controllers[5].text,
         "gift_phone": controllers[6].text,
         "created_by": storage['name'],
+        "request_date": DateTime.now(),
       });
 
-      // log(formData.fields.toString());
+      // log(DateTime.now().toString());
+      // log(DateTime.timestamp().toString());
 
       // Uncomment and update the API endpoint when ready
       await Dio().post(
@@ -205,7 +216,7 @@ class PagesProvider extends ChangeNotifier {
           },
         ),
       );
-      // log('Donation posted successfully');
+      log('Donation posted successfully');
     } on DioException catch (e) {
       log(e.response?.data.toString() ?? 'No response data');
       msg = e.response?.data;

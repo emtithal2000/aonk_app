@@ -66,10 +66,32 @@ class Login extends StatelessWidget {
             child: Form(
               key: provider.formKey,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 spacing: height(10),
                 children: [
+                  Gap(height(5)),
+                  Align(
+                    alignment:
+                        context.watch<LocaleProvider>().locale.languageCode ==
+                                'ar'
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        context.watch<LocaleProvider>().locale.languageCode ==
+                                'ar'
+                            ? IconsaxPlusBroken.arrow_right_3
+                            : IconsaxPlusBroken.arrow_left_2,
+                        color: const Color(0xff84beb0),
+                        size: height(35),
+                      ),
+                    ),
+                  ),
+                  Gap(height(120)),
                   SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.only(

@@ -64,7 +64,7 @@ class CustomerInfo extends StatelessWidget {
                                     );
                                   }).toList(),
                                   onSelected: (value) {
-                                    provider.setCity(value);
+                                    provider.setCountry(value);
                                   },
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(
