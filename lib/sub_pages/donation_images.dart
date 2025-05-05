@@ -25,56 +25,61 @@ class DonationImages extends StatelessWidget {
               ),
             ),
             Gap(height(15)),
-            provider.image != null
-                ? Text(AppLocalizations.of(context)!.imageSelected)
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Provider.of<PagesProvider>(context, listen: false)
-                              .selectImage(true);
-                        },
-                        child: buildSelection('camera2'),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Provider.of<PagesProvider>(context, listen: false)
-                              .selectImage(false);
-                        },
-                        child: buildSelection('gallery'),
-                      ),
-                    ],
-                  ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Provider.of<PagesProvider>(context, listen: false)
+                        .selectImage(true);
+                  },
+                  child: buildSelection('camera2'),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Provider.of<PagesProvider>(context, listen: false)
+                        .selectImage(false);
+                  },
+                  child: buildSelection('gallery'),
+                ),
+              ],
+            ),
             Gap(height(15)),
-            customButton(context, provider, () {
-              if (provider.image != null) {
-                provider.postDonation().whenComplete(() {
-                  if (context.mounted) {
-                    AwesomeDialog(
-                      context: context,
-                      dialogType: provider.image == null
-                          ? DialogType.error
-                          : DialogType.success,
-                      animType: AnimType.rightSlide,
-                      title: provider.image == null
-                          ? AppLocalizations.of(context)!.error
-                          : AppLocalizations.of(context)!.success,
-                      desc: provider.image == null
-                          ? AppLocalizations.of(context)!.errorDescription
-                          : AppLocalizations.of(context)!.successDescription,
-                      titleTextStyle: const TextStyle(fontFamily: 'Marhey'),
-                      descTextStyle: const TextStyle(fontFamily: 'Marhey'),
-                      buttonsTextStyle: const TextStyle(fontFamily: 'Marhey'),
-                      btnOkText: AppLocalizations.of(context)!.ok,
-                      btnOkOnPress: () {
-                        Navigator.pop(context);
-                      },
-                    ).show();
-                  }
-                });
-              }
-            }, AppLocalizations.of(context)!.next),
+            provider.image != null
+                ? customButton(context, provider, () {
+                    if (provider.image != null) {
+                      provider.postDonation().whenComplete(() {
+                        if (context.mounted) {
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: provider.image == null
+                                ? DialogType.error
+                                : DialogType.success,
+                            animType: AnimType.rightSlide,
+                            title: provider.image == null
+                                ? AppLocalizations.of(context)!.error
+                                : AppLocalizations.of(context)!.success,
+                            desc: provider.image == null
+                                ? AppLocalizations.of(context)!.errorDescription
+                                : AppLocalizations.of(context)!
+                                    .successDescription,
+                            titleTextStyle:
+                                const TextStyle(fontFamily: 'Marhey'),
+                            descTextStyle:
+                                const TextStyle(fontFamily: 'Marhey'),
+                            buttonsTextStyle:
+                                const TextStyle(fontFamily: 'Marhey'),
+                            btnOkText: AppLocalizations.of(context)!.ok,
+                            btnOkOnPress: () {
+                              Navigator.pop(context);
+                            },
+                          ).show();
+                        }
+                      });
+                    }
+                  }, AppLocalizations.of(context)!.next)
+                : const SizedBox(),
+
             // Gap(height(15)),
             // customButton(context, provider, () {
             //   AwesomeDialog(

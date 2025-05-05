@@ -25,6 +25,7 @@ class DonationType extends StatelessWidget {
             ),
             Gap(height(15)),
             Row(
+              spacing: width(15),
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(

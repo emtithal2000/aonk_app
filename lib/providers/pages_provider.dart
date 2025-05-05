@@ -9,6 +9,7 @@ import 'package:aonk_app/sub_pages/donation_type.dart';
 import 'package:aonk_app/sub_pages/gift.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
@@ -257,11 +258,22 @@ class PagesProvider extends ChangeNotifier {
     await ImagePicker()
         .pickImage(
       source: isCamera ? ImageSource.camera : ImageSource.gallery,
-      imageQuality: 50,
+      imageQuality: 100,
     )
-        .then((value) {
+        .then((value) async {
       if (value != null) {
-        image = value;
+        final result = await FlutterImageCompress.compressAndGetFile(
+          value.path,
+          '${value.path}_compressed.jpg',
+          quality: 60,
+          minWidth: 1080,
+          minHeight: 1080,
+          format: CompressFormat.jpeg,
+          keepExif: false,
+        );
+        if (result != null) {
+          image = XFile(result.path);
+        }
       }
     }).whenComplete(() {});
 
