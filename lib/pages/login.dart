@@ -105,18 +105,15 @@ class Login extends StatelessWidget {
                           Text(
                             AppLocalizations.of(context)!.welcomeToAonk,
                             style: TextStyle(
-                              fontSize: height(22),
-                              fontFamily: 'Marhey',
-                              fontWeight: FontWeight.bold,
-                              color: const Color(0xff52b8a0),
+                              color: Colors.white,
+                              fontSize: 20,
                             ),
                           ),
                           Text(
                             AppLocalizations.of(context)!.login,
                             style: TextStyle(
-                              fontSize: height(19),
-                              fontFamily: 'Marhey',
-                              color: const Color(0xff52b8a0),
+                              color: Colors.white,
+                              fontSize: 16,
                             ),
                           ),
                           Gap(height(50)),
@@ -204,7 +201,6 @@ class Login extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: height(18),
                                   color: Colors.white,
-                                  fontFamily: 'Marhey',
                                 ),
                               ),
                             ),

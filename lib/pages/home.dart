@@ -67,7 +67,6 @@ class _HomeState extends State<Home> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: height(12),
-                                fontFamily: 'Marhey',
                                 color: const Color.fromARGB(181, 0, 0, 0),
                                 fontWeight: FontWeight.bold,
                               ),
@@ -103,7 +102,6 @@ class _HomeState extends State<Home> {
                                         style: TextStyle(
                                           fontSize: width(20),
                                           fontWeight: FontWeight.bold,
-                                          fontFamily: 'Marhey',
                                         ),
                                       ),
                                       content: dialogProvider
@@ -156,7 +154,6 @@ class _HomeState extends State<Home> {
                                           style: TextStyle(
                                             fontSize: height(22),
                                             fontWeight: FontWeight.bold,
-                                            fontFamily: 'Marhey',
                                             color: const Color(0xff81bdaf),
                                           ),
                                         ),

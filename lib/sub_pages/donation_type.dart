@@ -20,7 +20,6 @@ class DonationType extends StatelessWidget {
               style: TextStyle(
                 fontSize: width(15),
                 fontWeight: FontWeight.w500,
-                fontFamily: 'Marhey',
               ),
             ),
             Gap(height(15)),
@@ -37,7 +36,6 @@ class DonationType extends StatelessWidget {
                           AppLocalizations.of(context)!.comingSoon,
                           style: TextStyle(
                             fontSize: width(16),
-                            fontFamily: 'Marhey',
                           ),
                         ),
                         actions: [
@@ -47,7 +45,6 @@ class DonationType extends StatelessWidget {
                               AppLocalizations.of(context)!.ok,
                               style: TextStyle(
                                 fontSize: width(14),
-                                fontFamily: 'Marhey',
                               ),
                             ),
                           ),
@@ -102,7 +99,6 @@ class DonationType extends StatelessWidget {
               : AppLocalizations.of(context)!.personalDonation,
           style: TextStyle(
             fontSize: height(14),
-            fontFamily: 'Marhey',
             color: Colors.black.withOpacity(0.7),
           ),
         ),

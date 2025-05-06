@@ -23,7 +23,6 @@ class Gift extends StatelessWidget {
                   fontSize: width(15),
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF81bdaf),
-                  fontFamily: 'Marhey',
                 ),
               ),
               Gap(height(15)),

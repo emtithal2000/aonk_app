@@ -100,7 +100,6 @@ class AboutUs extends StatelessWidget {
                                 fontSize: width(23),
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'Marhey',
                               ),
                             ),
                             const TextSpan(text: '\n'),
@@ -111,7 +110,6 @@ class AboutUs extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: height(18),
                                 color: const Color(0xff84beb0),
-                                fontFamily: 'Marhey',
                               ),
                             ),
                             const TextSpan(

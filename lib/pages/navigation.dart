@@ -43,7 +43,6 @@ class Navigation extends StatelessWidget {
               AppLocalizations.of(context)!.appbarTitle,
               style: TextStyle(
                 fontSize: height(23),
-                fontFamily: 'Marhey',
                 color: Colors.white,
               ),
             ),

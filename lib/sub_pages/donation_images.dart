@@ -21,7 +21,6 @@ class DonationImages extends StatelessWidget {
               style: TextStyle(
                 fontSize: width(15),
                 fontWeight: FontWeight.w500,
-                fontFamily: 'Marhey',
               ),
             ),
             Gap(height(15)),

@@ -19,7 +19,6 @@ class NotificationsPage extends StatelessWidget {
         title: Text(
           'الاشعارات',
           style: TextStyle(
-            fontFamily: 'Marhey',
             color: const Color(0xff81bdaf),
             fontSize: height(25),
             fontWeight: FontWeight.bold,

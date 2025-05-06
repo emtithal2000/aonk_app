@@ -40,15 +40,12 @@ class _DriverPageState extends State<DriverPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-             
                   Gap(height(100)),
                   Text(
                     AppLocalizations.of(context)!.orders,
                     style: TextStyle(
-                      fontSize: height(22),
-                      fontFamily: 'Marhey',
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xff52b8a0),
+                      color: Colors.white,
+                      fontSize: 20,
                     ),
                   ),
                   Gap(height(15)),
@@ -123,9 +120,8 @@ class _DriverPageState extends State<DriverPage> {
                           title: Text(
                             '${AppLocalizations.of(context)!.order} ${provider.donations[index].requestId}',
                             style: TextStyle(
-                              fontSize: height(14),
-                              fontFamily: 'Marhey',
-                              color: const Color(0xff52b8a0),
+                              color: Colors.white,
+                              fontSize: 16,
                             ),
                           ),
                           shape: RoundedRectangleBorder(
@@ -143,24 +139,24 @@ class _DriverPageState extends State<DriverPage> {
                                   Text(
                                     '${AppLocalizations.of(context)!.name}: ${provider.donations[index].name}',
                                     style: TextStyle(
-                                      fontSize: height(12),
-                                      fontFamily: 'Marhey',
+                                      color: Colors.white,
+                                      fontSize: 16,
                                     ),
                                   ),
                                   Gap(height(5)),
                                   Text(
                                     '${AppLocalizations.of(context)!.date}: ${provider.donations[index].deliveryDate}',
                                     style: TextStyle(
-                                      fontSize: height(10),
-                                      fontFamily: 'Marhey',
+                                      color: Colors.white,
+                                      fontSize: 16,
                                     ),
                                   ),
                                   Gap(height(5)),
                                   Text(
                                     '${AppLocalizations.of(context)!.time}: ${provider.donations[index].deliveryTime}',
                                     style: TextStyle(
-                                      fontSize: height(10),
-                                      fontFamily: 'Marhey',
+                                      color: Colors.white,
+                                      fontSize: 16,
                                     ),
                                   ),
                                   Gap(height(10)),
@@ -181,7 +177,6 @@ class _DriverPageState extends State<DriverPage> {
                                                 AppLocalizations.of(context)!
                                                     .orderStatus,
                                                 style: const TextStyle(
-                                                  fontFamily: 'Marhey',
                                                   color: Color(0xff52b8a0),
                                                 ),
                                               ),

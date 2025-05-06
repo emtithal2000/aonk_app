@@ -28,8 +28,7 @@ class NotificationScreen extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   icon: Icon(
-                    context.watch<LocaleProvider>().locale.languageCode ==
-                            'ar'
+                    context.watch<LocaleProvider>().locale.languageCode == 'ar'
                         ? IconsaxPlusBroken.arrow_left_2
                         : IconsaxPlusBroken.arrow_right_3,
                     color: const Color(0xff84beb0),
@@ -53,10 +52,8 @@ class NotificationScreen extends StatelessWidget {
                   TextSpan(
                     text: AppLocalizations.of(context)!.notifications,
                     style: TextStyle(
-                      fontSize: height(25),
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Marhey',
+                      color: Colors.white,
+                      fontSize: 20,
                     ),
                   ),
                   const TextSpan(
@@ -68,7 +65,6 @@ class NotificationScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: height(24),
                       color: Colors.black,
-                      fontFamily: 'Marhey',
                     ),
                   ),
                 ],

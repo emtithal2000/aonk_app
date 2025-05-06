@@ -48,7 +48,6 @@ Drawer buildDrawer(BuildContext context) {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: height(20),
-                    fontFamily: 'Marhey',
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -76,15 +75,11 @@ Drawer buildDrawer(BuildContext context) {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xff52b8a0),
-                      fontFamily: 'Marhey',
                     ),
                   ),
                   content: Text(
                     AppLocalizations.of(context)!.loyaltyProgramSoon,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Marhey',
-                    ),
                   ),
                 );
               },
@@ -104,15 +99,11 @@ Drawer buildDrawer(BuildContext context) {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xff52b8a0),
-                      fontFamily: 'Marhey',
                     ),
                   ),
                   content: Text(
                     AppLocalizations.of(context)!.orderStatusSoon,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Marhey',
-                    ),
                   ),
                 );
               },
@@ -143,16 +134,12 @@ Drawer buildDrawer(BuildContext context) {
                           style: TextStyle(
                             color: Color(0xff52b8a0),
                             fontWeight: FontWeight.bold,
-                            fontFamily: 'Marhey',
                             fontSize: height(20),
                           ),
                         ),
                         content: Text(
                           AppLocalizations.of(context)!.alert2,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Marhey',
-                          ),
                         ),
                         actionsAlignment: MainAxisAlignment.spaceEvenly,
                         actions: [
@@ -173,7 +160,6 @@ Drawer buildDrawer(BuildContext context) {
                               AppLocalizations.of(context)!.deleteAccount,
                               style: TextStyle(
                                 color: Colors.red,
-                                fontFamily: 'Marhey',
                                 fontSize: height(12),
                               ),
                             ),
@@ -186,7 +172,6 @@ Drawer buildDrawer(BuildContext context) {
                               AppLocalizations.of(context)!.cancel,
                               style: TextStyle(
                                 color: Color(0xff52b8a0),
-                                fontFamily: 'Marhey',
                                 fontSize: height(12),
                               ),
                             ),
@@ -221,7 +206,6 @@ ListTile drawerItems(
     title: Text(
       title,
       style: TextStyle(
-        fontFamily: 'Marhey',
         color: ThemeColors.getTextColor(context),
       ),
     ),
@@ -252,7 +236,6 @@ void showSettingsDialog(BuildContext context) {
           textAlign: TextAlign.center,
           style: TextStyle(
             color: ThemeColors.getDialogTitleColor(context),
-            fontFamily: 'Marhey',
             fontSize: height(18),
           ),
         ),
@@ -301,7 +284,6 @@ void showSettingsDialog(BuildContext context) {
                   child: Text(
                     AppLocalizations.of(context)!.language,
                     style: TextStyle(
-                      fontFamily: 'Marhey',
                       color: ThemeColors.getTextColor(context),
                       fontSize: height(14),
                       fontWeight: FontWeight.bold,
@@ -316,7 +298,6 @@ void showSettingsDialog(BuildContext context) {
                           ? 'عربي'
                           : 'English',
                       style: TextStyle(
-                        fontFamily: 'Marhey',
                         color: ThemeColors.getTextColor(context),
                         fontSize: height(12),
                       ),

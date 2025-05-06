@@ -21,7 +21,6 @@ class DonationDetails extends StatelessWidget {
               style: TextStyle(
                 fontSize: width(15),
                 fontWeight: FontWeight.bold,
-                fontFamily: 'Marhey',
                 color: provider.selected.isEmpty
                     ? const Color(0xFF81bdaf)
                     : const Color(0xFF81bdaf),

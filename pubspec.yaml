@@ -46,6 +46,7 @@ dependencies:
   gap:
   provider:
   iconsax_plus:
+  google_fonts:
   lottie: 
   shimmer:
   sidebarx:

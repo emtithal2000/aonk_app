@@ -6,7 +6,7 @@ import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/static_values.dart';
-import 'package:aonk_app/value.dart' as StaticValues;
+import 'package:aonk_app/value.dart' as staticvalues;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
@@ -130,7 +130,6 @@ class _FirstTimeState extends State<FirstTime> {
                                 AppLocalizations.of(context)!.welcomeToAonk,
                                 style: TextStyle(
                                   fontSize: height(22),
-                                  fontFamily: 'Marhey',
                                   fontWeight: FontWeight.bold,
                                   color: const Color(0xff52b8a0),
                                 ),
@@ -139,7 +138,6 @@ class _FirstTimeState extends State<FirstTime> {
                                 AppLocalizations.of(context)!.enterYourData,
                                 style: TextStyle(
                                   fontSize: height(19),
-                                  fontFamily: 'Marhey',
                                   color: const Color(0xff52b8a0),
                                 ),
                               ),
@@ -389,7 +387,6 @@ class _FirstTimeState extends State<FirstTime> {
                                     style: TextStyle(
                                       fontSize: height(18),
                                       color: Colors.white,
-                                      fontFamily: 'Marhey',
                                     ),
                                   ),
                                 ),
@@ -429,9 +426,8 @@ class _FirstTimeState extends State<FirstTime> {
                                           ? 'English'
                                           : 'Arabic',
                                       style: TextStyle(
-                                        fontFamily: 'Marhey',
-                                        fontSize: height(14),
                                         color: const Color(0xff52b8a0),
+                                        fontSize: height(14),
                                       ),
                                     ),
                                   ),
@@ -454,7 +450,7 @@ class _FirstTimeState extends State<FirstTime> {
 
   String? getPhoneCodeForCountry(String? country) {
     if (country == null) return '';
-    return StaticValues.countryPhoneCodes[country] ?? '';
+    return staticvalues.countryPhoneCodes[country] ?? '';
   }
 
   @override

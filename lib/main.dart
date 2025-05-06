@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -31,7 +32,7 @@ void main() async {
       ],
       child: const MyApp(),
     ),
-      );
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -60,7 +61,10 @@ class _MyAppState extends State<MyApp> {
           themeMode: ThemeMode.light,
           theme: ThemeData(
             useMaterial3: true,
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
+            fontFamily:
+                context.watch<LocaleProvider>().locale.languageCode == 'ar'
+                    ? GoogleFonts.tajawal().fontFamily
+                    : GoogleFonts.ubuntu().fontFamily,
           ),
           darkTheme: ThemeData(
             useMaterial3: true,

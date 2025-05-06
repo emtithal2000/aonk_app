@@ -26,7 +26,6 @@ Widget customButton(BuildContext context, PagesProvider provider,
         title,
         style: TextStyle(
           fontSize: width(15),
-          fontFamily: 'Marhey',
         ),
       ),
     ),
