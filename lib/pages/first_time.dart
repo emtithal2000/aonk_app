@@ -216,49 +216,54 @@ class _FirstTimeState extends State<FirstTime> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
-                                child: SizedBox(
-                                  height: height(50),
-                                  child: TextFormField(
-                                    controller: provider.controllers[1],
-                                    keyboardType:
-                                        TextInputType.numberWithOptions(
-                                            decimal: false, signed: false),
-                                    maxLength: 8,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly
-                                    ],
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      hintText: AppLocalizations.of(context)!
-                                          .phoneNumber,
-                                      hintStyle: TextStyle(
-                                        color: const Color(0xff84beb0),
-                                        fontSize: height(16),
-                                      ),
-                                      prefixIcon: Icon(
-                                        IconsaxPlusBroken.call,
-                                        color: const Color(0xff52b8a0),
-                                      ),
-                                      fillColor: Colors.white,
-                                      filled: true,
-                                      isDense: true,
-                                      counterText: '',
+                                child: TextFormField(
+                                  controller: provider.controllers[1],
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    LengthLimitingTextInputFormatter(8),
+                                  ],
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
                                     ),
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.phoneNumber}';
-                                      }
-                                      if (value.length < 8) {
-                                        return '${AppLocalizations.of(context)!.phoneNumber} must be at least 8 digits';
-                                      }
-                                      return null;
-                                    },
-                                    onChanged: (value) {},
+                                    hintText: AppLocalizations.of(context)!
+                                        .phoneNumber,
+                                    hintStyle: TextStyle(
+                                      color: const Color(0xff84beb0),
+                                      fontSize: height(16),
+                                    ),
+                                    prefixIcon: Icon(
+                                      IconsaxPlusBroken.call,
+                                      color: const Color(0xff52b8a0),
+                                    ),
+                                    prefixText: provider.selectedCountry !=
+                                                null ||
+                                            provider
+                                                .controllers[1].text.isNotEmpty
+                                        ? '${getPhoneCodeForCountry(provider.selectedCountry)} '
+                                        : '',
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.always,
+                                    prefixStyle: TextStyle(
+                                      color: const Color(0xff52b8a0),
+                                      fontSize: height(16),
+                                    ),
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    isDense: true,
+                                    counterText: '',
                                   ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.phoneNumber}';
+                                    }
+                                    if (value.length < 8) {
+                                      return '${AppLocalizations.of(context)!.phoneNumber} must be at least 8 digits';
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (value) {},
                                 ),
                               ),
                               Card(
@@ -272,15 +277,13 @@ class _FirstTimeState extends State<FirstTime> {
                                   controller: provider.controllers[2],
                                   keyboardType: TextInputType.emailAddress,
                                   validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.email}';
+                                    if (value != null && value.isNotEmpty) {
+                                      if (!RegExp(
+                                              r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                          .hasMatch(value)) {
+                                        return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.validEmail}';
+                                      }
                                     }
-                                    if (!RegExp(
-                                            r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                        .hasMatch(value)) {
-                                      return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.validEmail}';
-                                    }
-
                                     return null;
                                   },
                                   decoration: inputDecoration(
@@ -300,12 +303,6 @@ class _FirstTimeState extends State<FirstTime> {
                                   autovalidateMode: AutovalidateMode.onUnfocus,
                                   controller: provider.controllers[3],
                                   keyboardType: TextInputType.number,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.streetNumber}';
-                                    }
-                                    return null;
-                                  },
                                   decoration: inputDecoration(
                                     context,
                                     AppLocalizations.of(context)!.streetNumber,
@@ -323,12 +320,6 @@ class _FirstTimeState extends State<FirstTime> {
                                   controller: provider.controllers[4],
                                   autovalidateMode: AutovalidateMode.onUnfocus,
                                   keyboardType: TextInputType.number,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.buildingNumber}';
-                                    }
-                                    return null;
-                                  },
                                   decoration: inputDecoration(
                                     context,
                                     AppLocalizations.of(context)!

@@ -37,8 +37,8 @@
     "whatIsAonk": "What is Aonk?",
     "aonkDescription": "Smart app to get rid of everything that is old and surplus",
     "aonkDescription2": "You can get rid of everything that is old and surplus",
-    "aonkDescription3": "Like clothes and shoes and bags and curtains and blankets and cushions and children's toys and kitchenware and books and novels and electronic devices",
-    "aonkDescription4": "For the good of the associations in Oman, our goal is to ",
+    "aonkDescription3": "Like clothes , shoes , bags , curtains , blankets , cushions , children's toys , kitchenware , books , novels and electronic devices",
+    "aonkDescription4": "For the good of the associations in Oman, our goal is  ",
     "aonkDescription5": "To raise your information about us, you can browse our social media sites",
     "notifications": "Notifications",
     "notificationsDescription": "No notifications found",
@@ -95,5 +95,6 @@
     "alert":"Alert",
     "alert2":"Are you soure want to delete this account?",
     "cancel":"Cancel",
-    "deleteAccount":"Delete Account"
+    "deleteAccount":"Delete Account",
+    "editSuccessfully":"Edit Successfully"
 } 

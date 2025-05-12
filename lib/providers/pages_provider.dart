@@ -67,29 +67,13 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String changer(String country) {
-    String result = '';
-    switch (country) {
-      case 'قطر':
-        result = 'Qatar';
-        break;
-      case 'الكويت':
-        result = 'Kuwait';
-        break;
-      default:
-        result = 'Oman';
-        break;
-    }
-    return result;
-  }
-
   void clearCharities() {
     charities.clear();
     notifyListeners();
   }
 
   Future<void> getCharities() async {
-    final country = changer(GetStorage().read('userData')['country']);
+    final country = GetStorage().read('userData')['country'];
 
     try {
       final response = await Dio().get(
@@ -111,16 +95,7 @@ class PagesProvider extends ChangeNotifier {
   List<String> getCitiesForCountry(String? country, BuildContext context) {
     if (country == null) return [];
     final locale = Localizations.localeOf(context);
-
-    // Convert country name to code (Oman/Qatar)
-    String countryCode = countryNames.entries
-        .firstWhere(
-          (entry) => entry.value[locale.languageCode] == country,
-          orElse: () => MapEntry('Oman', {'en': 'Oman', 'ar': 'سلطنة عمان'}),
-        )
-        .key;
-
-    final cities = countryCities[countryCode]?[locale.languageCode] ?? [];
+    final cities = countryCities[country]?[locale.languageCode] ?? [];
     return cities;
   }
 

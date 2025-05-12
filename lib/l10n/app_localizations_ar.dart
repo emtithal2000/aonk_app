@@ -292,4 +292,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get deleteAccount => 'حذف الحساب';
+
+  @override
+  String get editSuccessfully => 'تم التعديل بنجاح';
 }

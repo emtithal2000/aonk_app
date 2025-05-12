@@ -1,8 +1,10 @@
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/providers/driver_provider.dart';
+import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,14 +26,14 @@ class _DriverPageState extends State<DriverPage> {
             height: double.infinity,
             width: double.infinity,
             padding: EdgeInsets.symmetric(
-              horizontal: width(30),
+              horizontal: width(20),
             ),
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: const AssetImage('assets/images/aonk-background.png'),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                  Colors.white.withOpacity(0.8),
+                  Colors.white.withOpacity(0.9),
                   BlendMode.srcOver,
                 ),
               ),
@@ -40,12 +42,34 @@ class _DriverPageState extends State<DriverPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Gap(height(100)),
+                  Gap(height(15)),
+                  Align(
+                    alignment:
+                        context.watch<LocaleProvider>().locale.languageCode ==
+                                'ar'
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        context.watch<LocaleProvider>().locale.languageCode ==
+                                'ar'
+                            ? IconsaxPlusBroken.arrow_right_3
+                            : IconsaxPlusBroken.arrow_left_2,
+                        color: const Color(0xff84beb0),
+                        size: height(30),
+                      ),
+                    ),
+                  ),
+                  Gap(height(50)),
                   Text(
                     AppLocalizations.of(context)!.orders,
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
+                      color: Color(0xff52b8a0),
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   Gap(height(15)),
@@ -120,8 +144,9 @@ class _DriverPageState extends State<DriverPage> {
                           title: Text(
                             '${AppLocalizations.of(context)!.order} ${provider.donations[index].requestId}',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Color(0xff52b8a0),
                               fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           shape: RoundedRectangleBorder(
@@ -139,7 +164,7 @@ class _DriverPageState extends State<DriverPage> {
                                   Text(
                                     '${AppLocalizations.of(context)!.name}: ${provider.donations[index].name}',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: Color(0xff52b8a0),
                                       fontSize: 16,
                                     ),
                                   ),
@@ -147,15 +172,7 @@ class _DriverPageState extends State<DriverPage> {
                                   Text(
                                     '${AppLocalizations.of(context)!.date}: ${provider.donations[index].deliveryDate}',
                                     style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  Gap(height(5)),
-                                  Text(
-                                    '${AppLocalizations.of(context)!.time}: ${provider.donations[index].deliveryTime}',
-                                    style: TextStyle(
-                                      color: Colors.white,
+                                      color: Color(0xff52b8a0),
                                       fontSize: 16,
                                     ),
                                   ),
@@ -183,58 +200,138 @@ class _DriverPageState extends State<DriverPage> {
                                               content: Column(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
-                                                  ListTile(
-                                                    leading: const Icon(
-                                                        Icons
-                                                            .check_circle_outline_rounded,
-                                                        color:
-                                                            Color(0xff52b8a0)),
-                                                    title: Text(
-                                                        AppLocalizations.of(
-                                                                context)!
-                                                            .received),
-                                                    onTap: () =>
-                                                        Navigator.pop(context),
+                                                  SizedBox(
+                                                    height: height(200),
+                                                    width: double.infinity,
+                                                    child: ListView.builder(
+                                                      padding: EdgeInsets.zero,
+                                                      itemCount: 4,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        final status =
+                                                            DonationStatus
+                                                                .values[index];
+                                                        final isSelected = provider
+                                                                .selectedStatus ==
+                                                            status;
+
+                                                        return Container(
+                                                          margin: EdgeInsets
+                                                              .symmetric(
+                                                                  vertical: 4),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: isSelected
+                                                                ? Color(0xff52b8a0)
+                                                                    .withOpacity(
+                                                                        0.1)
+                                                                : Colors
+                                                                    .transparent,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8),
+                                                            border: Border.all(
+                                                              color: isSelected
+                                                                  ? Color(
+                                                                      0xff52b8a0)
+                                                                  : Colors.grey
+                                                                      .withOpacity(
+                                                                          0.3),
+                                                              width: 1,
+                                                            ),
+                                                          ),
+                                                          child: ListTile(
+                                                            leading: Icon(
+                                                              status.icon,
+                                                              color:
+                                                                  status.color,
+                                                            ),
+                                                            title: Text(
+                                                              status
+                                                                  .displayName,
+                                                              style: TextStyle(
+                                                                color: isSelected
+                                                                    ? Color(
+                                                                        0xff52b8a0)
+                                                                    : Colors
+                                                                        .black,
+                                                                fontWeight: isSelected
+                                                                    ? FontWeight
+                                                                        .bold
+                                                                    : FontWeight
+                                                                        .normal,
+                                                              ),
+                                                            ),
+                                                            onTap: () {
+                                                              provider
+                                                                  .setSelectedStatus(
+                                                                      status);
+                                                            },
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
                                                   ),
-                                                  ListTile(
-                                                    leading: const Icon(
-                                                        Icons.pending_actions,
-                                                        color: Colors.black),
-                                                    title: Text(
-                                                        AppLocalizations.of(
-                                                                context)!
-                                                            .postponed),
-                                                    onTap: () =>
-                                                        Navigator.pop(context),
-                                                  ),
-                                                  ListTile(
-                                                    leading: const Icon(
-                                                        Icons.cancel_outlined,
-                                                        color: Colors.red),
-                                                    title: Text(
-                                                        AppLocalizations.of(
-                                                                context)!
-                                                            .cancelled),
-                                                    onTap: () =>
-                                                        Navigator.pop(context),
-                                                  ),
-                                                  ListTile(
-                                                    leading: const Icon(
-                                                        Icons.pending_outlined,
-                                                        color: Colors.blueGrey),
-                                                    title: Text(
-                                                        AppLocalizations.of(
-                                                                context)!
-                                                            .noResponse),
-                                                    onTap: () =>
-                                                        Navigator.pop(context),
-                                                  ),
+                                                  Gap(height(10)),
                                                   ElevatedButton(
-                                                    onPressed: () {},
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          Color(0xff52b8a0),
+                                                      minimumSize: Size(
+                                                          double.infinity, 40),
+                                                    ),
+                                                    onPressed: () async {
+                                                      if (provider
+                                                              .selectedStatus !=
+                                                          null) {
+                                                        final success =
+                                                            await provider
+                                                                .updateDonationStatus(
+                                                          provider
+                                                              .donations[index]
+                                                              .requestId,
+                                                          provider
+                                                              .selectedStatus!,
+                                                        );
+                                                        if (success &&
+                                                            context.mounted) {
+                                                          Navigator.pop(
+                                                              context);
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            SnackBar(
+                                                              content: Text(
+                                                                  'Status updated successfully'),
+                                                              backgroundColor:
+                                                                  Colors.green,
+                                                            ),
+                                                          );
+                                                        } else if (context
+                                                            .mounted) {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            SnackBar(
+                                                              content: Text(provider
+                                                                      .error ??
+                                                                  'Failed to update status'),
+                                                              backgroundColor:
+                                                                  Colors.red,
+                                                            ),
+                                                          );
+                                                        }
+                                                      }
+                                                    },
                                                     child: Text(
-                                                        AppLocalizations.of(
-                                                                context)!
-                                                            .send),
+                                                      AppLocalizations.of(
+                                                              context)!
+                                                          .save,
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -245,12 +342,12 @@ class _DriverPageState extends State<DriverPage> {
                                       GestureDetector(
                                         onTap: () {
                                           launchUrl(Uri.parse(
-                                              'https://wa.me/${provider.donations[index].phone}'));
+                                              'https://wa.me/+96822800600'));
                                         },
                                         child: Image.asset(
                                           'assets/images/whatsapp.png',
-                                          width: width(20),
-                                          height: height(20),
+                                          width: width(25),
+                                          height: height(23),
                                         ),
                                       ),
                                     ],

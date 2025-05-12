@@ -123,10 +123,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aonkDescription2 => 'You can get rid of everything that is old and surplus';
 
   @override
-  String get aonkDescription3 => 'Like clothes and shoes and bags and curtains and blankets and cushions and children\'s toys and kitchenware and books and novels and electronic devices';
+  String get aonkDescription3 => 'Like clothes , shoes , bags , curtains , blankets , cushions , children\'s toys , kitchenware , books , novels and electronic devices';
 
   @override
-  String get aonkDescription4 => 'For the good of the associations in Oman, our goal is to ';
+  String get aonkDescription4 => 'For the good of the associations in Oman, our goal is  ';
 
   @override
   String get aonkDescription5 => 'To raise your information about us, you can browse our social media sites';
@@ -292,4 +292,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteAccount => 'Delete Account';
+
+  @override
+  String get editSuccessfully => 'Edit Successfully';
 }

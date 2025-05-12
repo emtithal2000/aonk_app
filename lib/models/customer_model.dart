@@ -4,7 +4,6 @@ class CustomerDonation {
   final String? requestDate;
   final String? deliveryDate;
   final String? deliveryStatus;
-  final String? deliveryTime;
   final List<String> donationTypes;
   final String? driverName;
   final String name;
@@ -17,7 +16,6 @@ class CustomerDonation {
     this.requestDate,
     this.deliveryDate,
     this.deliveryStatus,
-    this.deliveryTime,
     required this.donationTypes,
     this.driverName,
     required this.name,
@@ -32,7 +30,6 @@ class CustomerDonation {
       requestDate: json['request_date'] as String?,
       deliveryDate: json['delivery_date'] as String?,
       deliveryStatus: json['delivery_status'] as String?,
-      deliveryTime: json['delivery_time'] as String?,
       donationTypes:
           (json['donation_types'] as List).map((e) => e.toString()).toList(),
       driverName: json['driver_name'] as String?,
@@ -52,7 +49,6 @@ class CustomerDonation {
       // Split by comma and trim each element, handling Arabic text
       return cleanStr.split(',').map((e) => e.trim()).toList();
     } catch (e) {
-      // Return empty list if parsing fails
       return [];
     }
   }

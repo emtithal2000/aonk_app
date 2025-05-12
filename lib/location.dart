@@ -114,7 +114,7 @@ Widget buildContainer(BuildContext context, Widget child) {
         image: const AssetImage('assets/images/aonk-background.png'),
         fit: BoxFit.cover,
         colorFilter: ColorFilter.mode(
-          Colors.white.withOpacity(0.8),
+          Colors.white.withOpacity(0.9),
           BlendMode.srcOver,
         ),
       ),

@@ -35,147 +35,171 @@ class CustomerInfo extends StatelessWidget {
                           Expanded(
                             child: Card(
                               elevation: 2,
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: size * 0.025),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: PopupMenuButton<String>(
-                                  offset: Offset(0, size * 0.1),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  itemBuilder: (context) => provider
-                                      .getLocalizedCountryNames(
-                                    context,
-                                  )
-                                      .map((String item) {
-                                    return PopupMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: TextStyle(
-                                          fontSize: size * 0.035,
-                                          color: const Color(0xff52b8a0),
+                              child: FormField<String>(
+                                builder: (state) => Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: size * 0.025),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: PopupMenuButton<String>(
+                                        offset: Offset(0, size * 0.1),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                        itemBuilder: (context) => provider
+                                            .getLocalizedCountryNames(
+                                          context,
+                                        )
+                                            .map((String item) {
+                                          return PopupMenuItem<String>(
+                                            value: item,
+                                            child: Text(
+                                              item,
+                                              style: TextStyle(
+                                                fontSize: size * 0.035,
+                                                color: const Color(0xff52b8a0),
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                        onSelected: (value) {
+                                          provider.setCountry(value);
+                                          state.didChange(value);
+                                        },
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: size * 0.035),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                width: size * 0.35,
+                                                child: Text(
+                                                  provider.selectedCountry ??
+                                                      AppLocalizations.of(
+                                                              context)!
+                                                          .country,
+                                                  style: TextStyle(
+                                                    color:
+                                                        const Color(0xff84beb0),
+                                                    fontSize: height(16),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xff52b8a0)
+                                                      .withOpacity(0.1),
+                                                  borderRadius:
+                                                      BorderRadius.circular(4),
+                                                ),
+                                                child: Icon(
+                                                  Icons
+                                                      .keyboard_arrow_down_rounded,
+                                                  color: Color(0xff52b8a0),
+                                                  size: size * 0.05,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    );
-                                  }).toList(),
-                                  onSelected: (value) {
-                                    provider.setCountry(value);
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: size * 0.035),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                          width: size * 0.35,
-                                          child: Text(
-                                            provider.selectedCountry ??
-                                                AppLocalizations.of(context)!
-                                                    .country,
-                                            style: TextStyle(
-                                              color: const Color(0xff84beb0),
-                                              fontSize: height(16),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: Color(0xff52b8a0)
-                                                .withOpacity(0.1),
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                          ),
-                                          child: Icon(
-                                            Icons.keyboard_arrow_down_rounded,
-                                            color: Color(0xff52b8a0),
-                                            size: size * 0.05,
-                                          ),
-                                        ),
-                                      ],
                                     ),
-                                  ),
+                                  ],
                                 ),
                               ),
                             ),
                           ),
                           Expanded(
-                            child: Card(
-                              elevation: 2,
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: size * 0.025),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: PopupMenuButton<String>(
-                                  offset: Offset(0, size * 0.1),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  itemBuilder: (context) => provider
-                                      .getCitiesForCountry(
-                                    provider.selectedCountry,
-                                    context,
-                                  )
-                                      .map((String item) {
-                                    return PopupMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: TextStyle(
-                                          fontSize: size * 0.035,
-                                          color: const Color(0xff52b8a0),
+                            child: FormField<String>(
+                              builder: (state) => Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Card(
+                                    elevation: 2,
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: size * 0.025),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: PopupMenuButton<String>(
+                                        offset: Offset(0, size * 0.1),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                        itemBuilder: (context) => provider
+                                            .getCitiesForCountry(
+                                          provider.selectedCountry,
+                                          context,
+                                        )
+                                            .map((String item) {
+                                          return PopupMenuItem<String>(
+                                            value: item,
+                                            child: Text(
+                                              item,
+                                              style: TextStyle(
+                                                fontSize: size * 0.035,
+                                                color: const Color(0xff52b8a0),
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                        onSelected: (value) {
+                                          provider.setCity(value);
+                                          state.didChange(value);
+                                        },
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: size * 0.035),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                width: size * 0.35,
+                                                child: Text(
+                                                  provider.selectedCity ??
+                                                      AppLocalizations.of(
+                                                              context)!
+                                                          .city,
+                                                  style: TextStyle(
+                                                    color:
+                                                        const Color(0xff84beb0),
+                                                    fontSize: height(16),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xff52b8a0)
+                                                      .withOpacity(0.1),
+                                                  borderRadius:
+                                                      BorderRadius.circular(4),
+                                                ),
+                                                child: Icon(
+                                                  Icons
+                                                      .keyboard_arrow_down_rounded,
+                                                  color: Color(0xff52b8a0),
+                                                  size: size * 0.05,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    );
-                                  }).toList(),
-                                  onSelected: (value) {
-                                    provider.setCity(value);
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: size * 0.035),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                          width: size * 0.35,
-                                          child: Text(
-                                            provider.selectedCity ??
-                                                AppLocalizations.of(context)!
-                                                    .city,
-                                            style: TextStyle(
-                                              color: const Color(0xff84beb0),
-                                              fontSize: height(16),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: Color(0xff52b8a0)
-                                                .withOpacity(0.1),
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                          ),
-                                          child: Icon(
-                                            Icons.keyboard_arrow_down_rounded,
-                                            color: Color(0xff52b8a0),
-                                            size: size * 0.05,
-                                          ),
-                                        ),
-                                      ],
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
                             ),
                           ),
@@ -236,14 +260,12 @@ class CustomerInfo extends StatelessWidget {
                           controller: provider.controllers[2],
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.email}';
+                            if (value != null && value.isNotEmpty) {
+                              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                  .hasMatch(value)) {
+                                return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.validEmail}';
+                              }
                             }
-                            if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                .hasMatch(value)) {
-                              return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.validEmail}';
-                            }
-
                             return null;
                           },
                           decoration: inputDecoration(
@@ -263,12 +285,6 @@ class CustomerInfo extends StatelessWidget {
                           controller: provider.controllers[3],
                           autovalidateMode: AutovalidateMode.onUnfocus,
                           keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.streetNumber}';
-                            }
-                            return null;
-                          },
                           decoration: inputDecoration(
                             context,
                             AppLocalizations.of(context)!.streetNumber,
@@ -286,12 +302,6 @@ class CustomerInfo extends StatelessWidget {
                           controller: provider.controllers[4],
                           autovalidateMode: AutovalidateMode.onUnfocus,
                           keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.buildingNumber}';
-                            }
-                            return null;
-                          },
                           decoration: inputDecoration(
                             context,
                             AppLocalizations.of(context)!.buildingNumber,
@@ -318,6 +328,28 @@ class CustomerInfo extends StatelessWidget {
                               });
                               Provider.of<PagesProvider>(context, listen: false)
                                   .clearCharities();
+
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  content: Text(
+                                    AppLocalizations.of(context)!
+                                        .editSuccessfully,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text(
+                                        AppLocalizations.of(context)!.ok,
+                                        style: TextStyle(
+                                          color: const Color(0xff81bdaf),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
                             }
                           },
                           backgroundColor: const Color(0xff81bdaf),

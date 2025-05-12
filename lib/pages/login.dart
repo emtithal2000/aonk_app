@@ -47,7 +47,6 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: Consumer<DriverProvider>(
         builder: (_, provider, __) {
           return Container(
@@ -58,7 +57,7 @@ class Login extends StatelessWidget {
                 image: const AssetImage('assets/images/aonk-background.png'),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                  Colors.white.withOpacity(0.8),
+                  Colors.white.withOpacity(0.9),
                   BlendMode.srcOver,
                 ),
               ),
@@ -87,159 +86,171 @@ class Login extends StatelessWidget {
                             ? IconsaxPlusBroken.arrow_right_3
                             : IconsaxPlusBroken.arrow_left_2,
                         color: const Color(0xff84beb0),
-                        size: height(35),
+                        size: height(30),
                       ),
                     ),
                   ),
                   Gap(height(120)),
-                  SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        left: width(30),
-                        right: width(30),
-                        bottom: MediaQuery.of(context).viewInsets.bottom +
-                            height(20),
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!.welcomeToAonk,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                            ),
-                          ),
-                          Text(
-                            AppLocalizations.of(context)!.login,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                          Gap(height(50)),
-                          Card(
-                            elevation: 3,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: TextFormField(
-                              controller: provider.username,
-                              autovalidateMode: AutovalidateMode.onUnfocus,
-                              keyboardType: TextInputType.name,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.username}';
-                                }
-                                return null;
-                              },
-                              decoration: inputDecoration(
-                                context,
-                                AppLocalizations.of(context)!.username,
-                                IconsaxPlusBroken.user,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: width(30),
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.welcomeToAonk,
+                              style: TextStyle(
+                                color: Color(0xff52b8a0),
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
                               ),
-                              onChanged: (value) {},
                             ),
-                          ),
-                          Card(
-                            elevation: 3,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: TextFormField(
-                              autovalidateMode: AutovalidateMode.onUnfocus,
-                              controller: provider.password,
-                              keyboardType: TextInputType.number,
-                              obscureText: true,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.password}';
-                                }
-                                return null;
-                              },
-                              decoration: inputDecoration(
-                                context,
-                                AppLocalizations.of(context)!.password,
-                                IconsaxPlusBroken.lock,
+                            Text(
+                              AppLocalizations.of(context)!.login,
+                              style: TextStyle(
+                                color: Color(0xff52b8a0),
+                                fontSize: 20,
                               ),
-                              onChanged: (value) {},
                             ),
-                          ),
-                          Gap(height(25)),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: FloatingActionButton(
-                              heroTag: null,
-                              onPressed: () async {
-                                if (provider.formKey.currentState!.validate()) {
-                                  provider.login().then(
-                                    (value) {
-                                      if (context.mounted) {
-                                        if (value) {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DriverPage(),
-                                              ));
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                                  content: Text(
-                                                      'Invalid Username/Password!')));
-                                        }
-                                      }
-                                    },
-                                  );
-                                }
-                              },
-                              backgroundColor: const Color(0xff81bdaf),
+                            Gap(height(50)),
+                            Card(
+                              elevation: 3,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
-                              child: Text(
-                                AppLocalizations.of(context)!.loginButton,
-                                style: TextStyle(
-                                  fontSize: height(18),
-                                  color: Colors.white,
+                              child: TextFormField(
+                                controller: provider.username,
+                                autovalidateMode: AutovalidateMode.onUnfocus,
+                                keyboardType: TextInputType.name,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.username}';
+                                  }
+                                  return null;
+                                },
+                                decoration: inputDecoration(
+                                  context,
+                                  AppLocalizations.of(context)!.username,
+                                  IconsaxPlusBroken.user,
+                                ),
+                                onChanged: (value) {},
+                              ),
+                            ),
+                            Card(
+                              elevation: 3,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: TextFormField(
+                                autovalidateMode: AutovalidateMode.onUnfocus,
+                                controller: provider.password,
+                                keyboardType: TextInputType.number,
+                                obscureText: true,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.password}';
+                                  }
+                                  return null;
+                                },
+                                decoration: inputDecoration(
+                                  context,
+                                  AppLocalizations.of(context)!.password,
+                                  IconsaxPlusBroken.lock,
+                                ),
+                                onChanged: (value) {},
+                              ),
+                            ),
+                            Gap(height(25)),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: FloatingActionButton(
+                                heroTag: null,
+                                onPressed: () async {
+                                  if (provider.formKey.currentState!
+                                      .validate()) {
+                                    provider.login().then(
+                                      (value) {
+                                        if (context.mounted) {
+                                          if (value) {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      DriverPage(),
+                                                ));
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    'Invalid Username/Password!'),
+                                              ),
+                                            );
+                                          }
+                                        }
+                                      },
+                                    );
+                                  }
+                                },
+                                backgroundColor: const Color(0xff81bdaf),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Text(
+                                  AppLocalizations.of(context)!.loginButton,
+                                  style: TextStyle(
+                                    fontSize: height(18),
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Card(
-                    elevation: 2,
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        final localeProvider = context.read<LocaleProvider>();
-                        if (localeProvider.locale.languageCode == 'ar') {
-                          localeProvider.setLocale(const Locale('en'), context);
-                        } else {
-                          localeProvider.setLocale(const Locale('ar'), context);
-                        }
-                      },
-                      borderRadius: BorderRadius.circular(10),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: width(16),
-                          vertical: height(8),
-                        ),
-                        child: Text(
-                          context.watch<LocaleProvider>().locale.languageCode ==
-                                  'ar'
-                              ? 'Enlish'
-                              : 'Arabic',
-                          style: TextStyle(
-                            fontFamily: 'Marhey',
-                            fontSize: height(14),
-                            color: const Color(0xff52b8a0),
-                          ),
+                            Gap(height(30)),
+                            Card(
+                              elevation: 2,
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: InkWell(
+                                onTap: () {
+                                  final localeProvider =
+                                      context.read<LocaleProvider>();
+                                  if (localeProvider.locale.languageCode ==
+                                      'ar') {
+                                    localeProvider.setLocale(
+                                        const Locale('en'), context);
+                                  } else {
+                                    localeProvider.setLocale(
+                                        const Locale('ar'), context);
+                                  }
+                                },
+                                borderRadius: BorderRadius.circular(10),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: width(16),
+                                    vertical: height(8),
+                                  ),
+                                  child: Text(
+                                    context
+                                                .watch<LocaleProvider>()
+                                                .locale
+                                                .languageCode ==
+                                            'ar'
+                                        ? 'Enlish'
+                                        : 'Arabic',
+                                    style: TextStyle(
+                                      fontFamily: 'Marhey',
+                                      fontSize: height(14),
+                                      color: const Color(0xff52b8a0),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

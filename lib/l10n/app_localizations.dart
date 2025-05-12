@@ -326,13 +326,13 @@ abstract class AppLocalizations {
   /// No description provided for @aonkDescription3.
   ///
   /// In en, this message translates to:
-  /// **'Like clothes and shoes and bags and curtains and blankets and cushions and children\'s toys and kitchenware and books and novels and electronic devices'**
+  /// **'Like clothes , shoes , bags , curtains , blankets , cushions , children\'s toys , kitchenware , books , novels and electronic devices'**
   String get aonkDescription3;
 
   /// No description provided for @aonkDescription4.
   ///
   /// In en, this message translates to:
-  /// **'For the good of the associations in Oman, our goal is to '**
+  /// **'For the good of the associations in Oman, our goal is  '**
   String get aonkDescription4;
 
   /// No description provided for @aonkDescription5.
@@ -664,6 +664,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete Account'**
   String get deleteAccount;
+
+  /// No description provided for @editSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Successfully'**
+  String get editSuccessfully;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

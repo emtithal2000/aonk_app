@@ -78,6 +78,28 @@ class DonationImages extends StatelessWidget {
                     }
                   }, AppLocalizations.of(context)!.next)
                 : const SizedBox(),
+            Gap(height(15)),
+            customButton(context, provider, () {
+              provider.image = null; // Clear any selected image
+              provider.postDonation().whenComplete(() {
+                if (context.mounted) {
+                  AwesomeDialog(
+                    context: context,
+                    dialogType: DialogType.success,
+                    animType: AnimType.rightSlide,
+                    title: AppLocalizations.of(context)!.success,
+                    desc: AppLocalizations.of(context)!.successDescription,
+                    titleTextStyle: const TextStyle(fontFamily: 'Marhey'),
+                    descTextStyle: const TextStyle(fontFamily: 'Marhey'),
+                    buttonsTextStyle: const TextStyle(fontFamily: 'Marhey'),
+                    btnOkText: AppLocalizations.of(context)!.ok,
+                    btnOkOnPress: () {
+                      Navigator.pop(context);
+                    },
+                  ).show();
+                }
+              });
+            }, AppLocalizations.of(context)!.skip),
 
             // Gap(height(15)),
             // customButton(context, provider, () {

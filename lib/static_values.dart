@@ -5,8 +5,8 @@ final Map<String, Map<String, List<String>>> countryCities = {
       'Muscat',
       'Muttrah',
       'Bousher',
-      'Seeb',
-      'Al Amerat',
+      'Al Sīb',
+      'Al ʻAmārat',
       'Qurayyat',
 
       // Al Batinah North Governorate
@@ -18,7 +18,7 @@ final Map<String, Map<String, List<String>>> countryCities = {
       'Al Suwaiq',
 
       // Al Batinah South Governorate
-      'Rustaq',
+      'Al Rustaq',
       'Al Awabi',
       'Nakhal',
       'Wadi Al Maawil',
@@ -89,7 +89,7 @@ final Map<String, Map<String, List<String>>> countryCities = {
       'مسقط',
       'مطرح',
       'بوشر',
-      'سيب',
+      'السيب',
       'العامرات',
       'قريات',
 
@@ -102,7 +102,7 @@ final Map<String, Map<String, List<String>>> countryCities = {
       'السويق',
 
       // محافظة جنوب الباطنة
-      'رستاق',
+      'الرستاق',
       'العوابي',
       'نخل',
       'وادي المعاول',
@@ -116,8 +116,8 @@ final Map<String, Map<String, List<String>>> countryCities = {
 
       // محافظة الداخلية
       'نزوى',
-      'بهلا',
-      'آدم',
+      'بهلاء',
+      'ادم',
       'الحمراء',
       'منح',
       'إزكي',
@@ -125,10 +125,10 @@ final Map<String, Map<String, List<String>>> countryCities = {
       'سمائل',
 
       // محافظة شمال الشرقية
-      'المذاهب',
+      'المضيبي',
       'القابل',
       'إبراء',
-      'المديرب',
+      'المضيرب ',
       'دماء والطائيين',
       'صور',
       'الكامل والوافي',
@@ -144,8 +144,8 @@ final Map<String, Map<String, List<String>>> countryCities = {
       'مصيرة',
 
       // محافظة الوسطى
-      'هيما',
-      'دقم',
+      'هيماء',
+      'الدقم',
       'محوت',
       'الجازر',
       'جزر الحلانيات',
@@ -153,10 +153,10 @@ final Map<String, Map<String, List<String>>> countryCities = {
       // محافظة ظفار
       'صلالة',
       'رخيوت',
-      'دلوت',
+      'ضلكوت',
       'مرباط',
       'سدح',
-      'شليم وجزر الحلانيات',
+      'شليم',
       'طاقة',
       'ثمريت',
       'المزيونة',
@@ -164,7 +164,7 @@ final Map<String, Map<String, List<String>>> countryCities = {
 
       // محافظة مسندم
       'خصب',
-      'دبا البيعة',
+      'دبا ',
       'بخا',
       'مدحاء',
     ],

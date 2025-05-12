@@ -75,10 +75,13 @@ List<String> contactImage = [
 List<String> contactLinks = [
   'https://wa.link/a8oi1t',
   'https://www.instagram.com/aonk_app?igsh=MXV4NGtobXlyb2l0bg==',
-  'https://twitter.com/example',
+  'https://twitter.com/Aonk_app',
 ];
 
-final Map<String, String> countryPhoneCodes = {'Oman': '+968', 'Qatar': '+974'};
+final Map<String, String> countryPhoneCodes = {
+  'Oman': '(968+)',
+  'Qatar': '(974+)'
+};
 
 List<String> donationImage = [
   'assets/images/camera.png',
