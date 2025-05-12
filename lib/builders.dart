@@ -126,7 +126,7 @@ Widget buildSelectionMobile(
   return Card(
     elevation: 2,
     child: Container(
-      padding: EdgeInsets.symmetric(vertical: size * 0.025),
+      padding: EdgeInsets.symmetric(vertical: size * 0.035),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),

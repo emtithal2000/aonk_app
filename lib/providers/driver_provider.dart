@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/models/customer_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -27,13 +28,13 @@ enum DonationStatus {
   String get displayName {
     switch (this) {
       case DonationStatus.received:
-        return 'received';
+        return 'Received';
       case DonationStatus.postponed:
-        return 'postponed';
+        return 'Postponed';
       case DonationStatus.cancelled:
-        return 'cancelled';
+        return 'Cancelled';
       case DonationStatus.noResponse:
-        return 'no_response';
+        return 'No Response';
     }
   }
 
@@ -58,6 +59,21 @@ enum DonationStatus {
   }
 }
 
+// Helper function for localization
+String getDonationStatusDisplayName(
+    BuildContext context, DonationStatus status) {
+  switch (status) {
+    case DonationStatus.received:
+      return AppLocalizations.of(context)!.received;
+    case DonationStatus.postponed:
+      return AppLocalizations.of(context)!.postponed;
+    case DonationStatus.cancelled:
+      return AppLocalizations.of(context)!.cancelled;
+    case DonationStatus.noResponse:
+      return AppLocalizations.of(context)!.noResponse;
+  }
+}
+
 class DriverProvider extends ChangeNotifier {
   final username = TextEditingController();
   final password = TextEditingController();
@@ -68,9 +84,11 @@ class DriverProvider extends ChangeNotifier {
 
   bool _isLoading = false;
   String? _error;
+  String? _driverName;
 
   List<CustomerDonation> get donations => _donations;
   String? get error => _error;
+  String? get driverName => _driverName;
 
   bool get isLoading => _isLoading;
   DonationStatus? get selectedStatus => _selectedStatus;
@@ -81,15 +99,9 @@ class DriverProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  @override
-  void dispose() {
-    username.dispose();
-    password.dispose();
-    super.dispose();
-  }
-
   /// Fetches donations for a specific driver
   Future<void> getDonations(String driverName) async {
+    donations.clear();
     try {
       _isLoading = true;
       _error = null;
@@ -128,8 +140,7 @@ class DriverProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        final driverName = response.data['name'] as String;
-        await getDonations(driverName);
+        _driverName = response.data['name'] as String;
         return true;
       }
       return false;
@@ -145,51 +156,5 @@ class DriverProvider extends ChangeNotifier {
   void setSelectedStatus(DonationStatus status) {
     _selectedStatus = status;
     notifyListeners();
-  }
-
-  /// Updates the status of a donation
-  Future<bool> updateDonationStatus(
-      int requestId, DonationStatus status) async {
-    try {
-      _isLoading = true;
-      _error = null;
-      notifyListeners();
-
-      final response = await Dio().post(
-        'https://api.aonk.app/update_donation_status',
-        data: {
-          'request_id': requestId,
-          'status': status.displayName,
-        },
-      );
-
-      if (response.statusCode == 200) {
-        // Update the local donation status
-        final index = _donations.indexWhere((d) => d.requestId == requestId);
-        if (index != -1) {
-          _donations[index] = CustomerDonation(
-            requestId: _donations[index].requestId,
-            city: _donations[index].city,
-            requestDate: _donations[index].requestDate,
-            deliveryDate: _donations[index].deliveryDate,
-            deliveryStatus: _donations[index].deliveryStatus,
-            donationTypes: _donations[index].donationTypes,
-            driverName: _donations[index].driverName,
-            name: _donations[index].name,
-            phone: _donations[index].phone,
-            status: status.displayName,
-          );
-        }
-        _isLoading = false;
-        notifyListeners();
-        return true;
-      }
-      return false;
-    } on DioException catch (e) {
-      _error = e.response?.data?.toString() ?? 'Failed to update status';
-      _isLoading = false;
-      notifyListeners();
-      return false;
-    }
   }
 }

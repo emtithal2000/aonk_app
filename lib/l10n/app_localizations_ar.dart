@@ -72,7 +72,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get login => 'تسجيل الدخول';
 
   @override
-  String get save => 'حفظ';
+  String get save => 'إرسال';
 
   @override
   String get pleaseEnter => 'يرجى ادخال';

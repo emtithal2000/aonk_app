@@ -178,7 +178,10 @@ class Login extends StatelessWidget {
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      DriverPage(),
+                                                      DriverPage(
+                                                    driverName:
+                                                        provider.driverName!,
+                                                  ),
                                                 ));
                                           } else {
                                             ScaffoldMessenger.of(context)

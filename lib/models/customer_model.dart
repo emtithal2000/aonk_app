@@ -38,20 +38,6 @@ class CustomerDonation {
       status: json['status'] as String,
     );
   }
-
-  static List<String> _parseDonationTypes(String donationTypesStr) {
-    try {
-      // Remove the brackets and split the string
-      String cleanStr =
-          donationTypesStr.replaceAll('[', '').replaceAll(']', '');
-      if (cleanStr.isEmpty) return [];
-
-      // Split by comma and trim each element, handling Arabic text
-      return cleanStr.split(',').map((e) => e.trim()).toList();
-    } catch (e) {
-      return [];
-    }
-  }
 }
 
 class DriverDonationsResponse {

@@ -9,13 +9,26 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DriverPage extends StatefulWidget {
-  const DriverPage({super.key});
+  const DriverPage({super.key, required this.driverName});
+
+  final String driverName;
 
   @override
   State<DriverPage> createState() => _DriverPageState();
 }
 
 class _DriverPageState extends State<DriverPage> {
+  @override
+  void initState() {
+    super.initState();
+    // Schedule the state update for the next frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<DriverProvider>().getDonations(widget.driverName);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -189,153 +202,8 @@ class _DriverPageState extends State<DriverPage> {
                                         onPressed: () {
                                           showDialog(
                                             context: context,
-                                            builder: (context) => AlertDialog(
-                                              title: Text(
-                                                AppLocalizations.of(context)!
-                                                    .orderStatus,
-                                                style: const TextStyle(
-                                                  color: Color(0xff52b8a0),
-                                                ),
-                                              ),
-                                              content: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  SizedBox(
-                                                    height: height(200),
-                                                    width: double.infinity,
-                                                    child: ListView.builder(
-                                                      padding: EdgeInsets.zero,
-                                                      itemCount: 4,
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        final status =
-                                                            DonationStatus
-                                                                .values[index];
-                                                        final isSelected = provider
-                                                                .selectedStatus ==
-                                                            status;
-
-                                                        return Container(
-                                                          margin: EdgeInsets
-                                                              .symmetric(
-                                                                  vertical: 4),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: isSelected
-                                                                ? Color(0xff52b8a0)
-                                                                    .withOpacity(
-                                                                        0.1)
-                                                                : Colors
-                                                                    .transparent,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8),
-                                                            border: Border.all(
-                                                              color: isSelected
-                                                                  ? Color(
-                                                                      0xff52b8a0)
-                                                                  : Colors.grey
-                                                                      .withOpacity(
-                                                                          0.3),
-                                                              width: 1,
-                                                            ),
-                                                          ),
-                                                          child: ListTile(
-                                                            leading: Icon(
-                                                              status.icon,
-                                                              color:
-                                                                  status.color,
-                                                            ),
-                                                            title: Text(
-                                                              status
-                                                                  .displayName,
-                                                              style: TextStyle(
-                                                                color: isSelected
-                                                                    ? Color(
-                                                                        0xff52b8a0)
-                                                                    : Colors
-                                                                        .black,
-                                                                fontWeight: isSelected
-                                                                    ? FontWeight
-                                                                        .bold
-                                                                    : FontWeight
-                                                                        .normal,
-                                                              ),
-                                                            ),
-                                                            onTap: () {
-                                                              provider
-                                                                  .setSelectedStatus(
-                                                                      status);
-                                                            },
-                                                          ),
-                                                        );
-                                                      },
-                                                    ),
-                                                  ),
-                                                  Gap(height(10)),
-                                                  ElevatedButton(
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      backgroundColor:
-                                                          Color(0xff52b8a0),
-                                                      minimumSize: Size(
-                                                          double.infinity, 40),
-                                                    ),
-                                                    onPressed: () async {
-                                                      if (provider
-                                                              .selectedStatus !=
-                                                          null) {
-                                                        final success =
-                                                            await provider
-                                                                .updateDonationStatus(
-                                                          provider
-                                                              .donations[index]
-                                                              .requestId,
-                                                          provider
-                                                              .selectedStatus!,
-                                                        );
-                                                        if (success &&
-                                                            context.mounted) {
-                                                          Navigator.pop(
-                                                              context);
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                            SnackBar(
-                                                              content: Text(
-                                                                  'Status updated successfully'),
-                                                              backgroundColor:
-                                                                  Colors.green,
-                                                            ),
-                                                          );
-                                                        } else if (context
-                                                            .mounted) {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                            SnackBar(
-                                                              content: Text(provider
-                                                                      .error ??
-                                                                  'Failed to update status'),
-                                                              backgroundColor:
-                                                                  Colors.red,
-                                                            ),
-                                                          );
-                                                        }
-                                                      }
-                                                    },
-                                                    child: Text(
-                                                      AppLocalizations.of(
-                                                              context)!
-                                                          .save,
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+                                            builder: (context) =>
+                                                buildStatus(context, index),
                                           );
                                         },
                                       ),
@@ -363,6 +231,82 @@ class _DriverPageState extends State<DriverPage> {
                 ],
               ),
             ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildStatus(
+    BuildContext context,
+    int index,
+  ) {
+    return AlertDialog(
+      title: Text(
+        AppLocalizations.of(context)!.orderStatus,
+        style: const TextStyle(
+          color: Color(0xff52b8a0),
+        ),
+      ),
+      content: Consumer<DriverProvider>(
+        builder: (context, provider, child) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ...List.generate(4, (index) {
+                final status = DonationStatus.values[index];
+                final isSelected = provider.selectedStatus == status;
+
+                return Container(
+                  margin: EdgeInsets.symmetric(vertical: 4),
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? Color(0xff52b8a0).withOpacity(0.1)
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: isSelected
+                          ? Color(0xff52b8a0)
+                          : Colors.grey.withOpacity(0.3),
+                      width: 1,
+                    ),
+                  ),
+                  child: ListTile(
+                    leading: Icon(
+                      status.icon,
+                      color: status.color,
+                    ),
+                    title: Text(
+                      getDonationStatusDisplayName(context, status),
+                      style: TextStyle(
+                        color: isSelected ? Color(0xff52b8a0) : Colors.black,
+                        fontWeight:
+                            isSelected ? FontWeight.bold : FontWeight.normal,
+                      ),
+                    ),
+                    onTap: () {
+                      provider.setSelectedStatus(status);
+                    },
+                  ),
+                );
+              }),
+              Gap(height(10)),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xff52b8a0),
+                  minimumSize: Size(double.infinity, 40),
+                ),
+                onPressed: () {},
+                child: Text(
+                  AppLocalizations.of(context)!.save,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: width(16),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           );
         },
       ),

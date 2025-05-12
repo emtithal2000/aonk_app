@@ -72,7 +72,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get login => 'Login';
 
   @override
-  String get save => 'Save';
+  String get save => 'Send';
 
   @override
   String get pleaseEnter => 'Please enter';

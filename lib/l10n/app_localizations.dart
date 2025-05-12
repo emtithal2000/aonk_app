@@ -224,7 +224,7 @@ abstract class AppLocalizations {
   /// No description provided for @save.
   ///
   /// In en, this message translates to:
-  /// **'Save'**
+  /// **'Send'**
   String get save;
 
   /// No description provided for @pleaseEnter.
