@@ -4,6 +4,22 @@ import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/models/customer_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+// Helper function for localization
+String getDonationStatusDisplayName(
+    BuildContext context, DonationStatus status) {
+  switch (status) {
+    case DonationStatus.received:
+      return AppLocalizations.of(context)!.received;
+    case DonationStatus.postponed:
+      return AppLocalizations.of(context)!.postponed;
+    case DonationStatus.cancelled:
+      return AppLocalizations.of(context)!.cancelled;
+    case DonationStatus.noResponse:
+      return AppLocalizations.of(context)!.noResponse;
+  }
+}
 
 /// Enum representing the possible statuses for a donation
 enum DonationStatus {
@@ -59,21 +75,6 @@ enum DonationStatus {
   }
 }
 
-// Helper function for localization
-String getDonationStatusDisplayName(
-    BuildContext context, DonationStatus status) {
-  switch (status) {
-    case DonationStatus.received:
-      return AppLocalizations.of(context)!.received;
-    case DonationStatus.postponed:
-      return AppLocalizations.of(context)!.postponed;
-    case DonationStatus.cancelled:
-      return AppLocalizations.of(context)!.cancelled;
-    case DonationStatus.noResponse:
-      return AppLocalizations.of(context)!.noResponse;
-  }
-}
-
 class DriverProvider extends ChangeNotifier {
   final username = TextEditingController();
   final password = TextEditingController();
@@ -81,17 +82,27 @@ class DriverProvider extends ChangeNotifier {
 
   List<CustomerDonation> _donations = [];
   DonationStatus? _selectedStatus;
+  DateTime? _selectedDate;
 
   bool _isLoading = false;
   String? _error;
   String? _driverName;
 
+  List<CustomerDonation> filteredDonations = [];
   List<CustomerDonation> get donations => _donations;
-  String? get error => _error;
   String? get driverName => _driverName;
+  String? get error => _error;
 
   bool get isLoading => _isLoading;
+  DateTime? get selectedDate => _selectedDate;
+
   DonationStatus? get selectedStatus => _selectedStatus;
+
+  void clearSelectedDate() {
+    _selectedDate = null;
+    filteredDonations = _donations;
+    notifyListeners();
+  }
 
   /// Clears the selected status
   void clearSelectedStatus() {
@@ -102,6 +113,8 @@ class DriverProvider extends ChangeNotifier {
   /// Fetches donations for a specific driver
   Future<void> getDonations(String driverName) async {
     donations.clear();
+    filteredDonations.clear();
+
     try {
       _isLoading = true;
       _error = null;
@@ -113,6 +126,7 @@ class DriverProvider extends ChangeNotifier {
 
       final jsonData = response.data['driver_donations'] as List<dynamic>;
       _donations = jsonData.map((e) => CustomerDonation.fromJson(e)).toList();
+      filteredDonations = _donations;
 
       _isLoading = false;
       notifyListeners();
@@ -150,6 +164,33 @@ class DriverProvider extends ChangeNotifier {
       notifyListeners();
       return false;
     }
+  }
+
+  void setSelectedDate(DateTime? date) {
+    _selectedDate = date;
+    if (_selectedDate == null) {
+      filteredDonations = _donations;
+    } else {
+      filteredDonations = _donations.where((donation) {
+        if (donation.deliveryDate == null) {
+          return false;
+        }
+        try {
+          // Assuming the date format is 'yyyy-MM-dd' or similar.
+          // Adjust DateFormat if your date string is in a different format.
+          final deliveryDateTime =
+              DateFormat('dd-MM-yyyy').parse(donation.deliveryDate!);
+          return deliveryDateTime.year == _selectedDate!.year &&
+              deliveryDateTime.month == _selectedDate!.month &&
+              deliveryDateTime.day == _selectedDate!.day;
+        } catch (e) {
+          // Handle parsing error, e.g., log it or treat as non-matching
+          log('Error parsing date: \${donation.deliveryDate}, error: \$e');
+          return false;
+        }
+      }).toList();
+    }
+    notifyListeners();
   }
 
   /// Sets the currently selected status

@@ -126,7 +126,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get aonkDescription3 => 'مثل الملابس و الاحذية و الحقائب و الستائر و البطانيات و الشراشف و العاب الاطفال و الاواني المنزلية و الكتب و الروايات و الاجهزة الالكترونية';
 
   @override
+  String get aonkDescription3qatar => 'مثل الملابس و الاحذية و الحقائب و الستائر و البطانيات و الشراشف و العاب الاطفال و الاواني المنزلية و الاجهزة الالكترونية';
+
+  @override
   String get aonkDescription4 => 'لـ صالح الجهات الخيرية فالسلطنة  فــ هدفنا هو تخفيف عبء النقل عنكم';
+
+  @override
+  String get aonkDescription4qatar => 'لـ صالح الجهات الخيرية في قطر  فــ هدفنا هو تخفيف عبء النقل عنكم';
 
   @override
   String get aonkDescription5 => 'و لرفع خلفية معلوماتك عنا اكثر، يمكنك تصفح مواقع التواصل الاجتماعي الخاصة بنا ';
@@ -201,7 +207,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get donationDetail1 => 'ملابس';
 
   @override
-  String get donationDetail2 => 'اجهزة منزلية';
+  String get donationDetail2 => 'اواني منزلية';
 
   @override
   String get donationDetail3 => 'كتب واوراق';
@@ -295,4 +301,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get editSuccessfully => 'تم التعديل بنجاح';
+
+  @override
+  String get statusUpdated => 'تم تعديل الحالة';
+
+  @override
+  String get pleaseSelectStatus => 'Please select a status';
 }

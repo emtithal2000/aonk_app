@@ -126,7 +126,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aonkDescription3 => 'Like clothes , shoes , bags , curtains , blankets , cushions , children\'s toys , kitchenware , books , novels and electronic devices';
 
   @override
+  String get aonkDescription3qatar => 'Like clothes , shoes , bags , curtains , blankets , cushions , children\'s toys , kitchenware , books , novels and electronic devices';
+
+  @override
   String get aonkDescription4 => 'For the good of the associations in Oman, our goal is  ';
+
+  @override
+  String get aonkDescription4qatar => 'For the good of the associations in Qatar, our goal is  ';
 
   @override
   String get aonkDescription5 => 'To raise your information about us, you can browse our social media sites';
@@ -295,4 +301,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editSuccessfully => 'Edit Successfully';
+
+  @override
+  String get statusUpdated => 'Status updated to';
+
+  @override
+  String get pleaseSelectStatus => 'Please select a status';
 }

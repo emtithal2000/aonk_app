@@ -1,10 +1,11 @@
+import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/location.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/value.dart';
 import 'package:flutter/material.dart';
-import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -14,6 +15,8 @@ class AboutUs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final country = GetStorage().read('userData')['country'];
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: buildContainer(
@@ -117,8 +120,11 @@ class AboutUs extends StatelessWidget {
                             ),
                             const TextSpan(text: '\n'),
                             TextSpan(
-                              text: AppLocalizations.of(context)!
-                                  .aonkDescription3,
+                              text: country == 'Qatar'
+                                  ? AppLocalizations.of(context)!
+                                      .aonkDescription3qatar
+                                  : AppLocalizations.of(context)!
+                                      .aonkDescription3,
                               style: TextStyle(
                                 fontSize: height(15),
                                 color: Colors.black,
@@ -126,8 +132,11 @@ class AboutUs extends StatelessWidget {
                             ),
                             const TextSpan(text: '\n'),
                             TextSpan(
-                              text: AppLocalizations.of(context)!
-                                  .aonkDescription4,
+                              text: country == 'Qatar'
+                                  ? AppLocalizations.of(context)!
+                                      .aonkDescription4qatar
+                                  : AppLocalizations.of(context)!
+                                      .aonkDescription4,
                               style: TextStyle(
                                 fontSize: height(13),
                                 color: Colors.black,

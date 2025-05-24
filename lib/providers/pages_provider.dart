@@ -71,6 +71,7 @@ class PagesProvider extends ChangeNotifier {
     charities.clear();
     notifyListeners();
   }
+  // get
 
   Future<void> getCharities() async {
     final country = GetStorage().read('userData')['country'];
@@ -97,6 +98,28 @@ class PagesProvider extends ChangeNotifier {
     final locale = Localizations.localeOf(context);
     final cities = countryCities[country]?[locale.languageCode] ?? [];
     return cities;
+  }
+
+  Future<void> getCountries() async {
+    final country = GetStorage().read('userData')['country'];
+
+    try {
+      final response = await Dio().get(
+        'https://api.aonk.app/country_details',
+      );
+
+      
+
+      if (response.statusCode == 200) {
+        final List<dynamic> charitiesJson = response.data['charities_mobile'];
+        charities =
+            charitiesJson.map((json) => Charity.fromJson(json)).toList();
+      }
+    } on DioException catch (e) {
+      log(e.response?.data.toString() ?? 'No response data');
+      msg = e.response?.data;
+    }
+    notifyListeners();
   }
 
   List<String> getLocalizedCountryNames(BuildContext context) {

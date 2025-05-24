@@ -6,29 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class DriverPage extends StatefulWidget {
-  const DriverPage({super.key, required this.driverName});
-
   final String driverName;
+
+  const DriverPage({super.key, required this.driverName});
 
   @override
   State<DriverPage> createState() => _DriverPageState();
 }
 
 class _DriverPageState extends State<DriverPage> {
-  @override
-  void initState() {
-    super.initState();
-    // Schedule the state update for the next frame
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        context.read<DriverProvider>().getDonations(widget.driverName);
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,25 +45,76 @@ class _DriverPageState extends State<DriverPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Gap(height(15)),
-                  Align(
-                    alignment:
-                        context.watch<LocaleProvider>().locale.languageCode ==
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Align(
+                        alignment: context
+                                    .watch<LocaleProvider>()
+                                    .locale
+                                    .languageCode ==
                                 'ar'
                             ? Alignment.centerRight
                             : Alignment.centerLeft,
-                    child: IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(
-                        context.watch<LocaleProvider>().locale.languageCode ==
-                                'ar'
-                            ? IconsaxPlusBroken.arrow_right_3
-                            : IconsaxPlusBroken.arrow_left_2,
-                        color: const Color(0xff84beb0),
-                        size: height(30),
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(
+                            context
+                                        .watch<LocaleProvider>()
+                                        .locale
+                                        .languageCode ==
+                                    'ar'
+                                ? IconsaxPlusBroken.arrow_right_3
+                                : IconsaxPlusBroken.arrow_left_2,
+                            color: const Color(0xff84beb0),
+                            size: height(30),
+                          ),
+                        ),
                       ),
-                    ),
+                      Card(
+                        elevation: 3,
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            final localeProvider =
+                                context.read<LocaleProvider>();
+                            if (localeProvider.locale.languageCode == 'ar') {
+                              localeProvider.setLocale(
+                                  const Locale('en'), context);
+                            } else {
+                              localeProvider.setLocale(
+                                  const Locale('ar'), context);
+                            }
+                          },
+                          borderRadius: BorderRadius.circular(10),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: width(6),
+                              vertical: height(4),
+                            ),
+                            child: Text(
+                              context
+                                          .watch<LocaleProvider>()
+                                          .locale
+                                          .languageCode ==
+                                      'ar'
+                                  ? 'En'
+                                  : 'Ar',
+                              style: TextStyle(
+                                color: const Color(0xff84beb0),
+                                fontSize: height(16),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   Gap(height(50)),
                   Text(
@@ -131,21 +171,41 @@ class _DriverPageState extends State<DriverPage> {
                           onPressed: () async {
                             final selectedDate = await showDatePicker(
                               context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime.now(),
+                              initialDate:
+                                  provider.selectedDate ?? DateTime.now(),
+                              firstDate: DateTime(2000),
                               lastDate:
                                   DateTime.now().add(const Duration(days: 365)),
                             );
-                            if (selectedDate != null) {}
+                            if (selectedDate != null) {
+                              provider.setSelectedDate(selectedDate);
+                            }
                           },
                         ),
                       ),
+                      if (provider.selectedDate != null)
+                        Card(
+                          elevation: 3,
+                          color: Colors.redAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.clear,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              provider.clearSelectedDate();
+                            },
+                          ),
+                        ),
                     ],
                   ),
                   ListView.separated(
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
-                    itemCount: provider.donations.length,
+                    itemCount: provider.filteredDonations.length,
                     separatorBuilder: (context, index) {
                       return Gap(height(5));
                     },
@@ -155,7 +215,7 @@ class _DriverPageState extends State<DriverPage> {
                         color: Colors.white,
                         child: ExpansionTile(
                           title: Text(
-                            '${AppLocalizations.of(context)!.order} ${provider.donations[index].requestId}',
+                            '${AppLocalizations.of(context)!.order} ${provider.filteredDonations[index].requestId}',
                             style: TextStyle(
                               color: Color(0xff52b8a0),
                               fontSize: 16,
@@ -208,9 +268,9 @@ class _DriverPageState extends State<DriverPage> {
                                         },
                                       ),
                                       GestureDetector(
-                                        onTap: () {
-                                          launchUrl(Uri.parse(
-                                              'https://wa.me/+96822800600'));
+                                        onTap: () async {
+                                          await launchUrlString(
+                                              "https://wa.me/${provider.donations[index].phone}");
                                         },
                                         child: Image.asset(
                                           'assets/images/whatsapp.png',
@@ -296,7 +356,20 @@ class _DriverPageState extends State<DriverPage> {
                   backgroundColor: Color(0xff52b8a0),
                   minimumSize: Size(double.infinity, 40),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: Color(0xff52b8a0),
+                      content: Text(
+                        provider.selectedStatus != null
+                            ? '${AppLocalizations.of(context)!.statusUpdated} ${getDonationStatusDisplayName(context, provider.selectedStatus!)}'
+                            : AppLocalizations.of(context)!.pleaseSelectStatus,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  );
+                  Navigator.pop(context);
+                },
                 child: Text(
                   AppLocalizations.of(context)!.save,
                   style: TextStyle(
@@ -311,5 +384,16 @@ class _DriverPageState extends State<DriverPage> {
         },
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Schedule the state update for the next frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<DriverProvider>().getDonations(widget.driverName);
+      }
+    });
   }
 }

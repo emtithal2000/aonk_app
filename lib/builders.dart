@@ -122,6 +122,7 @@ Widget buildSelectionMobile(
   String hint, {
   required Function(String) onSelected,
   bool isExpanded = false,
+  String? Function(String?)? validator,
 }) {
   return Card(
     elevation: 2,

@@ -1,9 +1,9 @@
+import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-import 'package:aonk_app/l10n/app_localizations.dart';
 
 class DonationDetails extends StatelessWidget {
   const DonationDetails({super.key});

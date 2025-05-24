@@ -329,11 +329,23 @@ abstract class AppLocalizations {
   /// **'Like clothes , shoes , bags , curtains , blankets , cushions , children\'s toys , kitchenware , books , novels and electronic devices'**
   String get aonkDescription3;
 
+  /// No description provided for @aonkDescription3qatar.
+  ///
+  /// In en, this message translates to:
+  /// **'Like clothes , shoes , bags , curtains , blankets , cushions , children\'s toys , kitchenware , books , novels and electronic devices'**
+  String get aonkDescription3qatar;
+
   /// No description provided for @aonkDescription4.
   ///
   /// In en, this message translates to:
   /// **'For the good of the associations in Oman, our goal is  '**
   String get aonkDescription4;
+
+  /// No description provided for @aonkDescription4qatar.
+  ///
+  /// In en, this message translates to:
+  /// **'For the good of the associations in Qatar, our goal is  '**
+  String get aonkDescription4qatar;
 
   /// No description provided for @aonkDescription5.
   ///
@@ -670,6 +682,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit Successfully'**
   String get editSuccessfully;
+
+  /// No description provided for @statusUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Status updated to'**
+  String get statusUpdated;
+
+  /// No description provided for @pleaseSelectStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a status'**
+  String get pleaseSelectStatus;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
