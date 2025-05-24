@@ -9,6 +9,7 @@ class Charity {
   final bool isnamed;
   final String logo;
   final String website;
+  final String place;
 
   Charity({
     required this.charityId,
@@ -21,6 +22,7 @@ class Charity {
     required this.isnamed,
     required this.logo,
     required this.website,
+    required this.place,
   });
 
   factory Charity.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,7 @@ class Charity {
       isnamed: json['isnamed'],
       logo: json['logo'],
       website: json['website'],
+      place: json['place'],
     );
   }
 
@@ -50,6 +53,7 @@ class Charity {
       'isnamed': isnamed,
       'logo': logo,
       'website': website,
+      'place': place,
     };
   }
 }

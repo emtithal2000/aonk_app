@@ -79,7 +79,7 @@ class _FirstTimeState extends State<FirstTime> {
                 key: provider.loginKey,
                 child: LayoutBuilder(
                   builder: (context, constraints) {
-                    final size = constraints.maxWidth;
+                    // final size = constraints.maxWidth;
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
@@ -479,7 +479,6 @@ class _FirstTimeState extends State<FirstTime> {
                                                 provider.controllers[0].text,
                                           },
                                         );
-
                                         if (context.mounted) {
                                           Navigator.pushReplacement(
                                             context,

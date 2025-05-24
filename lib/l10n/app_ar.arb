@@ -99,5 +99,6 @@
     "cancel":"الغاء",
     "deleteAccount":"حذف الحساب",
     "editSuccessfully":"تم التعديل بنجاح",
-    "statusUpdated":"تم تعديل الحالة"
+    "statusUpdated":"تم تعديل الحالة",
+    "pleaseSelectStatus": "يرجى اختيار الحالة"
 }

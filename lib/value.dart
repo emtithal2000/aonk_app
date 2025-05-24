@@ -72,11 +72,6 @@ List<String> contactImage = [
   'assets/images/instagram.png',
   'assets/images/social-media.png',
 ];
-List<String> contactLinks = [
-  'https://wa.link/a8oi1t',
-  'https://www.instagram.com/aonk_app?igsh=MXV4NGtobXlyb2l0bg==',
-  'https://twitter.com/Aonk_app',
-];
 
 final Map<String, String> countryPhoneCodes = {
   'Oman': '(968+)',

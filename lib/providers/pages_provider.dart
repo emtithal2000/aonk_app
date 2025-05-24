@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:aonk_app/models/charities_model.dart';
+import 'package:aonk_app/models/country_details_model.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/static_values.dart';
 import 'package:aonk_app/sub_pages/donation_details.dart';
@@ -35,6 +36,7 @@ Widget customButton(BuildContext context, PagesProvider provider,
 class PagesProvider extends ChangeNotifier {
   List<String> selected = [];
   List<Charity> charities = [];
+  List<DetailedCountry> detailedCountries = [];
   List<Widget> pages = [
     const DonationType(), //0
     const Gift(), //1
@@ -75,10 +77,11 @@ class PagesProvider extends ChangeNotifier {
 
   Future<void> getCharities() async {
     final country = GetStorage().read('userData')['country'];
+    final userPlace = GetStorage().read('userData')['city'];
 
     try {
       final response = await Dio().get(
-        'https://api.aonk.app/charities_mobile?country=$country',
+        'https://api.aonk.app/charities_mobile?country=$country&place=$userPlace',
       );
 
       if (response.statusCode == 200) {
@@ -100,26 +103,26 @@ class PagesProvider extends ChangeNotifier {
     return cities;
   }
 
-  Future<void> getCountries() async {
+  Future<List<DetailedCountry>> getDetailedCountry() async {
     final country = GetStorage().read('userData')['country'];
 
     try {
       final response = await Dio().get(
-        'https://api.aonk.app/country_details',
+        'https://api.aonk.app/country_details?country=$country',
       );
 
-      
-
       if (response.statusCode == 200) {
-        final List<dynamic> charitiesJson = response.data['charities_mobile'];
-        charities =
-            charitiesJson.map((json) => Charity.fromJson(json)).toList();
+        final List<dynamic> charitiesJson = response.data['country_details'];
+        detailedCountries = charitiesJson
+            .map((json) => DetailedCountry.fromJson(json))
+            .toList();
       }
+      return detailedCountries;
     } on DioException catch (e) {
       log(e.response?.data.toString() ?? 'No response data');
       msg = e.response?.data;
     }
-    notifyListeners();
+    return [];
   }
 
   List<String> getLocalizedCountryNames(BuildContext context) {

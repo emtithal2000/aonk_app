@@ -306,5 +306,5 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statusUpdated => 'تم تعديل الحالة';
 
   @override
-  String get pleaseSelectStatus => 'Please select a status';
+  String get pleaseSelectStatus => 'يرجى اختيار الحالة';
 }

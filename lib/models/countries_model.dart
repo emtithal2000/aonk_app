@@ -1,24 +1,3 @@
-class CountriesModel {
-  final List<CountryDetails> countryDetails;
-
-  CountriesModel({required this.countryDetails});
-
-  factory CountriesModel.fromJson(Map<String, dynamic> json) {
-    return CountriesModel(
-      countryDetails: (json['country_details'] as List)
-          .map((detail) => CountryDetails.fromJson(detail))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'country_details':
-          countryDetails.map((detail) => detail.toJson()).toList(),
-    };
-  }
-}
-
 class CountryDetails {
   final String country;
   final String detailsAr;
