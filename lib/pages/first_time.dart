@@ -1,3 +1,4 @@
+import 'package:aonk_app/builders.dart';
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/pages/login.dart';
 import 'package:aonk_app/pages/navigation.dart';
@@ -6,7 +7,6 @@ import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/static_values.dart';
 import 'package:aonk_app/value.dart' as staticvalues;
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
@@ -15,7 +15,11 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
 
 InputDecoration inputDecoration(
-    BuildContext context, String hintText, IconData icon) {
+  BuildContext context,
+  String hintText,
+  IconData icon,
+  bool isRequired,
+) {
   return InputDecoration(
     border: OutlineInputBorder(
       borderSide: BorderSide.none,
@@ -44,6 +48,13 @@ InputDecoration inputDecoration(
       icon,
       color: const Color(0xff52b8a0),
     ),
+    suffixIcon: isRequired
+        ? Icon(
+            Icons.star,
+            color: Colors.red,
+            size: height(10),
+          )
+        : null,
   );
 }
 
@@ -79,7 +90,7 @@ class _FirstTimeState extends State<FirstTime> {
                 key: provider.loginKey,
                 child: LayoutBuilder(
                   builder: (context, constraints) {
-                    // final size = constraints.maxWidth;
+                    final size = constraints.maxWidth;
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
@@ -147,158 +158,56 @@ class _FirstTimeState extends State<FirstTime> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Expanded(
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          showCupertinoModalPopup(
-                                            context: context,
-                                            builder: (context) => Card(
-                                              elevation: 3,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                              ),
-                                              child: Container(
-                                                height: 200,
-                                                color: Colors.white,
-                                                child: CupertinoPicker(
-                                                  itemExtent: 32.0,
-                                                  onSelectedItemChanged:
-                                                      (index) {
-                                                    final countries = provider
-                                                        .getLocalizedCountryNames(
-                                                            context);
-                                                    final selectedCountry =
-                                                        countries[index];
-                                                    provider.setCountry(
-                                                      countryNames.keys
-                                                          .firstWhere(
-                                                        (key) =>
-                                                            countryNames[
-                                                                key]![Localizations
-                                                                    .localeOf(
-                                                                        context)
-                                                                .languageCode] ==
-                                                            selectedCountry,
-                                                      ),
-                                                    );
-                                                  },
-                                                  children: provider
-                                                      .getLocalizedCountryNames(
-                                                          context)
-                                                      .map((country) =>
-                                                          Text(country))
-                                                      .toList(),
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(12),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.2),
-                                                spreadRadius: 1,
-                                                blurRadius: 5,
-                                              ),
-                                            ],
-                                          ),
-                                          child: Text(
-                                            provider.selectedCountry != null
-                                                ? countryNames[provider
-                                                        .selectedCountry]![
+                                    buildSelectionMobile(
+                                      size,
+                                      provider.getLocalizedCountryNames(
+                                        context,
+                                      ),
+                                      provider.selectedCountry != null
+                                          ? countryNames[
+                                                  provider.selectedCountry]![
+                                              Localizations.localeOf(
+                                              context,
+                                            ).languageCode]!
+                                          : AppLocalizations.of(context)!
+                                              .country,
+                                      onSelected: (value) {
+                                        provider.setCountry(
+                                          countryNames.keys.firstWhere(
+                                            (key) =>
+                                                countryNames[key]![
                                                     Localizations.localeOf(
-                                                            context)
-                                                        .languageCode]!
-                                                : AppLocalizations.of(context)!
-                                                    .country,
-                                            style: TextStyle(
-                                              color: const Color(0xff52b8a0),
-                                              fontSize: height(16),
-                                            ),
+                                                  context,
+                                                ).languageCode] ==
+                                                value,
                                           ),
-                                        ),
-                                      ),
+                                        );
+                                      },
+                                      isExpanded: true,
                                     ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          if (provider.selectedCountry == null)
-                                            return;
-
-                                          showCupertinoModalPopup(
-                                            context: context,
-                                            builder: (context) => Container(
-                                              height: 200,
-                                              color: Colors.white,
-                                              child: CupertinoPicker(
-                                                itemExtent: 32.0,
-                                                onSelectedItemChanged: (index) {
-                                                  final cities = provider
-                                                      .getCitiesForCountry(
-                                                    provider.selectedCountry,
-                                                    context,
-                                                  );
-                                                  provider
-                                                      .setCity(cities[index]);
-                                                },
-                                                children: provider
-                                                    .getCitiesForCountry(
-                                                      provider.selectedCountry,
-                                                      context,
-                                                    )
-                                                    .map((city) => Text(city))
-                                                    .toList(),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(12),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.2),
-                                                spreadRadius: 1,
-                                                blurRadius: 5,
-                                              ),
-                                            ],
-                                          ),
-                                          child: Text(
-                                            provider.selectedCity ??
-                                                AppLocalizations.of(context)!
-                                                    .city,
-                                            style: TextStyle(
-                                              color: const Color(0xff52b8a0),
-                                              fontSize: height(16),
-                                            ),
-                                          ),
-                                        ),
+                                    buildSelectionMobile(
+                                      size,
+                                      provider.getCitiesForCountry(
+                                        provider.selectedCountry,
+                                        context,
                                       ),
+                                      provider.selectedCity ??
+                                          AppLocalizations.of(context)!.city,
+                                      onSelected: (value) {
+                                        provider.setCity(value);
+                                      },
+                                      isExpanded: true,
                                     ),
                                   ],
                                 ),
-                                Gap(height(10)),
                                 Card(
                                   elevation: 3,
+                                  color: Colors.white,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
                                   child: TextFormField(
                                     controller: provider.controllers[0],
-                                    autovalidateMode:
-                                        AutovalidateMode.onUnfocus,
                                     keyboardType: TextInputType.name,
                                     validator: (value) {
                                       if (value!.isEmpty) {
@@ -310,6 +219,7 @@ class _FirstTimeState extends State<FirstTime> {
                                       context,
                                       AppLocalizations.of(context)!.name,
                                       IconsaxPlusBroken.user,
+                                      true,
                                     ),
                                     onChanged: (value) {},
                                   ),
@@ -317,6 +227,7 @@ class _FirstTimeState extends State<FirstTime> {
                                 Card(
                                   elevation: 3,
                                   clipBehavior: Clip.hardEdge,
+                                  color: Colors.white,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
@@ -352,6 +263,11 @@ class _FirstTimeState extends State<FirstTime> {
                                       prefixStyle: TextStyle(
                                         color: const Color(0xff52b8a0),
                                         fontSize: height(16),
+                                      ),
+                                      suffixIcon: Icon(
+                                        Icons.star,
+                                        color: Colors.red,
+                                        size: height(10),
                                       ),
                                       fillColor: Colors.white,
                                       filled: true,
@@ -394,6 +310,7 @@ class _FirstTimeState extends State<FirstTime> {
                                       context,
                                       AppLocalizations.of(context)!.email,
                                       IconsaxPlusBroken.sms,
+                                      false,
                                     ),
                                     onChanged: (value) {},
                                   ),
@@ -413,6 +330,7 @@ class _FirstTimeState extends State<FirstTime> {
                                       AppLocalizations.of(context)!
                                           .streetNumber,
                                       IconsaxPlusBroken.location,
+                                      false,
                                     ),
                                     onChanged: (value) {},
                                   ),
@@ -432,6 +350,7 @@ class _FirstTimeState extends State<FirstTime> {
                                       AppLocalizations.of(context)!
                                           .buildingNumber,
                                       IconsaxPlusBroken.building_4,
+                                      false,
                                     ),
                                     onChanged: (value) {},
                                   ),
@@ -449,7 +368,9 @@ class _FirstTimeState extends State<FirstTime> {
                                           SnackBar(
                                             content: Text(
                                               '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.country} ${AppLocalizations.of(context)!.city}',
+                                              textAlign: TextAlign.center,
                                             ),
+                                            backgroundColor: Colors.red,
                                           ),
                                         );
                                         return;
@@ -503,7 +424,16 @@ class _FirstTimeState extends State<FirstTime> {
                                     ),
                                   ),
                                 ),
-                                Gap(height(50)),
+                                Gap(height(25)),
+                                Text(
+                                  AppLocalizations.of(context)!.detailsRequired,
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: height(14),
+                                  ),
+                                ),
+                                Gap(height(35)),
                                 Card(
                                   elevation: 2,
                                   color: Colors.white,

@@ -20,7 +20,7 @@
     "welcomeToAonk": "مرحبا بك في تطبيق عونك",
     "enterYourData": "قم بادخال بياناتك...",
     "login": "تسجيل الدخول",
-    "save": "إرسال",
+    "save": "حفظ",
     "pleaseEnter": "يرجى إدخال",
     "phoneNumber": "رقم الهاتف",
     "email": "البريد الإلكتروني",
@@ -100,5 +100,6 @@
     "deleteAccount":"حذف الحساب",
     "editSuccessfully":"تم التعديل بنجاح",
     "statusUpdated":"تم تعديل الحالة",
-    "pleaseSelectStatus": "يرجى اختيار الحالة"
+    "pleaseSelectStatus": "يرجى اختيار الحالة",
+    "detailsRequired": "(*) البيانات المطلوبة"
 }

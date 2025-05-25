@@ -20,7 +20,7 @@
     "welcomeToAonk": "Welcome to Aonk",
     "enterYourData": "Enter your data...",
     "login": "Login",
-    "save": "Send",
+    "save": "Save",
     "pleaseEnter": "Please enter",
     "phoneNumber": "Phone Number",
     "email": "Email",
@@ -100,5 +100,6 @@
     "deleteAccount":"Delete Account",
     "editSuccessfully": "Edit Successfully",
     "statusUpdated": "Status updated to",
-    "pleaseSelectStatus": "Please select a status"
+    "pleaseSelectStatus": "Please select a status",
+    "detailsRequired": "(*) Required"
 } 

@@ -18,8 +18,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    final provider =
-        Provider.of<PagesProvider>(context, listen: false).getCharities();
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width(30)),
       child: Consumer<PagesProvider>(

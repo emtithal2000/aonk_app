@@ -72,7 +72,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get login => 'Login';
 
   @override
-  String get save => 'Send';
+  String get save => 'Save';
 
   @override
   String get pleaseEnter => 'Please enter';
@@ -307,4 +307,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pleaseSelectStatus => 'Please select a status';
+
+  @override
+  String get detailsRequired => '(*) Required';
 }

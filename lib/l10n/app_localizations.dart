@@ -224,7 +224,7 @@ abstract class AppLocalizations {
   /// No description provided for @save.
   ///
   /// In en, this message translates to:
-  /// **'Send'**
+  /// **'Save'**
   String get save;
 
   /// No description provided for @pleaseEnter.
@@ -694,6 +694,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please select a status'**
   String get pleaseSelectStatus;
+
+  /// No description provided for @detailsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'(*) Required'**
+  String get detailsRequired;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
