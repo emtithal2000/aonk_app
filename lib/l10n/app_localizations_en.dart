@@ -192,7 +192,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorDescription => 'Please select an image';
 
   @override
-  String get successDescription => 'We will contact you soon';
+  String get successDescription => 'You will be contacted by Aonk team.';
 
   @override
   String get ok => 'Ok';

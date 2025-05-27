@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:aonk_app/models/charities_model.dart';
 import 'package:aonk_app/models/country_details_model.dart';
 import 'package:aonk_app/size_config.dart';
-import 'package:aonk_app/static_values.dart';
+import 'package:aonk_app/static_values.dart' as staticvalues;
 import 'package:aonk_app/sub_pages/donation_details.dart';
 import 'package:aonk_app/sub_pages/donation_images.dart';
 import 'package:aonk_app/sub_pages/donation_type.dart';
@@ -14,6 +14,7 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 Widget customButton(BuildContext context, PagesProvider provider,
     Function() onPressed, String title) {
@@ -36,7 +37,7 @@ Widget customButton(BuildContext context, PagesProvider provider,
 class PagesProvider extends ChangeNotifier {
   List<String> selected = [];
   List<Charity> charities = [];
-  List<DetailedCountry> detailedCountries = [];
+  DetailedCountry? detailedCountry;
   List<Widget> pages = [
     const DonationType(), //0
     const Gift(), //1
@@ -69,10 +70,16 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> callAonk() async {
+    final number = detailedCountry?.phone;
+    await launchUrlString("tel://$number");
+  }
+
   void clearCharities() {
     charities.clear();
     notifyListeners();
   }
+
   // get
 
   Future<void> getCharities() async {
@@ -97,13 +104,21 @@ class PagesProvider extends ChangeNotifier {
   }
 
   List<String> getCitiesForCountry(String? country, BuildContext context) {
+    switch (country) {
+      case 'سلطنة عمان':
+        country = 'Oman';
+        break;
+      case 'قطر':
+        country = 'Qatar';
+    }
     if (country == null) return [];
     final locale = Localizations.localeOf(context);
-    final cities = countryCities[country]?[locale.languageCode] ?? [];
+    final cities =
+        staticvalues.countryCities[country]?[locale.languageCode] ?? [];
     return cities;
   }
 
-  Future<List<DetailedCountry>> getDetailedCountry() async {
+  Future<void> getDetailedCountry() async {
     final country = GetStorage().read('userData')['country'];
 
     try {
@@ -112,23 +127,20 @@ class PagesProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        final List<dynamic> charitiesJson = response.data['country_details'];
-        detailedCountries = charitiesJson
-            .map((json) => DetailedCountry.fromJson(json))
-            .toList();
+        var charitiesJson = response.data['country_details'][0];
+        detailedCountry = DetailedCountry.fromJson(charitiesJson);
       }
-      return detailedCountries;
     } on DioException catch (e) {
       log(e.response?.data.toString() ?? 'No response data');
       msg = e.response?.data;
     }
-    return [];
   }
 
   List<String> getLocalizedCountryNames(BuildContext context) {
     final locale = Localizations.localeOf(context);
-    return countryNames.keys
-        .map((country) => countryNames[country]![locale.languageCode]!)
+    return staticvalues.countryNames.keys
+        .map((country) =>
+            staticvalues.countryNames[country]![locale.languageCode]!)
         .toList();
   }
 
@@ -159,6 +171,13 @@ class PagesProvider extends ChangeNotifier {
     } catch (e) {
       return false;
     }
+  }
+
+  String? getPhoneCodeForCountry(String? country) {
+    if (country == null) return '';
+    if (country == 'سلطنة عمان') return '+968';
+    if (country == 'قطر') return '+974';
+    return staticvalues.countryPhoneCodes[country] ?? '';
   }
 
   void jumpToPage(int page) {
@@ -303,6 +322,13 @@ class PagesProvider extends ChangeNotifier {
 
   void setGift() {
     isGift = !isGift;
+    notifyListeners();
+  }
+
+  void updateUserData(String key, String value) {
+    final userData = GetStorage().read('userData') ?? {};
+    userData[key] = value;
+    GetStorage().write('userData', userData);
     notifyListeners();
   }
 }

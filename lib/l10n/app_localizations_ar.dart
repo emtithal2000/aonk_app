@@ -186,13 +186,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get error => 'خطأ';
 
   @override
-  String get success => 'تم التاكيد';
+  String get success => 'تم إرسال التبرع بنجاح';
 
   @override
   String get errorDescription => 'يرجى اختيار صورة';
 
   @override
-  String get successDescription => 'سوف يتم التواصل معك من قبل الفريق';
+  String get successDescription => 'سيتم التواصل معك من قبل فريق عونك';
 
   @override
   String get ok => 'حسناً';

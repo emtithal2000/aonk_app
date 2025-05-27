@@ -164,24 +164,16 @@ class _FirstTimeState extends State<FirstTime> {
                                         context,
                                       ),
                                       provider.selectedCountry != null
-                                          ? countryNames[
-                                                  provider.selectedCountry]![
-                                              Localizations.localeOf(
-                                              context,
-                                            ).languageCode]!
+                                          ? (countryNames[
+                                                      provider.selectedCountry]
+                                                  ?[Localizations.localeOf(
+                                                          context)
+                                                      .languageCode] ??
+                                              provider.selectedCountry!)
                                           : AppLocalizations.of(context)!
                                               .country,
                                       onSelected: (value) {
-                                        provider.setCountry(
-                                          countryNames.keys.firstWhere(
-                                            (key) =>
-                                                countryNames[key]![
-                                                    Localizations.localeOf(
-                                                  context,
-                                                ).languageCode] ==
-                                                value,
-                                          ),
-                                        );
+                                        provider.setCountry(value);
                                       },
                                       isExpanded: true,
                                     ),

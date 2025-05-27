@@ -1,8 +1,10 @@
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
+import 'package:aonk_app/static_values.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 
 class DonationDetails extends StatelessWidget {
@@ -76,23 +78,31 @@ class DonationDetails extends StatelessWidget {
                 },
               ),
             ),
-            customButton(context, provider, () {
-              if (provider.selected.isNotEmpty) {
-                provider.nextPage(false);
-              }
-            }, AppLocalizations.of(context)!.next),
+            customButton(
+              context,
+              provider,
+              () {
+                if (provider.selected.isNotEmpty) {
+                  provider.nextPage(false);
+                }
+              },
+              AppLocalizations.of(context)!.next,
+            ),
           ],
         );
       },
     );
   }
 
-  List<String> getDonationDetails(BuildContext context) => [
-        AppLocalizations.of(context)!.donationDetail1,
-        AppLocalizations.of(context)!.donationDetail2,
-        AppLocalizations.of(context)!.donationDetail3,
-        AppLocalizations.of(context)!.donationDetail4,
-        AppLocalizations.of(context)!.donationDetail5,
-        AppLocalizations.of(context)!.donationDetail6,
-      ];
+  List<String> getDonationDetails(BuildContext context) {
+    final storage = GetStorage();
+    final country = storage.read('userData')['country'];
+    final locale = Localizations.localeOf(context).languageCode;
+
+    if (country == 'Qatar' || country == 'قطر') {
+      return donationDetailsQatar['Qatar']![locale]!;
+    } else {
+      return donationDetailsOman['Oman']![locale]!;
+    }
+  }
 }

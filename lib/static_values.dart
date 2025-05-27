@@ -40,23 +40,15 @@ final Map<String, Map<String, List<String>>> countryCities = {
       'Bidbid',
       'Samail',
 
-      // Al Sharqiyah North Governorate
+      // Al Sharqiyah  Governorate
       'Al Mudhaibi',
       'Al Qabil',
       'Ibra',
-      'Al Mudayrib',
       'Dima Wa Al Taien',
       'Sur',
       'Al Kamil Wa Al Wafi',
       'Jalan Bani Bu Hassan',
       'Jalan Bani Bu Ali',
-      'Masirah',
-
-      // Al Sharqiyah South Governorate
-      'Sur',
-      'Al Kamil Wa Al Wafi',
-      'Jaalan Bani Bu Hassan',
-      'Jaalan Bani Bu Ali',
       'Masirah',
 
       // Al Wusta Governorate
@@ -72,7 +64,7 @@ final Map<String, Map<String, List<String>>> countryCities = {
       'Dalkut',
       'Mirbat',
       'Sadah',
-      'Shalim and the Hallaniyat Islands',
+      'Shalim ',
       'Taqah',
       'Thumrait',
       'Al Mazyounah',
@@ -80,7 +72,7 @@ final Map<String, Map<String, List<String>>> countryCities = {
 
       // Musandam Governorate
       'Khasab',
-      'Daba Al Bayah',
+      'Daba ',
       'Bukha',
       'Madha',
     ],
@@ -124,19 +116,11 @@ final Map<String, Map<String, List<String>>> countryCities = {
       'بدبد',
       'سمائل',
 
-      // محافظة شمال الشرقية
+      // محافظة  الشرقية
       'المضيبي',
       'القابل',
       'إبراء',
-      'المضيرب ',
       'دماء والطائيين',
-      'صور',
-      'الكامل والوافي',
-      'جعلان بني بو حسن',
-      'جعلان بني بو علي',
-      'مصيرة',
-
-      // محافظة جنوب الشرقية
       'صور',
       'الكامل والوافي',
       'جعلان بني بو حسن',
@@ -214,21 +198,44 @@ final Map<String, Map<String, String>> countryNames = {
 
 final Map<String, String> countryPhoneCodes = {'Oman': '+968', 'Qatar': '+974'};
 
-final Map<String, List<String>> donationDetails = {
-  'en': [
-    'Clothes',
-    'Household Utensils',
-    'Books and Papers',
-    'Curtains and Blankets',
-    'Shoes and Bags',
-    'Children\'s Toys',
-  ],
-  'ar': [
-    'ملابس',
-    'أواني منزلية',
-    'كتب واوراق',
-    'ستائر وبطانيات',
-    'أحذية وحقائب',
-    'العاب اطفال',
-  ],
+final Map<String, Map<String, List<String>>> donationDetailsOman = {
+  'Oman': {
+    'en': [
+      'Clothes',
+      'Household Utensils',
+      'Books and Papers',
+      'Curtains and Blankets',
+      'Shoes and Bags',
+      'Children\'s Toys',
+    ],
+    'ar': [
+      'ملابس',
+      'أواني منزلية',
+      'كتب واوراق',
+      'ستائر وبطانيات',
+      'أحذية وحقائب',
+      'العاب اطفال',
+    ],
+  },
+};
+
+final Map<String, Map<String, List<String>>> donationDetailsQatar = {
+  'Qatar': {
+    'en': [
+      'Electronics',
+      'Clothes',
+      'Household Utensils',
+      'Bedding and Curtains',
+      'Shoes and Bags',
+      'Children\'s Toys',
+    ],
+    'ar': [
+      'الكترونيات',
+      'ملابس',
+      'أواني منزلية',
+      'ستائر وبطانيات',
+      'أحذية وحقائب',
+      'العاب أطفال',
+    ],
+  },
 };

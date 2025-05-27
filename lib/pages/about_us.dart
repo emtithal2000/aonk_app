@@ -37,10 +37,9 @@ class AboutUs extends StatelessWidget {
               ),
             ),
             Gap(height(10)),
-            FutureBuilder(
-              future: Provider.of<PagesProvider>(context).getDetailedCountry(),
-              builder: (context, snapshot) {
-                final data = snapshot.data?.first;
+            Consumer<PagesProvider>(
+              builder: (_, provider, __) {
+                final data = provider.detailedCountry;
                 return Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: width(20),
@@ -176,9 +175,7 @@ class AboutUs extends StatelessWidget {
                                             ? (data?.whatsappLink ?? '')
                                             : index == 1
                                                 ? (data?.instaLink ?? '')
-                                                    .toString()
-                                                : (data?.xLink ?? '')
-                                                    .toString());
+                                                : (data?.xLink ?? ''));
                                       },
                                       child: Image.asset(
                                         contactImage[index],

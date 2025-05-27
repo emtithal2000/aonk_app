@@ -8,7 +8,6 @@ import 'package:aonk_app/sub_pages/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class Navigation extends StatelessWidget {
   const Navigation({super.key});
@@ -150,8 +149,7 @@ class Navigation extends StatelessWidget {
                     ),
                     GestureDetector(
                         onTap: () async {
-                          const number = '+96880006000';
-                          await launchUrlString("tel://$number");
+                          await provider.callAonk();
                         },
                         child: const Icon(
                           IconsaxPlusBroken.call,

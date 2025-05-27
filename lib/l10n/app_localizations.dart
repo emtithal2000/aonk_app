@@ -464,7 +464,7 @@ abstract class AppLocalizations {
   /// No description provided for @successDescription.
   ///
   /// In en, this message translates to:
-  /// **'We will contact you soon'**
+  /// **'You will be contacted by Aonk team.'**
   String get successDescription;
 
   /// No description provided for @ok.

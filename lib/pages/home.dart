@@ -275,6 +275,7 @@ class _HomeState extends State<Home> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     Provider.of<PagesProvider>(context, listen: false).getCharities();
+    Provider.of<PagesProvider>(context, listen: false).getDetailedCountry();
   }
 
   Widget _buildShimmerLoading() {

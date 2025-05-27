@@ -6,6 +6,7 @@ class DetailedCountry {
   final String instaLink;
   final String whatsappLink;
   final String xLink;
+  final int phone;
 
   DetailedCountry({
     required this.country,
@@ -15,6 +16,7 @@ class DetailedCountry {
     required this.instaLink,
     required this.whatsappLink,
     required this.xLink,
+    required this.phone,
   });
 
   factory DetailedCountry.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class DetailedCountry {
       instaLink: json['insta_link'] as String,
       whatsappLink: json['whatsapp_link'] as String,
       xLink: json['x_link'] as String,
+      phone: json['contact_number'] as int,
     );
   }
 
@@ -38,6 +41,7 @@ class DetailedCountry {
       'insta_link': instaLink,
       'whatsapp_link': whatsappLink,
       'x_link': xLink,
+      'contact_number': phone,
     };
   }
 }

@@ -3,6 +3,7 @@ import 'package:aonk_app/pages/first_time.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -25,6 +26,8 @@ class CustomerInfo extends StatelessWidget {
               child: LayoutBuilder(
                 builder: (context, constraints) {
                   double size = constraints.maxWidth;
+                  final userData = GetStorage().read('userData');
+
                   return Column(
                     spacing: height(10),
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -35,172 +38,168 @@ class CustomerInfo extends StatelessWidget {
                           Expanded(
                             child: Card(
                               elevation: 2,
-                              child: FormField<String>(
-                                builder: (state) => Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: size * 0.025),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      child: PopupMenuButton<String>(
-                                        offset: Offset(0, size * 0.1),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                        itemBuilder: (context) => provider
-                                            .getLocalizedCountryNames(
-                                          context,
-                                        )
-                                            .map((String item) {
-                                          return PopupMenuItem<String>(
-                                            value: item,
-                                            child: Text(
-                                              item,
-                                              style: TextStyle(
-                                                fontSize: size * 0.035,
-                                                color: const Color(0xff52b8a0),
-                                              ),
-                                            ),
-                                          );
-                                        }).toList(),
-                                        onSelected: (value) {
-                                          provider.setCountry(value);
-                                          state.didChange(value);
-                                        },
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: size * 0.035),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              SizedBox(
-                                                width: size * 0.35,
-                                                child: Text(
-                                                  provider.selectedCountry ??
-                                                      AppLocalizations.of(
-                                                              context)!
-                                                          .country,
-                                                  style: TextStyle(
-                                                    color:
-                                                        const Color(0xff84beb0),
-                                                    fontSize: height(16),
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  color: Color(0xff52b8a0)
-                                                      .withOpacity(0.1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(4),
-                                                ),
-                                                child: Icon(
-                                                  Icons
-                                                      .keyboard_arrow_down_rounded,
-                                                  color: Color(0xff52b8a0),
-                                                  size: size * 0.05,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: FormField<String>(
-                              builder: (state) => Column(
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Card(
-                                    elevation: 2,
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: size * 0.025),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: size * 0.025),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: PopupMenuButton<String>(
+                                      offset: Offset(0, size * 0.1),
+                                      shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),
                                       ),
-                                      child: PopupMenuButton<String>(
-                                        offset: Offset(0, size * 0.1),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
+                                      itemBuilder: (context) => provider
+                                          .getLocalizedCountryNames(
+                                        context,
+                                      )
+                                          .map((String item) {
+                                        return PopupMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: TextStyle(
+                                              fontSize: size * 0.035,
+                                              color: const Color(0xff52b8a0),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onSelected: (value) {
+                                        provider.setCountry(value);
+                                        provider.updateUserData(
+                                            'country', value);
+                                      },
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: size * 0.035,
                                         ),
-                                        itemBuilder: (context) => provider
-                                            .getCitiesForCountry(
-                                          provider.selectedCountry,
-                                          context,
-                                        )
-                                            .map((String item) {
-                                          return PopupMenuItem<String>(
-                                            value: item,
-                                            child: Text(
-                                              item,
-                                              style: TextStyle(
-                                                fontSize: size * 0.035,
-                                                color: const Color(0xff52b8a0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            SizedBox(
+                                              width: size * 0.35,
+                                              child: Text(
+                                                userData['country'] ??
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .country,
+                                                style: TextStyle(
+                                                  color:
+                                                      const Color(0xff84beb0),
+                                                  fontSize: height(16),
+                                                ),
                                               ),
                                             ),
-                                          );
-                                        }).toList(),
-                                        onSelected: (value) {
-                                          provider.setCity(value);
-                                          state.didChange(value);
-                                        },
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: size * 0.035),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              SizedBox(
-                                                width: size * 0.35,
-                                                child: Text(
-                                                  provider.selectedCity ??
-                                                      AppLocalizations.of(
-                                                              context)!
-                                                          .city,
-                                                  style: TextStyle(
-                                                    color:
-                                                        const Color(0xff84beb0),
-                                                    fontSize: height(16),
-                                                  ),
-                                                ),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Color(0xff52b8a0)
+                                                    .withOpacity(0.1),
+                                                borderRadius:
+                                                    BorderRadius.circular(4),
                                               ),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  color: Color(0xff52b8a0)
-                                                      .withOpacity(0.1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(4),
-                                                ),
-                                                child: Icon(
-                                                  Icons
-                                                      .keyboard_arrow_down_rounded,
-                                                  color: Color(0xff52b8a0),
-                                                  size: size * 0.05,
-                                                ),
+                                              child: Icon(
+                                                Icons
+                                                    .keyboard_arrow_down_rounded,
+                                                color: Color(0xff52b8a0),
+                                                size: size * 0.05,
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Card(
+                                  elevation: 2,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: size * 0.025),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: PopupMenuButton<String>(
+                                      offset: Offset(0, size * 0.1),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      itemBuilder: (context) => provider
+                                          .getCitiesForCountry(
+                                        provider.selectedCountry,
+                                        context,
+                                      )
+                                          .map((String item) {
+                                        return PopupMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: TextStyle(
+                                              fontSize: size * 0.035,
+                                              color: const Color(0xff52b8a0),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onSelected: (value) {
+                                        provider.setCity(value);
+                                        provider.updateUserData('city', value);
+                                      },
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: size * 0.035),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            SizedBox(
+                                              width: size * 0.35,
+                                              child: Text(
+                                                userData['city'] ??
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .city,
+                                                style: TextStyle(
+                                                  color:
+                                                      const Color(0xff84beb0),
+                                                  fontSize: height(16),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Color(0xff52b8a0)
+                                                    .withOpacity(0.1),
+                                                borderRadius:
+                                                    BorderRadius.circular(4),
+                                              ),
+                                              child: Icon(
+                                                Icons
+                                                    .keyboard_arrow_down_rounded,
+                                                color: Color(0xff52b8a0),
+                                                size: size * 0.05,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -213,19 +212,17 @@ class CustomerInfo extends StatelessWidget {
                         child: TextFormField(
                           controller: provider.controllers[0],
                           keyboardType: TextInputType.name,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.name}';
-                            }
-                            return null;
-                          },
                           decoration: inputDecoration(
                             context,
-                            AppLocalizations.of(context)!.name,
+                            userData['name'] == ''
+                                ? AppLocalizations.of(context)!.name
+                                : userData['name'],
                             IconsaxPlusBroken.user,
-                            true,
+                            false,
                           ),
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            provider.updateUserData('name', value);
+                          },
                         ),
                       ),
                       Card(
@@ -235,21 +232,31 @@ class CustomerInfo extends StatelessWidget {
                         ),
                         child: TextFormField(
                           controller: provider.controllers[1],
-                          autovalidateMode: AutovalidateMode.onUnfocus,
                           keyboardType: TextInputType.phone,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(8),
+                          ],
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.phoneNumber}';
+                            if (value!.isNotEmpty) {
+                              if (value.length < 8) {
+                                return '${AppLocalizations.of(context)!.phoneNumber} must be at least 8 digits';
+                              }
                             }
+
                             return null;
                           },
                           decoration: inputDecoration(
                             context,
-                            AppLocalizations.of(context)!.phoneNumber,
+                            userData['phone'] == ''
+                                ? AppLocalizations.of(context)!.phoneNumber
+                                : userData['phone'],
                             IconsaxPlusBroken.call,
-                            true,
+                            false,
                           ),
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            provider.updateUserData('phone', value);
+                          },
                         ),
                       ),
                       Card(
@@ -272,11 +279,15 @@ class CustomerInfo extends StatelessWidget {
                           },
                           decoration: inputDecoration(
                             context,
-                            AppLocalizations.of(context)!.email,
+                            userData['email'] == ''
+                                ? AppLocalizations.of(context)!.email
+                                : userData['email'],
                             IconsaxPlusBroken.sms,
-                            true,
+                            false,
                           ),
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            provider.updateUserData('email', value);
+                          },
                         ),
                       ),
                       Card(
@@ -290,11 +301,15 @@ class CustomerInfo extends StatelessWidget {
                           keyboardType: TextInputType.number,
                           decoration: inputDecoration(
                             context,
-                            AppLocalizations.of(context)!.streetNumber,
+                            userData['street'] == ''
+                                ? AppLocalizations.of(context)!.streetNumber
+                                : userData['street'],
                             IconsaxPlusBroken.location,
-                            true,
+                            false,
                           ),
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            provider.updateUserData('street', value);
+                          },
                         ),
                       ),
                       Card(
@@ -308,11 +323,15 @@ class CustomerInfo extends StatelessWidget {
                           keyboardType: TextInputType.number,
                           decoration: inputDecoration(
                             context,
-                            AppLocalizations.of(context)!.buildingNumber,
+                            userData['building'] == ''
+                                ? AppLocalizations.of(context)!.buildingNumber
+                                : userData['building'],
                             IconsaxPlusBroken.building_4,
-                            true,
+                            false,
                           ),
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            provider.updateUserData('building', value);
+                          },
                         ),
                       ),
                       Gap(height(10)),
@@ -322,15 +341,6 @@ class CustomerInfo extends StatelessWidget {
                           heroTag: null,
                           onPressed: () {
                             if (provider.loginKey.currentState!.validate()) {
-                              GetStorage().write('userData', {
-                                'name': provider.controllers[0].text,
-                                'phone': provider.controllers[1].text,
-                                'email': provider.controllers[2].text,
-                                'street': provider.controllers[3].text,
-                                'building': provider.controllers[4].text,
-                                'city': provider.selectedCity,
-                                'country': provider.selectedCountry,
-                              });
                               Provider.of<PagesProvider>(context, listen: false)
                                   .clearCharities();
 

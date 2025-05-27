@@ -1,15 +1,11 @@
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/location.dart';
 import 'package:aonk_app/pages/about_us.dart';
-import 'package:aonk_app/pages/first_time.dart';
 import 'package:aonk_app/pages/notification.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
-import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/theme/theme_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 
 // Update the _primaryColor constant to use ThemeColors
@@ -114,86 +110,86 @@ Drawer buildDrawer(BuildContext context) {
               Icons.settings,
               AppLocalizations.of(context)!.settings,
               () => showSettingsDialog(context)),
-          Spacer(),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: width(10)),
-            alignment:
-                context.watch<LocaleProvider>().locale.languageCode == 'ar'
-                    ? Alignment.centerLeft
-                    : Alignment.centerRight,
-            child: FloatingActionButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      title: Text(
-                        AppLocalizations.of(context)!.alert,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xff52b8a0),
-                          fontWeight: FontWeight.bold,
-                          fontSize: height(20),
-                        ),
-                      ),
-                      content: Text(
-                        AppLocalizations.of(context)!.alert2,
-                        textAlign: TextAlign.center,
-                      ),
-                      actionsAlignment: MainAxisAlignment.spaceEvenly,
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context); // Close dialog
-                            GetStorage().erase();
-                            Provider.of<PagesProvider>(context, listen: false)
-                                .resetValues();
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const FirstTime()),
-                              (route) => false,
-                            );
-                          },
-                          child: Text(
-                            AppLocalizations.of(context)!.deleteAccount,
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: height(12),
-                            ),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context); // Close dialog
-                          },
-                          child: Text(
-                            AppLocalizations.of(context)!.cancel,
-                            style: TextStyle(
-                              color: Color(0xff52b8a0),
-                              fontSize: height(12),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              heroTag: null,
-              tooltip: AppLocalizations.of(context)!.deleteAccount,
-              backgroundColor: Color(0xff84beb0),
-              child: Icon(
-                Icons.logout,
-                color: Colors.white,
-                size: width(20),
-              ),
-            ),
-          ),
-          Gap(height(10)),
+          // Spacer(),
+          // Container(
+          //   padding: EdgeInsets.symmetric(horizontal: width(10)),
+          //   alignment:
+          //       context.watch<LocaleProvider>().locale.languageCode == 'ar'
+          //           ? Alignment.centerLeft
+          //           : Alignment.centerRight,
+          //   child: FloatingActionButton(
+          //     onPressed: () {
+          //       showDialog(
+          //         context: context,
+          //         builder: (BuildContext context) {
+          //           return AlertDialog(
+          //             shape: RoundedRectangleBorder(
+          //               borderRadius: BorderRadius.circular(25),
+          //             ),
+          //             title: Text(
+          //               AppLocalizations.of(context)!.alert,
+          //               textAlign: TextAlign.center,
+          //               style: TextStyle(
+          //                 color: Color(0xff52b8a0),
+          //                 fontWeight: FontWeight.bold,
+          //                 fontSize: height(20),
+          //               ),
+          //             ),
+          //             content: Text(
+          //               AppLocalizations.of(context)!.alert2,
+          //               textAlign: TextAlign.center,
+          //             ),
+          //             actionsAlignment: MainAxisAlignment.spaceEvenly,
+          //             actions: [
+          //               TextButton(
+          //                 onPressed: () {
+          //                   Navigator.pop(context); // Close dialog
+          //                   GetStorage().erase();
+          //                   Provider.of<PagesProvider>(context, listen: false)
+          //                       .resetValues();
+          //                   Navigator.pushAndRemoveUntil(
+          //                     context,
+          //                     MaterialPageRoute(
+          //                         builder: (context) => const FirstTime()),
+          //                     (route) => false,
+          //                   );
+          //                 },
+          //                 child: Text(
+          //                   AppLocalizations.of(context)!.deleteAccount,
+          //                   style: TextStyle(
+          //                     color: Colors.red,
+          //                     fontSize: height(12),
+          //                   ),
+          //                 ),
+          //               ),
+          //               TextButton(
+          //                 onPressed: () {
+          //                   Navigator.pop(context); // Close dialog
+          //                 },
+          //                 child: Text(
+          //                   AppLocalizations.of(context)!.cancel,
+          //                   style: TextStyle(
+          //                     color: Color(0xff52b8a0),
+          //                     fontSize: height(12),
+          //                   ),
+          //                 ),
+          //               ),
+          //             ],
+          //           );
+          //         },
+          //       );
+          //     },
+          //     heroTag: null,
+          //     tooltip: AppLocalizations.of(context)!.deleteAccount,
+          //     backgroundColor: Color(0xff84beb0),
+          //     child: Icon(
+          //       Icons.logout,
+          //       color: Colors.white,
+          //       size: width(20),
+          //     ),
+          //   ),
+          // ),
+          // Gap(height(10)),
         ],
       ),
     ),

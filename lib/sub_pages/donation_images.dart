@@ -89,7 +89,7 @@ class DonationImages extends StatelessWidget {
                     animType: AnimType.rightSlide,
                     title: AppLocalizations.of(context)!.success,
                     desc: AppLocalizations.of(context)!.successDescription,
-                    titleTextStyle: const TextStyle(fontFamily: 'Marhey'),
+                    titleTextStyle: const TextStyle(fontFamily: 'Marhey',),
                     descTextStyle: const TextStyle(fontFamily: 'Marhey'),
                     buttonsTextStyle: const TextStyle(fontFamily: 'Marhey'),
                     btnOkText: AppLocalizations.of(context)!.ok,
