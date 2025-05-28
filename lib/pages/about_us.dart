@@ -23,7 +23,11 @@ class AboutUs extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Gap(height(15)),
+            Gap(
+              height(
+                Theme.of(context).platform == TargetPlatform.iOS ? 50 : 15,
+              ),
+            ),
             IconButton(
               onPressed: () {
                 Navigator.pop(context);

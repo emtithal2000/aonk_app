@@ -33,22 +33,16 @@ class DonationType extends StatelessWidget {
                       context: context,
                       builder: (context) => AlertDialog(
                         title: Text(
-                          AppLocalizations.of(context)!.comingSoon,
+                          AppLocalizations.of(context)!.donationAsGift,
+                          textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: width(16),
+                            color: Color(0xff52b8a0),
                           ),
                         ),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text(
-                              AppLocalizations.of(context)!.ok,
-                              style: TextStyle(
-                                fontSize: width(14),
-                              ),
-                            ),
-                          ),
-                        ],
+                        content: Text(
+                          AppLocalizations.of(context)!.comingSoon,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     );
                   },
