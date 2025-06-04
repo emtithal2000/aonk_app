@@ -117,25 +117,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get whatIsAonk => 'What is Aonk?';
 
   @override
-  String get aonkDescription => 'Smart app to get rid of everything that is old and surplus';
+  String get aonkDescription =>
+      'Smart app to get rid of everything that is old and surplus';
 
   @override
-  String get aonkDescription2 => 'You can get rid of everything that is old and surplus';
+  String get aonkDescription2 =>
+      'You can get rid of everything that is old and surplus';
 
   @override
-  String get aonkDescription3 => 'Like clothes , shoes , bags , curtains , blankets , cushions , children\'s toys , kitchenware , books , novels and electronic devices';
+  String get aonkDescription3 =>
+      'Like clothes , shoes , bags , curtains , blankets , cushions , children\'s toys , kitchenware , books , novels and electronic devices';
 
   @override
-  String get aonkDescription3qatar => 'Like clothes , shoes , bags , curtains , blankets , cushions , children\'s toys , kitchenware , books , novels and electronic devices';
+  String get aonkDescription3qatar =>
+      'Like clothes , shoes , bags , curtains , blankets , cushions , children\'s toys , kitchenware , books , novels and electronic devices';
 
   @override
-  String get aonkDescription4 => 'For the good of the associations in Oman, our goal is  ';
+  String get aonkDescription4 =>
+      'For the good of the associations in Oman, our goal is  ';
 
   @override
-  String get aonkDescription4qatar => 'For the good of the associations in Qatar, our goal is  ';
+  String get aonkDescription4qatar =>
+      'For the good of the associations in Qatar, our goal is  ';
 
   @override
-  String get aonkDescription5 => 'To raise your information about us, you can browse our social media sites';
+  String get aonkDescription5 =>
+      'To raise your information about us, you can browse our social media sites';
 
   @override
   String get notifications => 'Notifications';
@@ -153,10 +160,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get giftDonation => 'Gift';
 
   @override
+  String get donationAsGift => 'Donate as a gift';
+
+  @override
   String get clothes => 'Clothes';
 
   @override
-  String get shoesAndBags => 'Shoes and Bags';
+  String get shoesAnDBags => 'Shoes and Bags';
 
   @override
   String get curtainsAndBlankets => 'Curtains and Blankets';

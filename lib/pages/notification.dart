@@ -19,7 +19,11 @@ class NotificationScreen extends StatelessWidget {
         context,
         Column(
           children: [
-            Gap(height(15)),
+            Gap(
+              height(
+                Theme.of(context).platform == TargetPlatform.iOS ? 50 : 15,
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

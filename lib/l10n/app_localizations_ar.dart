@@ -75,7 +75,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get save => 'حفظ';
 
   @override
-  String get pleaseEnter => 'يرجى ادخال';
+  String get pleaseEnter => 'يرجى إدخال';
 
   @override
   String get phoneNumber => 'رقم الهاتف';
@@ -117,25 +117,32 @@ class AppLocalizationsAr extends AppLocalizations {
   String get whatIsAonk => 'ما هو عونك؟!!';
 
   @override
-  String get aonkDescription => 'تطبيق ذكي للتخلص من كل ما هو قديم وفائض عن الحاجة';
+  String get aonkDescription =>
+      'تطبيق ذكي للتخلص من كل ما هو قديم وفائض عن الحاجة';
 
   @override
-  String get aonkDescription2 => 'يمكنك من خلاله التخلص من كل ما هو قديم وفائض عن الحاجة';
+  String get aonkDescription2 =>
+      'يمكنك من خلاله التخلص من كل ما هو قديم وفائض عن الحاجة';
 
   @override
-  String get aonkDescription3 => 'مثل الملابس و الاحذية و الحقائب و الستائر و البطانيات و الشراشف و العاب الاطفال و الاواني المنزلية و الكتب و الروايات و الاجهزة الالكترونية';
+  String get aonkDescription3 =>
+      'مثل الملابس و الاحذية و الحقائب و الستائر و البطانيات و الشراشف و العاب الاطفال و الاواني المنزلية و الكتب و الروايات و الاجهزة الالكترونية';
 
   @override
-  String get aonkDescription3qatar => 'مثل الملابس و الاحذية و الحقائب و الستائر و البطانيات و الشراشف و العاب الاطفال و الاواني المنزلية و الاجهزة الالكترونية';
+  String get aonkDescription3qatar =>
+      'مثل الملابس و الاحذية و الحقائب و الستائر و البطانيات و الشراشف و العاب الاطفال و الاواني المنزلية و الاجهزة الالكترونية';
 
   @override
-  String get aonkDescription4 => 'لـ صالح الجهات الخيرية فالسلطنة  فــ هدفنا هو تخفيف عبء النقل عنكم';
+  String get aonkDescription4 =>
+      'لـ صالح الجهات الخيرية فالسلطنة  فــ هدفنا هو تخفيف عبء النقل عنكم';
 
   @override
-  String get aonkDescription4qatar => 'لـ صالح الجهات الخيرية في قطر  فــ هدفنا هو تخفيف عبء النقل عنكم';
+  String get aonkDescription4qatar =>
+      'لـ صالح الجهات الخيرية في قطر  فــ هدفنا هو تخفيف عبء النقل عنكم';
 
   @override
-  String get aonkDescription5 => 'و لرفع خلفية معلوماتك عنا اكثر، يمكنك تصفح مواقع التواصل الاجتماعي الخاصة بنا ';
+  String get aonkDescription5 =>
+      'و لرفع خلفية معلوماتك عنا اكثر، يمكنك تصفح مواقع التواصل الاجتماعي الخاصة بنا ';
 
   @override
   String get notifications => 'الاشعارات';
@@ -153,10 +160,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get giftDonation => 'تبرع هدية';
 
   @override
+  String get donationAsGift => 'تبرع كـ هدية';
+
+  @override
   String get clothes => 'ملابس';
 
   @override
-  String get shoesAndBags => 'احذية وحقائب';
+  String get shoesAnDBags => 'Shoes and Bags';
 
   @override
   String get curtainsAndBlankets => 'ستائر وبطانيات';

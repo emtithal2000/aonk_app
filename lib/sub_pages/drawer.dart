@@ -81,30 +81,30 @@ Drawer buildDrawer(BuildContext context) {
               },
             );
           }),
-          drawerItems(context, Icons.shopping_bag,
-              AppLocalizations.of(context)!.orderStatus, () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  title: Text(
-                    AppLocalizations.of(context)!.orderStatus,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xff52b8a0),
-                    ),
-                  ),
-                  content: Text(
-                    AppLocalizations.of(context)!.orderStatusSoon,
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              },
-            );
-          }),
+          // drawerItems(context, Icons.shopping_bag,
+          //     AppLocalizations.of(context)!.orderStatus, () {
+          //   showDialog(
+          //     context: context,
+          //     builder: (BuildContext context) {
+          //       return AlertDialog(
+          //         shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(25),
+          //         ),
+          //         title: Text(
+          //           AppLocalizations.of(context)!.orderStatus,
+          //           textAlign: TextAlign.center,
+          //           style: TextStyle(
+          //             color: Color(0xff52b8a0),
+          //           ),
+          //         ),
+          //         content: Text(
+          //           AppLocalizations.of(context)!.orderStatusSoon,
+          //           textAlign: TextAlign.center,
+          //         ),
+          //       );
+          //     },
+          //   );
+          // }),
           drawerItems(
               context,
               Icons.settings,
