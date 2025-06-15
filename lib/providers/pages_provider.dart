@@ -164,13 +164,47 @@ class PagesProvider extends ChangeNotifier {
     }
 
     try {
-      locationData = await location.getLocation().then((value) {
-        return '${value.latitude},${value.longitude}';
-      });
+      final locationData = await location.getLocation();
+      this.locationData = '${locationData.latitude},${locationData.longitude}';
+
+      // Get country from coordinates
+      if (locationData.latitude != null && locationData.longitude != null) {
+        final country = await _getCountryFromCoordinates(
+            locationData.latitude!, locationData.longitude!);
+        if (country != null) {
+          selectedCountry = country;
+        }
+      }
+
       return true;
     } catch (e) {
       return false;
     }
+  }
+
+  Future<String?> _getCountryFromCoordinates(
+      double latitude, double longitude) async {
+    try {
+      final response = await Dio().get(
+        'https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=$latitude&longitude=$longitude',
+      );
+
+      if (response.statusCode == 200) {
+        final countryName = response.data['countryName'] as String;
+
+        log(countryName);
+
+        // Map country name to our supported countries
+        if (countryName.toLowerCase().contains('oman')) {
+          return 'Oman';
+        } else if (countryName.toLowerCase().contains('qatar')) {
+          return 'Qatar';
+        }
+      }
+    } catch (e) {
+      log('Error getting country from coordinates: $e');
+    }
+    return null;
   }
 
   String? getPhoneCodeForCountry(String? country) {
@@ -266,7 +300,7 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  resetValues() {
+  void resetValues() {
     selectedCity = null;
     selectedCountry = null;
     for (int x = 0; x < 5; x++) {

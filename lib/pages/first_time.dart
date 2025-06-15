@@ -158,24 +158,36 @@ class _FirstTimeState extends State<FirstTime> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    buildSelectionMobile(
-                                      size,
-                                      provider.getLocalizedCountryNames(
-                                        context,
+                                    Expanded(
+                                      child: Card(
+                                        elevation: 3,
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: width(16),
+                                            vertical: height(12),
+                                          ),
+                                          child: Text(
+                                            provider.selectedCountry != null
+                                                ? (countryNames[provider
+                                                            .selectedCountry]?[
+                                                        Localizations.localeOf(
+                                                                context)
+                                                            .languageCode] ??
+                                                    provider.selectedCountry!)
+                                                : AppLocalizations.of(context)!
+                                                    .country,
+                                            style: TextStyle(
+                                              color: const Color(0xff52b8a0),
+                                              fontSize: height(16),
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                      provider.selectedCountry != null
-                                          ? (countryNames[
-                                                      provider.selectedCountry]
-                                                  ?[Localizations.localeOf(
-                                                          context)
-                                                      .languageCode] ??
-                                              provider.selectedCountry!)
-                                          : AppLocalizations.of(context)!
-                                              .country,
-                                      onSelected: (value) {
-                                        provider.setCountry(value);
-                                      },
-                                      isExpanded: true,
                                     ),
                                     buildSelectionMobile(
                                       size,

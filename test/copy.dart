@@ -1,7 +1,7 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 
-main() {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   FlutterClipboard.copy('''
 السلام عليكم أخي السائق

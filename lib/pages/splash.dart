@@ -10,6 +10,8 @@ import 'package:gap/gap.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:new_version_plus/new_version_plus.dart';
 import 'dart:developer' as developer;
+import 'package:provider/provider.dart';
+import 'package:aonk_app/providers/pages_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -133,6 +135,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _initializeFiirstCheck() async {
     if (mounted) {
+      // Get location and set country
+      final provider = Provider.of<PagesProvider>(context, listen: false);
+      await provider.getLocation();
+
       Future.delayed(
         const Duration(seconds: 3),
         () {
