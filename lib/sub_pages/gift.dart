@@ -38,7 +38,7 @@ class Gift extends StatelessWidget {
                 context,
               ),
               Gap(height(15)),
-              customButton(context, provider, () {
+              customButton(() {
                 if (provider.formKey.currentState!.validate()) {
                   provider.nextPage(false);
                 }

@@ -16,8 +16,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-Widget customButton(BuildContext context, PagesProvider provider,
-    Function() onPressed, String title) {
+Widget customButton(Function() onPressed, String title) {
   return SizedBox(
     width: double.infinity,
     height: height(40),
@@ -28,6 +27,7 @@ Widget customButton(BuildContext context, PagesProvider provider,
         title,
         style: TextStyle(
           fontSize: width(15),
+          color: Colors.white,
         ),
       ),
     ),
@@ -201,13 +201,9 @@ class PagesProvider extends ChangeNotifier {
   Future<void> postDonation() async {
     try {
       final storage = GetStorage().read('userData');
-      final imageBytes = await image!.readAsBytes();
-
-      final formData = FormData.fromMap({
+      final formDataMap = {
         "charity_name": selectedCharity,
         "types": selected,
-        "donation_image": MultipartFile.fromBytes(imageBytes,
-            filename: 'image_${image?.path.split('/').last}.jpg'),
         "country": storage['country'],
         "city": storage['city'],
         "name": storage['name'],
@@ -221,12 +217,19 @@ class PagesProvider extends ChangeNotifier {
         "gift_phone": controllers[6].text,
         "created_by": storage['name'],
         "request_date": DateTime.now(),
-      });
+      };
 
-      // log(DateTime.now().toString());
-      // log(DateTime.timestamp().toString());
+      // Only add image if it exists
+      if (image != null) {
+        final imageBytes = await image!.readAsBytes();
+        formDataMap["donation_image"] = MultipartFile.fromBytes(
+          imageBytes,
+          filename: 'image_${image?.path.split('/').last}.jpg',
+        );
+      }
 
-      // Uncomment and update the API endpoint when ready
+      final formData = FormData.fromMap(formDataMap);
+
       await Dio().post(
         'https://api.aonk.app/customer_donations',
         data: formData,

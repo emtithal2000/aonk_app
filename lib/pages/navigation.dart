@@ -131,7 +131,7 @@ class Navigation extends StatelessWidget {
                 top: Radius.circular(35),
               ),
               child: BottomAppBar(
-                height: height(70),
+                height: height(50),
                 shape: const CircularNotchedRectangle(),
                 color: const Color(0xff81bdaf),
                 notchMargin: width(5),

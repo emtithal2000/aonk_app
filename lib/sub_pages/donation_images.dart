@@ -26,6 +26,7 @@ class DonationImages extends StatelessWidget {
             Gap(height(15)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              spacing: width(15),
               children: [
                 GestureDetector(
                   onTap: () {
@@ -45,7 +46,7 @@ class DonationImages extends StatelessWidget {
             ),
             Gap(height(15)),
             provider.image != null
-                ? customButton(context, provider, () {
+                ? customButton(() {
                     if (provider.image != null) {
                       provider.postDonation().whenComplete(() {
                         if (context.mounted) {
@@ -68,7 +69,12 @@ class DonationImages extends StatelessWidget {
                                 const TextStyle(fontFamily: 'Marhey'),
                             buttonsTextStyle:
                                 const TextStyle(fontFamily: 'Marhey'),
-                            btnOkText: AppLocalizations.of(context)!.ok,
+                            btnOk: customButton(
+                              () {
+                                Navigator.pop(context);
+                              },
+                              AppLocalizations.of(context)!.ok,
+                            ),
                             btnOkOnPress: () {
                               Navigator.pop(context);
                             },
@@ -79,7 +85,7 @@ class DonationImages extends StatelessWidget {
                   }, AppLocalizations.of(context)!.next)
                 : const SizedBox(),
             Gap(height(15)),
-            customButton(context, provider, () {
+            customButton(() {
               provider.image = null; // Clear any selected image
               provider.postDonation().whenComplete(() {
                 if (context.mounted) {
@@ -89,10 +95,17 @@ class DonationImages extends StatelessWidget {
                     animType: AnimType.rightSlide,
                     title: AppLocalizations.of(context)!.success,
                     desc: AppLocalizations.of(context)!.successDescription,
-                    titleTextStyle: const TextStyle(fontFamily: 'Marhey',),
+                    titleTextStyle: const TextStyle(
+                      fontFamily: 'Marhey',
+                    ),
                     descTextStyle: const TextStyle(fontFamily: 'Marhey'),
                     buttonsTextStyle: const TextStyle(fontFamily: 'Marhey'),
-                    btnOkText: AppLocalizations.of(context)!.ok,
+                    btnOk: customButton(
+                      () {
+                        Navigator.pop(context);
+                      },
+                      AppLocalizations.of(context)!.ok,
+                    ),
                     btnOkOnPress: () {
                       Navigator.pop(context);
                     },

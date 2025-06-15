@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/l10n/l10n.dart';
 import 'package:aonk_app/pages/splash.dart';
@@ -13,16 +11,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:new_version_plus/new_version_plus.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
 
-  // Enable edge-to-edge
+  // Configure edge-to-edge display
   await SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.immersiveSticky,
+    SystemUiMode.edgeToEdge,
   );
 
   runApp(
@@ -80,28 +77,5 @@ class _MyAppState extends State<MyApp> {
         );
       },
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final newVersionPlus = NewVersionPlus();
-      final status = await newVersionPlus.getVersionStatus();
-      log(status?.appStoreLink ?? '');
-      log(status?.localVersion ?? '');
-      log(status?.storeVersion ?? '');
-      log(status?.releaseNotes ?? '');
-      log(status?.canUpdate.toString() ?? '');
-
-      newVersionPlus.showUpdateDialog(
-        context: context,
-        versionStatus: status!,
-        dialogTitle: 'Update Available',
-        dialogText:
-            'A new version of the app is available. Please update to the latest version.',
-        updateButtonText: 'Update',
-      );
-    });
   }
 }

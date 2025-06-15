@@ -79,8 +79,6 @@ class DonationDetails extends StatelessWidget {
               ),
             ),
             customButton(
-              context,
-              provider,
               () {
                 if (provider.selected.isNotEmpty) {
                   provider.nextPage(false);

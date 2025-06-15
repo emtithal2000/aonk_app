@@ -398,11 +398,11 @@ abstract class AppLocalizations {
   /// **'Clothes'**
   String get clothes;
 
-  /// No description provided for @shoesAnDBags.
+  /// No description provided for @shoesAndBags.
   ///
   /// In en, this message translates to:
   /// **'Shoes and Bags'**
-  String get shoesAnDBags;
+  String get shoesAndBags;
 
   /// No description provided for @curtainsAndBlankets.
   ///

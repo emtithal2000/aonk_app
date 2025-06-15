@@ -166,7 +166,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clothes => 'Clothes';
 
   @override
-  String get shoesAnDBags => 'Shoes and Bags';
+  String get shoesAndBags => 'Shoes and Bags';
 
   @override
   String get curtainsAndBlankets => 'Curtains and Blankets';

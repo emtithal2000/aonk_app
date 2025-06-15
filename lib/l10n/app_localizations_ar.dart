@@ -166,7 +166,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get clothes => 'ملابس';
 
   @override
-  String get shoesAnDBags => 'Shoes and Bags';
+  String get shoesAndBags => 'احذية وحقائب';
 
   @override
   String get curtainsAndBlankets => 'ستائر وبطانيات';
