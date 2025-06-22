@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:aonk_app/models/charities_model.dart';
+import 'package:aonk_app/models/countries_model.dart';
 import 'package:aonk_app/models/country_details_model.dart';
+import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/static_values.dart' as staticvalues;
 import 'package:aonk_app/sub_pages/donation_details.dart';
@@ -13,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 Widget customButton(Function() onPressed, String title) {
@@ -37,6 +38,7 @@ Widget customButton(Function() onPressed, String title) {
 class PagesProvider extends ChangeNotifier {
   List<String> selected = [];
   List<Charity> charities = [];
+  List<Countries> countries = [];
   DetailedCountry? detailedCountry;
   List<Widget> pages = [
     const DonationType(), //0
@@ -62,11 +64,12 @@ class PagesProvider extends ChangeNotifier {
   String? locationData;
   bool isGift = false;
 
-  String msg = '';
+  PagesProvider() {
+    getCountries();
+  }
 
   void addSelected(String donation) {
     selected.add(donation);
-
     notifyListeners();
   }
 
@@ -79,8 +82,6 @@ class PagesProvider extends ChangeNotifier {
     charities.clear();
     notifyListeners();
   }
-
-  // get
 
   Future<void> getCharities() async {
     final country = GetStorage().read('userData')['country'];
@@ -98,7 +99,20 @@ class PagesProvider extends ChangeNotifier {
       }
     } on DioException catch (e) {
       log(e.response?.data.toString() ?? 'No response data');
-      msg = e.response?.data;
+    }
+    notifyListeners();
+  }
+
+  Future<void> getCountries() async {
+    try {
+      await Dio().get('https://api.aonk.app/countries').then((value) {
+        var data = value.data['countries'] as List;
+        countries = data
+            .map((e) => Countries.fromJson(e as Map<String, dynamic>))
+            .toList();
+      });
+    } on DioException catch (e) {
+      log(e.response?.data.toString() ?? 'Error');
     }
     notifyListeners();
   }
@@ -132,7 +146,6 @@ class PagesProvider extends ChangeNotifier {
       }
     } on DioException catch (e) {
       log(e.response?.data.toString() ?? 'No response data');
-      msg = e.response?.data;
     }
   }
 
@@ -144,74 +157,46 @@ class PagesProvider extends ChangeNotifier {
         .toList();
   }
 
-  Future<bool> getLocation() async {
-    Location location = Location();
-
-    bool serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-      if (!serviceEnabled) {
-        return false;
-      }
-    }
-
-    PermissionStatus permissionGranted = await location.hasPermission();
-    while (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-      if (permissionGranted == PermissionStatus.granted) {
-        break;
-      }
-    }
-
-    try {
-      final locationData = await location.getLocation();
-      this.locationData = '${locationData.latitude},${locationData.longitude}';
-
-      // Get country from coordinates
-      if (locationData.latitude != null && locationData.longitude != null) {
-        final country = await _getCountryFromCoordinates(
-            locationData.latitude!, locationData.longitude!);
-        if (country != null) {
-          selectedCountry = country;
-        }
-      }
-
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  Future<String?> _getCountryFromCoordinates(
-      double latitude, double longitude) async {
-    try {
-      final response = await Dio().get(
-        'https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=$latitude&longitude=$longitude',
-      );
-
-      if (response.statusCode == 200) {
-        final countryName = response.data['countryName'] as String;
-
-        log(countryName);
-
-        // Map country name to our supported countries
-        if (countryName.toLowerCase().contains('oman')) {
-          return 'Oman';
-        } else if (countryName.toLowerCase().contains('qatar')) {
-          return 'Qatar';
-        }
-      }
-    } catch (e) {
-      log('Error getting country from coordinates: $e');
-    }
-    return null;
-  }
-
   String? getPhoneCodeForCountry(String? country) {
     if (country == null) return '';
     if (country == 'سلطنة عمان') return '+968';
     if (country == 'قطر') return '+974';
     return staticvalues.countryPhoneCodes[country] ?? '';
+  }
+
+  String getLocalizedCityName(Cities city) {
+    return LocaleProvider().locale.languageCode == 'ar'
+        ? city.cityAr!
+        : city.cityEn!;
+  }
+
+  String getLocalizedCountryName(String countryCode, BuildContext context) {
+    final locale = Localizations.localeOf(context);
+    final isArabic = locale.languageCode == 'ar';
+
+    // Find the country in the countries list
+    final country = countries.firstWhere(
+      (c) => c.country?.countryEn?.toUpperCase() == countryCode.toUpperCase(),
+      orElse: () => Countries(),
+    );
+
+    if (country.country != null) {
+      return isArabic
+          ? (country.country!.countryAr ??
+              country.country!.countryEn ??
+              countryCode)
+          : (country.country!.countryEn ?? countryCode);
+    }
+
+    // Fallback for hardcoded cases
+    switch (countryCode.toUpperCase()) {
+      case 'OM':
+        return isArabic ? 'سلطنة عُمان' : 'Oman';
+      case 'QR':
+        return isArabic ? 'قطر' : 'Qatar';
+      default:
+        return countryCode;
+    }
   }
 
   void jumpToPage(int page) {
@@ -276,13 +261,11 @@ class PagesProvider extends ChangeNotifier {
       log('Donation posted successfully');
     } on DioException catch (e) {
       log(e.response?.data.toString() ?? 'No response data');
-      msg = e.response?.data;
     }
   }
 
   void removeSelected(String donation) {
     selected.remove(donation);
-
     notifyListeners();
   }
 

@@ -1,43 +1,45 @@
-class CountryDetails {
-  final String country;
-  final String detailsAr;
-  final String detailsEn;
-  final int detailsId;
-  final String instaLink;
-  final int whatsappNumber;
-  final String xLink;
+class Countries {
+  List<Cities>? cities;
+  Country? country;
 
-  CountryDetails({
-    required this.country,
-    required this.detailsAr,
-    required this.detailsEn,
-    required this.detailsId,
-    required this.instaLink,
-    required this.whatsappNumber,
-    required this.xLink,
-  });
+  Countries({this.cities, this.country});
 
-  factory CountryDetails.fromJson(Map<String, dynamic> json) {
-    return CountryDetails(
-      country: json['country'] as String,
-      detailsAr: json['details_ar'] as String,
-      detailsEn: json['details_en'] as String,
-      detailsId: json['details_id'] as int,
-      instaLink: json['insta_link'] as String,
-      whatsappNumber: json['whatsapp_number'] as int,
-      xLink: json['x_link'] as String,
-    );
+  Countries.fromJson(Map<String, dynamic> json) {
+    if (json['cities'] != null) {
+      cities = <Cities>[];
+      json['cities'].forEach((v) {
+        cities!.add(Cities.fromJson(v));
+      });
+    }
+    country =
+        json['country'] != null ? Country.fromJson(json['country']) : null;
   }
+}
 
-  Map<String, dynamic> toJson() {
-    return {
-      'country': country,
-      'details_ar': detailsAr,
-      'details_en': detailsEn,
-      'details_id': detailsId,
-      'insta_link': instaLink,
-      'whatsapp_number': whatsappNumber,
-      'x_link': xLink,
-    };
+class Cities {
+  String? cityAr;
+  String? cityEn;
+  int? cityId;
+
+  Cities({this.cityAr, this.cityEn, this.cityId});
+
+  Cities.fromJson(Map<String, dynamic> json) {
+    cityAr = json['city_ar'];
+    cityEn = json['city_en'];
+    cityId = json['city_id'];
+  }
+}
+
+class Country {
+  String? countryAr;
+  String? countryEn;
+  int? countryId;
+
+  Country({this.countryAr, this.countryEn, this.countryId});
+
+  Country.fromJson(Map<String, dynamic> json) {
+    countryAr = json['name_ar'];
+    countryEn = json['name_en'];
+    countryId = json['id'];
   }
 }

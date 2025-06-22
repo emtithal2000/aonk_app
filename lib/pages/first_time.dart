@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:aonk_app/builders.dart';
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/pages/login.dart';
@@ -5,7 +7,6 @@ import 'package:aonk_app/pages/navigation.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
-import 'package:aonk_app/static_values.dart';
 import 'package:aonk_app/value.dart' as staticvalues;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -166,24 +167,20 @@ class _FirstTimeState extends State<FirstTime> {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                         ),
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: width(16),
-                                            vertical: height(12),
-                                          ),
-                                          child: Text(
-                                            provider.selectedCountry != null
-                                                ? (countryNames[provider
-                                                            .selectedCountry]?[
-                                                        Localizations.localeOf(
-                                                                context)
-                                                            .languageCode] ??
-                                                    provider.selectedCountry!)
-                                                : AppLocalizations.of(context)!
-                                                    .country,
-                                            style: TextStyle(
-                                              color: const Color(0xff52b8a0),
-                                              fontSize: height(16),
+                                        child: TextField(
+                                          enabled: false,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            isDense: true,
+                                            hintText: provider
+                                                .getLocalizedCountryName(
+                                              Platform.localeName.split('_')[1],
+                                              context,
+                                            ),
+                                            hintStyle: TextStyle(
+                                              color: const Color(0xff84beb0),
                                             ),
                                           ),
                                         ),
@@ -498,11 +495,5 @@ class _FirstTimeState extends State<FirstTime> {
   String? getPhoneCodeForCountry(String? country) {
     if (country == null) return '';
     return staticvalues.countryPhoneCodes[country] ?? '';
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    context.read<PagesProvider>().getLocation();
   }
 }
