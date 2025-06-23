@@ -1,8 +1,10 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:aonk_app/location.dart';
 import 'package:aonk_app/pages/first_time.dart';
 import 'package:aonk_app/pages/navigation.dart';
+import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,6 +12,8 @@ import 'package:gap/gap.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:new_version_plus/new_version_plus.dart';
 import 'dart:developer' as developer;
+
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -59,6 +63,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _checkVersion(BuildContext context) async {
     try {
       final newVersionPlus = NewVersionPlus();
+      Provider.of<PagesProvider>(context, listen: false).getCountries();
       final status = await newVersionPlus.getVersionStatus();
 
       if (status?.canUpdate == true) {
@@ -132,6 +137,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _initializeFiirstCheck() async {
+    log("Data: ${GetStorage().read('userData')}");
     if (mounted) {
       Future.delayed(
         const Duration(seconds: 3),

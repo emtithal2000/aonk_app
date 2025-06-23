@@ -76,7 +76,7 @@ List<String> contactImage = [
 final Map<String, String> countryPhoneCodes = {
   'Oman': '(968+)',
   'Qatar': '(974+)',
-  'سلطنة عمان': '(968+)',
+  'سلطنة عُمان': '(968+)',
   'قطر': '(974+)',
 };
 

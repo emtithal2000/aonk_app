@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:aonk_app/builders.dart';
@@ -14,6 +15,7 @@ import 'package:gap/gap.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:aonk_app/models/countries_model.dart';
 
 InputDecoration inputDecoration(
   BuildContext context,
@@ -188,13 +190,13 @@ class _FirstTimeState extends State<FirstTime> {
                                     ),
                                     buildSelectionMobile(
                                       size,
-                                      provider.getCitiesForCountry(
-                                        provider.selectedCountry,
-                                        context,
-                                      ),
-                                      provider.selectedCity ??
-                                          AppLocalizations.of(context)!.city,
-                                      onSelected: (value) {
+                                      provider.getCitiesForCountry(),
+                                      context,
+                                      provider.selectedCity != null
+                                          ? provider.getLocalizedCityName(
+                                              provider.selectedCity!)
+                                          : AppLocalizations.of(context)!.city,
+                                      onSelected: (Cities value) {
                                         provider.setCity(value);
                                       },
                                       isExpanded: true,
@@ -257,7 +259,7 @@ class _FirstTimeState extends State<FirstTime> {
                                                   null ||
                                               provider.controllers[1].text
                                                   .isNotEmpty
-                                          ? '${getPhoneCodeForCountry(provider.selectedCountry)} '
+                                          ? '${provider.getPhoneCodeForCountry(provider.selectedCountry)} '
                                           : '',
                                       floatingLabelBehavior:
                                           FloatingLabelBehavior.always,
@@ -386,7 +388,7 @@ class _FirstTimeState extends State<FirstTime> {
                                                 provider.controllers[0].text,
                                             'phone': provider.controllers[1]
                                                     .text.isNotEmpty
-                                                ? '${getPhoneCodeForCountry(provider.selectedCountry)}${provider.controllers[1].text}'
+                                                ? '${provider.getPhoneCodeForCountry(provider.selectedCountry)}${provider.controllers[1].text}'
                                                 : '',
                                             'email':
                                                 provider.controllers[2].text,
@@ -394,22 +396,28 @@ class _FirstTimeState extends State<FirstTime> {
                                                 provider.controllers[3].text,
                                             'building':
                                                 provider.controllers[4].text,
-                                            'city': provider.selectedCity,
+                                            'city': provider.selectedCity !=
+                                                    null
+                                                ? provider.getLocalizedCityName(
+                                                    provider.selectedCity!)
+                                                : null,
                                             'country': provider.selectedCountry,
                                             'location': provider.locationData,
                                             'created_by':
                                                 provider.controllers[0].text,
                                           },
-                                        );
-                                        if (context.mounted) {
-                                          Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Navigation(),
-                                            ),
-                                          );
-                                        }
+                                        ).whenComplete(() {
+                                          log("Data: ${GetStorage().read('userData')}");
+                                          if (context.mounted) {
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const Navigation(),
+                                              ),
+                                            );
+                                          }
+                                        });
                                       }
                                     },
                                     backgroundColor: const Color(0xff81bdaf),

@@ -8,6 +8,7 @@ import 'package:gap/gap.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:aonk_app/models/countries_model.dart';
 
 class CustomerInfo extends StatelessWidget {
   const CustomerInfo({super.key});
@@ -48,20 +49,20 @@ class CustomerInfo extends StatelessWidget {
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(15),
                                     ),
-                                    child: PopupMenuButton<String>(
+                                    child: PopupMenuButton<Countries>(
                                       offset: Offset(0, size * 0.1),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),
                                       ),
                                       itemBuilder: (context) => provider
-                                          .getLocalizedCountryNames(
-                                        context,
-                                      )
-                                          .map((String item) {
-                                        return PopupMenuItem<String>(
+                                          .countries
+                                          .map((Countries item) {
+                                        return PopupMenuItem<Countries>(
                                           value: item,
                                           child: Text(
-                                            item,
+                                            provider.getLocalizedCountryName(
+                                                item.country?.countryEn ?? '',
+                                                context),
                                             style: TextStyle(
                                               fontSize: size * 0.035,
                                               color: const Color(0xff52b8a0),
@@ -69,15 +70,17 @@ class CustomerInfo extends StatelessWidget {
                                           ),
                                         );
                                       }).toList(),
-                                      onSelected: (value) {
+                                      onSelected: (Countries value) {
                                         provider.setCountry(value);
                                         provider.updateUserData(
-                                            'country', value);
+                                            'country',
+                                            provider.getLocalizedCountryName(
+                                                value.country?.countryEn ?? '',
+                                                context));
                                       },
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
-                                          horizontal: size * 0.035,
-                                        ),
+                                            horizontal: size * 0.035),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -85,8 +88,15 @@ class CustomerInfo extends StatelessWidget {
                                             SizedBox(
                                               width: size * 0.35,
                                               child: Text(
-                                                userData['country'] ??
-                                                    AppLocalizations.of(
+                                                provider.selectedCountry != null
+                                                    ? provider.getLocalizedCountryName(
+                                                        provider
+                                                                .selectedCountry!
+                                                                .country
+                                                                ?.countryEn ??
+                                                            '',
+                                                        context)
+                                                    : AppLocalizations.of(
                                                             context)!
                                                         .country,
                                                 style: TextStyle(
@@ -132,21 +142,18 @@ class CustomerInfo extends StatelessWidget {
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(15),
                                     ),
-                                    child: PopupMenuButton<String>(
+                                    child: PopupMenuButton<Cities>(
                                       offset: Offset(0, size * 0.1),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),
                                       ),
                                       itemBuilder: (context) => provider
-                                          .getCitiesForCountry(
-                                        provider.selectedCountry,
-                                        context,
-                                      )
-                                          .map((String item) {
-                                        return PopupMenuItem<String>(
+                                          .getCitiesForCountry()
+                                          .map((Cities item) {
+                                        return PopupMenuItem<Cities>(
                                           value: item,
                                           child: Text(
-                                            item,
+                                            provider.getLocalizedCityName(item),
                                             style: TextStyle(
                                               fontSize: size * 0.035,
                                               color: const Color(0xff52b8a0),
@@ -154,9 +161,12 @@ class CustomerInfo extends StatelessWidget {
                                           ),
                                         );
                                       }).toList(),
-                                      onSelected: (value) {
+                                      onSelected: (Cities value) {
                                         provider.setCity(value);
-                                        provider.updateUserData('city', value);
+                                        provider.updateUserData(
+                                            'city',
+                                            provider
+                                                .getLocalizedCityName(value));
                                       },
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
@@ -168,8 +178,12 @@ class CustomerInfo extends StatelessWidget {
                                             SizedBox(
                                               width: size * 0.35,
                                               child: Text(
-                                                userData['city'] ??
-                                                    AppLocalizations.of(
+                                                provider.selectedCity != null
+                                                    ? provider
+                                                        .getLocalizedCityName(
+                                                            provider
+                                                                .selectedCity!)
+                                                    : AppLocalizations.of(
                                                             context)!
                                                         .city,
                                                 style: TextStyle(

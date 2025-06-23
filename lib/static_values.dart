@@ -191,12 +191,35 @@ final Map<String, Map<String, List<String>>> countryCities = {
   },
 };
 
-final Map<String, Map<String, String>> countryNames = {
-  'Oman': {'en': 'Oman', 'ar': 'سلطنة عمان'},
-  'Qatar': {'en': 'Qatar', 'ar': 'قطر'},
+// Unified country information map
+final Map<String, Map<String, dynamic>> countries = {
+  'Oman': {
+    'en': 'Oman',
+    'ar': 'سلطنة عُمان',
+    'code': 'OM',
+    'phoneCode': '+968',
+  },
+  'Qatar': {
+    'en': 'Qatar',
+    'ar': 'قطر',
+    'code': 'QR',
+    'phoneCode': '+974',
+  },
 };
 
-final Map<String, String> countryPhoneCodes = {'Oman': '+968', 'Qatar': '+974'};
+// Helper getters for backward compatibility
+Map<String, Map<String, String>> get countryNames => {
+      for (var entry in countries.entries)
+        entry.key: {'en': entry.value['en'], 'ar': entry.value['ar']}
+    };
+
+Map<String, String> get countryPhoneCodes =>
+    {for (var entry in countries.entries) entry.key: entry.value['phoneCode']};
+
+Map<String, Map<String, String>> get countryCodeToNames => {
+      for (var entry in countries.entries)
+        entry.value['code']: {'en': entry.value['en'], 'ar': entry.value['ar']}
+    };
 
 final Map<String, Map<String, List<String>>> donationDetailsOman = {
   'Oman': {

@@ -5,7 +5,7 @@ import 'package:aonk_app/models/countries_model.dart';
 import 'package:aonk_app/models/country_details_model.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/size_config.dart';
-import 'package:aonk_app/static_values.dart' as staticvalues;
+import 'package:aonk_app/static_values.dart';
 import 'package:aonk_app/sub_pages/donation_details.dart';
 import 'package:aonk_app/sub_pages/donation_images.dart';
 import 'package:aonk_app/sub_pages/donation_type.dart';
@@ -55,18 +55,14 @@ class PagesProvider extends ChangeNotifier {
   int pageIndex = 0;
 
   XFile? image;
-  String? selectedCity;
-  String? selectedCountry;
+  Cities? selectedCity;
+  Countries? selectedCountry;
   String? selectedCharity;
   String? selectedDonationType;
   String? selectedGiftName;
   String? selectedGiftPhone;
   String? locationData;
   bool isGift = false;
-
-  PagesProvider() {
-    getCountries();
-  }
 
   void addSelected(String donation) {
     selected.add(donation);
@@ -84,12 +80,14 @@ class PagesProvider extends ChangeNotifier {
   }
 
   Future<void> getCharities() async {
-    final country = GetStorage().read('userData')['country'];
-    final userPlace = GetStorage().read('userData')['city'];
+    final countryID = GetStorage().read('userData')['country']?.countryId;
+    final cityID = GetStorage().read('userData')['city']?.cityId;
+    log('countryID: $countryID');
+    log('cityID: $cityID');
 
     try {
       final response = await Dio().get(
-        'https://api.aonk.app/charities_mobile?country=$country&place=$userPlace',
+        'https://api.aonk.app/charities_mobile?country_id=$countryID&city_id=$cityID',
       );
 
       if (response.statusCode == 200) {
@@ -117,19 +115,9 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<String> getCitiesForCountry(String? country, BuildContext context) {
-    switch (country) {
-      case 'سلطنة عمان':
-        country = 'Oman';
-        break;
-      case 'قطر':
-        country = 'Qatar';
-    }
-    if (country == null) return [];
-    final locale = Localizations.localeOf(context);
-    final cities =
-        staticvalues.countryCities[country]?[locale.languageCode] ?? [];
-    return cities;
+  List<Cities> getCitiesForCountry() {
+    if (selectedCountry == null || selectedCountry!.cities == null) return [];
+    return selectedCountry!.cities!;
   }
 
   Future<void> getDetailedCountry() async {
@@ -151,17 +139,18 @@ class PagesProvider extends ChangeNotifier {
 
   List<String> getLocalizedCountryNames(BuildContext context) {
     final locale = Localizations.localeOf(context);
-    return staticvalues.countryNames.keys
-        .map((country) =>
-            staticvalues.countryNames[country]![locale.languageCode]!)
+    return countryNames.keys
+        .map((country) => countryNames[country]![locale.languageCode]!)
         .toList();
   }
 
-  String? getPhoneCodeForCountry(String? country) {
+  String? getPhoneCodeForCountry(Countries? country) {
     if (country == null) return '';
-    if (country == 'سلطنة عمان') return '+968';
-    if (country == 'قطر') return '+974';
-    return staticvalues.countryPhoneCodes[country] ?? '';
+    final countryName =
+        country.country?.countryAr ?? country.country?.countryEn;
+    if (countryName == 'سلطنة عُمان') return '+968';
+    if (countryName == 'قطر') return '+974';
+    return countryPhoneCodes[countryName] ?? '';
   }
 
   String getLocalizedCityName(Cities city) {
@@ -171,32 +160,16 @@ class PagesProvider extends ChangeNotifier {
   }
 
   String getLocalizedCountryName(String countryCode, BuildContext context) {
-    final locale = Localizations.localeOf(context);
-    final isArabic = locale.languageCode == 'ar';
+    final localeCode = Localizations.localeOf(context).languageCode;
 
-    // Find the country in the countries list
-    final country = countries.firstWhere(
-      (c) => c.country?.countryEn?.toUpperCase() == countryCode.toUpperCase(),
-      orElse: () => Countries(),
-    );
-
-    if (country.country != null) {
-      return isArabic
-          ? (country.country!.countryAr ??
-              country.country!.countryEn ??
-              countryCode)
-          : (country.country!.countryEn ?? countryCode);
+    final countryNameMap = countryCodeToNames[countryCode];
+    if (countryNameMap == null) {
+      return countryCode;
     }
 
-    // Fallback for hardcoded cases
-    switch (countryCode.toUpperCase()) {
-      case 'OM':
-        return isArabic ? 'سلطنة عُمان' : 'Oman';
-      case 'QR':
-        return isArabic ? 'قطر' : 'Qatar';
-      default:
-        return countryCode;
-    }
+    final countryName = countryNameMap[localeCode] ?? countryNameMap['en']!;
+
+    return countryName;
   }
 
   void jumpToPage(int page) {
@@ -213,7 +186,6 @@ class PagesProvider extends ChangeNotifier {
         currentPage = 2;
       }
     }
-
     notifyListeners();
   }
 
@@ -278,21 +250,6 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resetSelected() {
-    selectedCity = null;
-    notifyListeners();
-  }
-
-  void resetValues() {
-    selectedCity = null;
-    selectedCountry = null;
-    for (int x = 0; x < 5; x++) {
-      controllers[x].clear();
-    }
-    clearCharities();
-    notifyListeners();
-  }
-
   Future<void> selectImage(bool isCamera) async {
     await ImagePicker()
         .pickImage(
@@ -324,14 +281,13 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setCity(String city) {
+  void setCity(Cities city) {
     selectedCity = city;
     notifyListeners();
   }
 
-  void setCountry(String country) {
+  void setCountry(Countries country) {
     selectedCountry = country;
-    selectedCity = null;
     notifyListeners();
   }
 
