@@ -14,6 +14,17 @@ class Countries {
     country =
         json['country'] != null ? Country.fromJson(json['country']) : null;
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (cities != null) {
+      data['cities'] = cities!.map((v) => v.toJson()).toList();
+    }
+    if (country != null) {
+      data['country'] = country!.toJson();
+    }
+    return data;
+  }
 }
 
 class Cities {
@@ -28,6 +39,14 @@ class Cities {
     cityEn = json['city_en'];
     cityId = json['city_id'];
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['city_ar'] = cityAr;
+    data['city_en'] = cityEn;
+    data['city_id'] = cityId;
+    return data;
+  }
 }
 
 class Country {
@@ -41,5 +60,13 @@ class Country {
     countryAr = json['name_ar'];
     countryEn = json['name_en'];
     countryId = json['id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name_ar'] = countryAr;
+    data['name_en'] = countryEn;
+    data['id'] = countryId;
+    return data;
   }
 }

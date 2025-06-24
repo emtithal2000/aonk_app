@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:aonk_app/location.dart';
@@ -137,7 +136,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _initializeFiirstCheck() async {
-    log("Data: ${GetStorage().read('userData')}");
     if (mounted) {
       Future.delayed(
         const Duration(seconds: 3),

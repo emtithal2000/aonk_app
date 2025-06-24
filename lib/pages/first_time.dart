@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:aonk_app/builders.dart';
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/pages/login.dart';
-import 'package:aonk_app/pages/navigation.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
@@ -190,12 +189,8 @@ class _FirstTimeState extends State<FirstTime> {
                                     ),
                                     buildSelectionMobile(
                                       size,
-                                      provider.getCitiesForCountry(),
                                       context,
-                                      provider.selectedCity != null
-                                          ? provider.getLocalizedCityName(
-                                              provider.selectedCity!)
-                                          : AppLocalizations.of(context)!.city,
+                                      provider,
                                       onSelected: (Cities value) {
                                         provider.setCity(value);
                                       },
@@ -381,43 +376,17 @@ class _FirstTimeState extends State<FirstTime> {
 
                                       if (provider.loginKey.currentState!
                                           .validate()) {
-                                        await GetStorage().write(
-                                          'userData',
-                                          {
-                                            'name':
-                                                provider.controllers[0].text,
-                                            'phone': provider.controllers[1]
-                                                    .text.isNotEmpty
-                                                ? '${provider.getPhoneCodeForCountry(provider.selectedCountry)}${provider.controllers[1].text}'
-                                                : '',
-                                            'email':
-                                                provider.controllers[2].text,
-                                            'street':
-                                                provider.controllers[3].text,
-                                            'building':
-                                                provider.controllers[4].text,
-                                            'city': provider.selectedCity !=
-                                                    null
-                                                ? provider.getLocalizedCityName(
-                                                    provider.selectedCity!)
-                                                : null,
-                                            'country': provider.selectedCountry,
-                                            'location': provider.locationData,
-                                            'created_by':
-                                                provider.controllers[0].text,
-                                          },
-                                        ).whenComplete(() {
-                                          log("Data: ${GetStorage().read('userData')}");
-                                          if (context.mounted) {
-                                            Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const Navigation(),
-                                              ),
-                                            );
-                                          }
-                                        });
+                                        await provider.saveUserData();
+                                        log("Data: ${GetStorage().read('userData')}");
+                                        // if (context.mounted) {
+                                        //   Navigator.pushReplacement(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //       builder: (context) =>
+                                        //           const Navigation(),
+                                        //     ),
+                                        //   );
+                                        // }
                                       }
                                     },
                                     backgroundColor: const Color(0xff81bdaf),

@@ -50,35 +50,7 @@ class DonationImages extends StatelessWidget {
                     if (provider.image != null) {
                       provider.postDonation().whenComplete(() {
                         if (context.mounted) {
-                          AwesomeDialog(
-                            context: context,
-                            dialogType: provider.image == null
-                                ? DialogType.error
-                                : DialogType.success,
-                            animType: AnimType.rightSlide,
-                            title: provider.image == null
-                                ? AppLocalizations.of(context)!.error
-                                : AppLocalizations.of(context)!.success,
-                            desc: provider.image == null
-                                ? AppLocalizations.of(context)!.errorDescription
-                                : AppLocalizations.of(context)!
-                                    .successDescription,
-                            titleTextStyle:
-                                const TextStyle(fontFamily: 'Marhey'),
-                            descTextStyle:
-                                const TextStyle(fontFamily: 'Marhey'),
-                            buttonsTextStyle:
-                                const TextStyle(fontFamily: 'Marhey'),
-                            btnOk: customButton(
-                              () {
-                                Navigator.pop(context);
-                              },
-                              AppLocalizations.of(context)!.ok,
-                            ),
-                            btnOkOnPress: () {
-                              Navigator.pop(context);
-                            },
-                          ).show();
+                          completed(context, provider).show();
                         }
                       });
                     }
@@ -86,53 +58,42 @@ class DonationImages extends StatelessWidget {
                 : const SizedBox(),
             Gap(height(15)),
             customButton(() {
-              provider.image = null; // Clear any selected image
+              provider.image = null;
               provider.postDonation().whenComplete(() {
                 if (context.mounted) {
-                  AwesomeDialog(
-                    context: context,
-                    dialogType: DialogType.success,
-                    animType: AnimType.rightSlide,
-                    title: AppLocalizations.of(context)!.success,
-                    desc: AppLocalizations.of(context)!.successDescription,
-                    titleTextStyle: const TextStyle(
-                      fontFamily: 'Marhey',
-                    ),
-                    descTextStyle: const TextStyle(fontFamily: 'Marhey'),
-                    buttonsTextStyle: const TextStyle(fontFamily: 'Marhey'),
-                    btnOk: customButton(
-                      () {
-                        Navigator.pop(context);
-                      },
-                      AppLocalizations.of(context)!.ok,
-                    ),
-                    btnOkOnPress: () {
-                      Navigator.pop(context);
-                    },
-                  ).show();
+                  completed(context, provider).show();
                 }
               });
             }, AppLocalizations.of(context)!.skip),
-
-            // Gap(height(15)),
-            // customButton(context, provider, () {
-            //   AwesomeDialog(
-            //     context: context,
-            //     dialogType: DialogType.success,
-            //     animType: AnimType.rightSlide,
-            //     title: AppLocalizations.of(context)!.success,
-            //     desc: AppLocalizations.of(context)!.successDescription,
-            //     titleTextStyle: const TextStyle(fontFamily: 'Marhey'),
-            //     descTextStyle: const TextStyle(fontFamily: 'Marhey'),
-            //     buttonsTextStyle: const TextStyle(fontFamily: 'Marhey'),
-            //     btnOkText: AppLocalizations.of(context)!.ok,
-            //     btnOkOnPress: () {
-            //       Navigator.pop(context);
-            //     },
-            //   ).show();
-            // }, AppLocalizations.of(context)!.skip),
           ],
         );
+      },
+    );
+  }
+
+  AwesomeDialog completed(BuildContext context, PagesProvider provider) {
+    return AwesomeDialog(
+      context: context,
+      dialogType:
+          provider.image == null ? DialogType.error : DialogType.success,
+      animType: AnimType.rightSlide,
+      title: provider.image == null
+          ? AppLocalizations.of(context)!.error
+          : AppLocalizations.of(context)!.success,
+      desc: provider.image == null
+          ? AppLocalizations.of(context)!.errorDescription
+          : AppLocalizations.of(context)!.successDescription,
+      titleTextStyle: const TextStyle(fontFamily: 'Marhey'),
+      descTextStyle: const TextStyle(fontFamily: 'Marhey'),
+      buttonsTextStyle: const TextStyle(fontFamily: 'Marhey'),
+      btnOk: customButton(
+        () {
+          Navigator.pop(context);
+        },
+        AppLocalizations.of(context)!.ok,
+      ),
+      btnOkOnPress: () {
+        Navigator.pop(context);
       },
     );
   }

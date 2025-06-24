@@ -1,59 +1,52 @@
-class Charity {
-  final int charityId;
-  final String charityAr;
-  final String charityEn;
-  final String contactPhone;
-  final String country;
-  final String descriptionAr;
-  final String descriptionEn;
-  final bool isnamed;
-  final String logo;
-  final String website;
-  final String place;
+import 'package:aonk_app/models/countries_model.dart';
 
-  Charity({
-    required this.charityId,
-    required this.charityAr,
-    required this.charityEn,
-    required this.contactPhone,
-    required this.country,
-    required this.descriptionAr,
-    required this.descriptionEn,
-    required this.isnamed,
-    required this.logo,
-    required this.website,
-    required this.place,
-  });
+class CharitiesModel {
+  Charity? charity;
+  Cities? city;
+  String? contactPhone;
+  Country? country;
+  String? descriptionAr;
+  String? descriptionEn;
+  bool? isnamed;
+  String? logo;
+  String? website;
 
-  factory Charity.fromJson(Map<String, dynamic> json) {
-    return Charity(
-      charityId: json['charity_id'],
-      charityAr: json['charity_ar'],
-      charityEn: json['charity_en'],
-      contactPhone: json['contact_phone'],
-      country: json['country'],
-      descriptionAr: json['description_ar'],
-      descriptionEn: json['description_en'],
-      isnamed: json['isnamed'],
-      logo: json['logo'],
-      website: json['website'],
-      place: json['place'],
-    );
+  CharitiesModel(
+      {this.charity,
+      this.city,
+      this.contactPhone,
+      this.country,
+      this.descriptionAr,
+      this.descriptionEn,
+      this.isnamed,
+      this.logo,
+      this.website});
+
+  CharitiesModel.fromJson(Map<String, dynamic> json) {
+    charity =
+        json['charity'] != null ? Charity.fromJson(json['charity']) : null;
+    city = json['city'] != null ? Cities.fromJson(json['city']) : null;
+    contactPhone = json['contact_phone'];
+    country =
+        json['country'] != null ? Country.fromJson(json['country']) : null;
+    descriptionAr = json['description_ar'];
+    descriptionEn = json['description_en'];
+    isnamed = json['isnamed'];
+    logo = json['logo'];
+    website = json['website'];
   }
+}
 
-  Map<String, dynamic> toJson() {
-    return {
-      'charity_id': charityId,
-      'charity_ar': charityAr,
-      'charity_en': charityEn,
-      'contact_phone': contactPhone,
-      'country': country,
-      'description_ar': descriptionAr,
-      'description_en': descriptionEn,
-      'isnamed': isnamed,
-      'logo': logo,
-      'website': website,
-      'place': place,
-    };
+class Charity {
+  int? id;
+  String? nameAr;
+  String? nameEn;
+
+  Charity({this.id, this.nameAr, this.nameEn});
+
+  Charity.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    nameAr = json['name_ar'];
+    nameEn = json['name_en'];
   }
 }

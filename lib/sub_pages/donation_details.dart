@@ -1,10 +1,8 @@
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
-import 'package:aonk_app/static_values.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 
 class DonationDetails extends StatelessWidget {
@@ -12,7 +10,6 @@ class DonationDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final donationDetails = getDonationDetails(context);
     return Consumer<PagesProvider>(
       builder: (__, provider, _) {
         return Column(
@@ -30,10 +27,10 @@ class DonationDetails extends StatelessWidget {
             ),
             Gap(height(15)),
             SizedBox(
-              height: height(200),
+              height: height(230),
               width: width(300),
               child: GridView.builder(
-                itemCount: donationDetails.length,
+                itemCount: provider.donationTypes.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -45,10 +42,12 @@ class DonationDetails extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      if (provider.selected.contains(donationDetails[index])) {
-                        provider.removeSelected(donationDetails[index]);
+                      if (provider.selected
+                          .contains(provider.donationTypes[index].id)) {
+                        provider
+                            .removeSelected(provider.donationTypes[index].id!);
                       } else {
-                        provider.addSelected(donationDetails[index]);
+                        provider.addSelected(provider.donationTypes[index].id!);
                       }
                     },
                     child: Container(
@@ -57,16 +56,15 @@ class DonationDetails extends StatelessWidget {
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(15),
                         border: Border.all(
-                          color: Provider.of<PagesProvider>(context)
-                                  .selected
-                                  .contains(donationDetails[index])
+                          color: provider.selected
+                                  .contains(provider.donationTypes[index].id!)
                               ? const Color(0xFF81bdaf)
                               : Colors.transparent,
                           width: 2,
                         ),
                       ),
                       child: Text(
-                        donationDetails[index],
+                        provider.donationTypes[index].nameAr ?? '',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: width(14),
@@ -78,29 +76,17 @@ class DonationDetails extends StatelessWidget {
                 },
               ),
             ),
-            customButton(
-              () {
-                if (provider.selected.isNotEmpty) {
-                  provider.nextPage(false);
-                }
-              },
-              AppLocalizations.of(context)!.next,
-            ),
+            provider.selected.isNotEmpty
+                ? customButton(
+                    () {
+                      provider.nextPage(false);
+                    },
+                    AppLocalizations.of(context)!.next,
+                  )
+                : Container(),
           ],
         );
       },
     );
-  }
-
-  List<String> getDonationDetails(BuildContext context) {
-    final storage = GetStorage();
-    final country = storage.read('userData')['country'];
-    final locale = Localizations.localeOf(context).languageCode;
-
-    if (country == 'Qatar' || country == 'قطر') {
-      return donationDetailsQatar['Qatar']![locale]!;
-    } else {
-      return donationDetailsOman['Oman']![locale]!;
-    }
   }
 }

@@ -1,3 +1,5 @@
+import 'package:aonk_app/l10n/app_localizations.dart';
+import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:aonk_app/models/countries_model.dart';
@@ -119,9 +121,8 @@ Widget buildSelection(
 
 Widget buildSelectionMobile(
   double size,
-  List<Cities> items,
   BuildContext context,
-  String hint, {
+  PagesProvider provider, {
   required Function(Cities) onSelected,
   bool isExpanded = false,
   String? Function(Cities?)? validator,
@@ -142,11 +143,12 @@ Widget buildSelectionMobile(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          itemBuilder: (context) => items.map((Cities item) {
+          itemBuilder: (context) =>
+              provider.getCitiesForCountry().map((Cities item) {
             return PopupMenuItem<Cities>(
               value: item,
               child: Text(
-                item.cityAr ?? item.cityEn ?? '',
+                provider.getLocalizedCityName(item),
                 style: TextStyle(
                   fontSize: size * 0.035,
                   color: const Color(0xff52b8a0),
@@ -163,7 +165,9 @@ Widget buildSelectionMobile(
                 SizedBox(
                   width: isExpanded ? size * 0.25 : size * 0.6,
                   child: Text(
-                    hint,
+                    provider.selectedCity != null
+                        ? provider.getLocalizedCityName(provider.selectedCity!)
+                        : AppLocalizations.of(context)!.city,
                     style: TextStyle(
                       fontSize: size * 0.035,
                       color: const Color(0xff52b8a0),

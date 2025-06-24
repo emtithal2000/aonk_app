@@ -1,5 +1,7 @@
 class DetailedCountry {
-  final String country;
+  final String countryAr;
+  final String countryEn;
+  final int countryId;
   final String detailsAr;
   final String detailsEn;
   final int detailsId;
@@ -9,7 +11,9 @@ class DetailedCountry {
   final int phone;
 
   DetailedCountry({
-    required this.country,
+    required this.countryAr,
+    required this.countryEn,
+    required this.countryId,
     required this.detailsAr,
     required this.detailsEn,
     required this.detailsId,
@@ -21,7 +25,9 @@ class DetailedCountry {
 
   factory DetailedCountry.fromJson(Map<String, dynamic> json) {
     return DetailedCountry(
-      country: json['country'] as String,
+      countryAr: json['country_ar'] as String,
+      countryEn: json['country_en'] as String,
+      countryId: json['country_id'] as int,
       detailsAr: json['details_ar'] as String,
       detailsEn: json['details_en'] as String,
       detailsId: json['details_id'] as int,
@@ -34,7 +40,9 @@ class DetailedCountry {
 
   Map<String, dynamic> toJson() {
     return {
-      'country': country,
+      'country_ar': countryAr,
+      'country_en': countryEn,
+      'country_id': countryId,
       'details_ar': detailsAr,
       'details_en': detailsEn,
       'details_id': detailsId,

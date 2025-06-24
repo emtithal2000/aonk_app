@@ -69,15 +69,15 @@ class _HomeState extends State<Home> {
         children: [
           Gap(height(10)),
           Image.network(
-            provider.charities[index].logo,
+            provider.charities[index].logo ?? '',
             height: height(60),
           ),
           SizedBox(
             width: width(120),
             child: Text(
               context.watch<LocaleProvider>().locale.languageCode == 'ar'
-                  ? provider.charities[index].charityAr
-                  : provider.charities[index].charityEn,
+                  ? provider.charities[index].charity?.nameAr ?? ''
+                  : provider.charities[index].charity?.nameEn ?? '',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -95,7 +95,8 @@ class _HomeState extends State<Home> {
             child: FloatingActionButton(
               heroTag: null,
               onPressed: () {
-                provider.setCharity(provider.charities[index].charityEn);
+                provider.setCharity(
+                    provider.charities[index].charity?.nameEn ?? '');
                 buildDonation(context, provider, index).whenComplete(() {
                   Future.delayed(const Duration(milliseconds: 500), () {
                     if (context.mounted) {
@@ -146,8 +147,8 @@ class _HomeState extends State<Home> {
         builder: (_, dialogProvider, __) => AlertDialog(
           title: Text(
             context.watch<LocaleProvider>().locale.languageCode == 'ar'
-                ? provider.charities[index].charityAr
-                : provider.charities[index].charityEn,
+                ? provider.charities[index].charity?.nameAr ?? ''
+                : provider.charities[index].charity?.nameEn ?? '',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: width(20),
@@ -169,8 +170,8 @@ class _HomeState extends State<Home> {
           return AlertDialog(
             title: Text(
               context.watch<LocaleProvider>().locale.languageCode == 'ar'
-                  ? provider.charities[index].charityAr
-                  : provider.charities[index].charityEn,
+                  ? provider.charities[index].charity?.nameAr ?? ''
+                  : provider.charities[index].charity?.nameEn ?? '',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: height(22),
@@ -201,15 +202,15 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
             Image.network(
-              provider.charities[index].logo,
+              provider.charities[index].logo ?? '',
               height: height(100),
             ),
             SizedBox(
               width: width(200),
               child: Text(
                 context.watch<LocaleProvider>().locale.languageCode == 'ar'
-                    ? provider.charities[index].charityAr
-                    : provider.charities[index].charityEn,
+                    ? provider.charities[index].charity?.nameAr ?? ''
+                    : provider.charities[index].charity?.nameEn ?? '',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -227,7 +228,8 @@ class _HomeState extends State<Home> {
               child: FloatingActionButton(
                 heroTag: null,
                 onPressed: () {
-                  provider.setCharity(provider.charities[index].charityEn);
+                  provider.setCharity(
+                      provider.charities[index].charity?.nameEn ?? '');
                   buildDonation(context, provider, index).whenComplete(() {
                     Future.delayed(const Duration(milliseconds: 500), () {
                       if (context.mounted) {
@@ -276,6 +278,7 @@ class _HomeState extends State<Home> {
     super.didChangeDependencies();
     Provider.of<PagesProvider>(context, listen: false).getCharities();
     Provider.of<PagesProvider>(context, listen: false).getDetailedCountry();
+    Provider.of<PagesProvider>(context, listen: false).getDonationTypes();
   }
 
   Widget _buildShimmerLoading() {

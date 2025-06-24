@@ -8,7 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class AssociationInfo extends StatelessWidget {
-  final Charity charity;
+  final CharitiesModel charity;
   const AssociationInfo({super.key, required this.charity});
 
   @override
@@ -20,8 +20,8 @@ class AssociationInfo extends StatelessWidget {
           Center(
             child: Text(
               context.watch<LocaleProvider>().locale.languageCode == 'ar'
-                  ? charity.descriptionAr
-                  : charity.descriptionEn,
+                  ? charity.descriptionAr ?? ''
+                  : charity.descriptionEn ?? '',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: width(19),
@@ -35,7 +35,7 @@ class AssociationInfo extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () async {
-                  var url = charity.website;
+                  var url = charity.website ?? '';
                   await launchUrl(Uri.parse(url));
                 },
                 child: Image.asset(

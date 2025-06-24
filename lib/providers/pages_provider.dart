@@ -1,8 +1,10 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:aonk_app/models/charities_model.dart';
 import 'package:aonk_app/models/countries_model.dart';
 import 'package:aonk_app/models/country_details_model.dart';
+import 'package:aonk_app/models/types_mode.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/static_values.dart';
@@ -36,9 +38,10 @@ Widget customButton(Function() onPressed, String title) {
 }
 
 class PagesProvider extends ChangeNotifier {
-  List<String> selected = [];
-  List<Charity> charities = [];
+  List<int> selected = [];
+  List<CharitiesModel> charities = [];
   List<Countries> countries = [];
+  List<DonationTypes> donationTypes = [];
   DetailedCountry? detailedCountry;
   List<Widget> pages = [
     const DonationType(), //0
@@ -64,8 +67,13 @@ class PagesProvider extends ChangeNotifier {
   String? locationData;
   bool isGift = false;
 
-  void addSelected(String donation) {
-    selected.add(donation);
+  void addSelected(int id) {
+    selected.add(id);
+    notifyListeners();
+  }
+
+  void removeSelected(int id) {
+    selected.remove(id);
     notifyListeners();
   }
 
@@ -80,20 +88,17 @@ class PagesProvider extends ChangeNotifier {
   }
 
   Future<void> getCharities() async {
-    final countryID = GetStorage().read('userData')['country']?.countryId;
-    final cityID = GetStorage().read('userData')['city']?.cityId;
-    log('countryID: $countryID');
-    log('cityID: $cityID');
+    final countryID = GetStorage().read('userData')['country_id'];
+    final cityID = GetStorage().read('userData')['city_id'];
 
     try {
       final response = await Dio().get(
         'https://api.aonk.app/charities_mobile?country_id=$countryID&city_id=$cityID',
       );
-
       if (response.statusCode == 200) {
         final List<dynamic> charitiesJson = response.data['charities_mobile'];
         charities =
-            charitiesJson.map((json) => Charity.fromJson(json)).toList();
+            charitiesJson.map((json) => CharitiesModel.fromJson(json)).toList();
       }
     } on DioException catch (e) {
       log(e.response?.data.toString() ?? 'No response data');
@@ -108,11 +113,80 @@ class PagesProvider extends ChangeNotifier {
         countries = data
             .map((e) => Countries.fromJson(e as Map<String, dynamic>))
             .toList();
+
+        // After fetching countries, automatically set country based on device locale
+        _setCountryFromDeviceLocale();
       });
     } on DioException catch (e) {
       log(e.response?.data.toString() ?? 'Error');
     }
     notifyListeners();
+  }
+
+  /// Automatically sets the country based on device locale
+  void _setCountryFromDeviceLocale() {
+    if (countries.isEmpty) return;
+
+    final deviceLocale = Platform.localeName.split('_')[1];
+    // Find country by code
+    Countries? foundCountry;
+    for (var country in countries) {
+      final countryCode = _getCountryCode(country);
+      if (countryCode == deviceLocale) {
+        foundCountry = country;
+        break;
+      }
+    }
+
+    // If not found by code, try to find by name
+    if (foundCountry == null) {
+      final deviceCountryName = _getCountryNameFromCode(deviceLocale);
+      if (deviceCountryName != null) {
+        for (var country in countries) {
+          final countryNameEn = country.country?.countryEn;
+          final countryNameAr = country.country?.countryAr;
+
+          if (countryNameEn == deviceCountryName ||
+              countryNameAr == deviceCountryName) {
+            foundCountry = country;
+            break;
+          }
+        }
+      }
+    }
+
+    if (foundCountry != null) {
+      selectedCountry = foundCountry;
+    } else {
+      log('Could not find country for device locale: $deviceLocale');
+    }
+  }
+
+  /// Gets the country code from a Countries object
+  String _getCountryCode(Countries country) {
+    final countryNameEn = country.country?.countryEn;
+    final countryNameAr = country.country?.countryAr;
+
+    // Map country names to codes
+    if (countryNameEn == 'Oman' || countryNameAr == 'سلطنة عُمان') {
+      return 'OM';
+    } else if (countryNameEn == 'Qatar' || countryNameAr == 'قطر') {
+      return 'QR';
+    }
+
+    return '';
+  }
+
+  /// Gets the country name from country code
+  String? _getCountryNameFromCode(String code) {
+    switch (code) {
+      case 'OM':
+        return 'Oman';
+      case 'QR':
+        return 'Qatar';
+      default:
+        return null;
+    }
   }
 
   List<Cities> getCitiesForCountry() {
@@ -121,11 +195,11 @@ class PagesProvider extends ChangeNotifier {
   }
 
   Future<void> getDetailedCountry() async {
-    final country = GetStorage().read('userData')['country'];
+    final countryID = GetStorage().read('userData')['country_id'];
 
     try {
       final response = await Dio().get(
-        'https://api.aonk.app/country_details?country=$country',
+        'https://api.aonk.app/country_details?country_id=$countryID',
       );
 
       if (response.statusCode == 200) {
@@ -137,20 +211,40 @@ class PagesProvider extends ChangeNotifier {
     }
   }
 
-  List<String> getLocalizedCountryNames(BuildContext context) {
-    final locale = Localizations.localeOf(context);
-    return countryNames.keys
-        .map((country) => countryNames[country]![locale.languageCode]!)
-        .toList();
+  Future<void> getDonationTypes() async {
+    try {
+      await Dio()
+          .get('https://api.aonk.app/donation_types?country_id=1')
+          .then((value) {
+        var data = value.data['donation_types'] as List;
+        donationTypes = data
+            .map((e) => DonationTypes.fromJson(e as Map<String, dynamic>))
+            .toList();
+      });
+    } on DioException catch (e) {
+      log(e.response?.data.toString() ?? 'Error');
+    }
+    notifyListeners();
   }
 
   String? getPhoneCodeForCountry(Countries? country) {
     if (country == null) return '';
-    final countryName =
-        country.country?.countryAr ?? country.country?.countryEn;
-    if (countryName == 'سلطنة عُمان') return '+968';
-    if (countryName == 'قطر') return '+974';
-    return countryPhoneCodes[countryName] ?? '';
+
+    final countryNameEn = country.country?.countryEn;
+    final countryNameAr = country.country?.countryAr;
+
+    // Use the existing countryPhoneCodes getter for better performance
+    // First try with English name
+    if (countryNameEn != null && countryPhoneCodes.containsKey(countryNameEn)) {
+      return countryPhoneCodes[countryNameEn];
+    }
+
+    // Then try with Arabic name
+    if (countryNameAr != null && countryPhoneCodes.containsKey(countryNameAr)) {
+      return countryPhoneCodes[countryNameAr];
+    }
+
+    return '';
   }
 
   String getLocalizedCityName(Cities city) {
@@ -170,6 +264,16 @@ class PagesProvider extends ChangeNotifier {
     final countryName = countryNameMap[localeCode] ?? countryNameMap['en']!;
 
     return countryName;
+  }
+
+  /// Gets the localized name of the selected country
+  String? getLocalizedSelectedCountryName(BuildContext context) {
+    if (selectedCountry == null) return null;
+
+    final localeCode = Localizations.localeOf(context).languageCode;
+    return localeCode == 'ar'
+        ? selectedCountry!.country!.countryAr
+        : selectedCountry!.country!.countryEn;
   }
 
   void jumpToPage(int page) {
@@ -236,11 +340,6 @@ class PagesProvider extends ChangeNotifier {
     }
   }
 
-  void removeSelected(String donation) {
-    selected.remove(donation);
-    notifyListeners();
-  }
-
   void reset() {
     currentPage = 0;
     selected.clear();
@@ -305,6 +404,29 @@ class PagesProvider extends ChangeNotifier {
     final userData = GetStorage().read('userData') ?? {};
     userData[key] = value;
     GetStorage().write('userData', userData);
+    notifyListeners();
+  }
+
+  /// Saves complete user data to storage
+  Future<void> saveUserData() async {
+    final userData = {
+      'name': controllers[0].text,
+      'phone': controllers[1].text.isNotEmpty
+          ? '${getPhoneCodeForCountry(selectedCountry)}${controllers[1].text}'
+          : '',
+      'email': controllers[2].text,
+      'street': controllers[3].text,
+      'building': controllers[4].text,
+      'city_id': selectedCity?.cityId,
+      'city_name':
+          selectedCity != null ? getLocalizedCityName(selectedCity!) : null,
+      'country_id': selectedCountry?.country?.countryId,
+      'country_name': selectedCountry?.country?.countryEn,
+      'location': locationData,
+      'created_by': controllers[0].text,
+    };
+
+    await GetStorage().write('userData', userData);
     notifyListeners();
   }
 }
