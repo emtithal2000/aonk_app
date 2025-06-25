@@ -1,9 +1,9 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:aonk_app/builders.dart';
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/pages/login.dart';
+import 'package:aonk_app/pages/navigation.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
@@ -11,7 +11,6 @@ import 'package:aonk_app/value.dart' as staticvalues;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:aonk_app/models/countries_model.dart';
@@ -377,16 +376,16 @@ class _FirstTimeState extends State<FirstTime> {
                                       if (provider.loginKey.currentState!
                                           .validate()) {
                                         await provider.saveUserData();
-                                        log("Data: ${GetStorage().read('userData')}");
-                                        // if (context.mounted) {
-                                        //   Navigator.pushReplacement(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //       builder: (context) =>
-                                        //           const Navigation(),
-                                        //     ),
-                                        //   );
-                                        // }
+
+                                        if (context.mounted) {
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Navigation(),
+                                            ),
+                                          );
+                                        }
                                       }
                                     },
                                     backgroundColor: const Color(0xff81bdaf),

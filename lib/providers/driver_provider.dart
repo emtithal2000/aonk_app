@@ -110,6 +110,12 @@ class DriverProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearLogin() {
+    username.clear();
+    password.clear();
+    notifyListeners();
+  }
+
   /// Fetches donations for a specific driver
   Future<void> getDonations(String driverName) async {
     donations.clear();

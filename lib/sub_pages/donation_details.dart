@@ -64,7 +64,8 @@ class DonationDetails extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        provider.donationTypes[index].nameAr ?? '',
+                        provider
+                            .getLocalizedType(provider.donationTypes[index]),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: width(14),

@@ -33,7 +33,7 @@ class DonationImages extends StatelessWidget {
                     Provider.of<PagesProvider>(context, listen: false)
                         .selectImage(true);
                   },
-                  child: buildSelection('camera2'),
+                  child: buildSelection('camera'),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -45,44 +45,34 @@ class DonationImages extends StatelessWidget {
               ],
             ),
             Gap(height(15)),
-            provider.image != null
-                ? customButton(() {
-                    if (provider.image != null) {
-                      provider.postDonation().whenComplete(() {
-                        if (context.mounted) {
-                          completed(context, provider).show();
-                        }
-                      });
-                    }
-                  }, AppLocalizations.of(context)!.next)
-                : const SizedBox(),
-            Gap(height(15)),
-            customButton(() {
-              provider.image = null;
-              provider.postDonation().whenComplete(() {
+            customButton(() async {
+              await provider.postDonation().then((value) {
                 if (context.mounted) {
-                  completed(context, provider).show();
+                  showCompleted(context, value).show();
                 }
               });
-            }, AppLocalizations.of(context)!.skip),
+            },
+                provider.image != null
+                    ? AppLocalizations.of(context)!.next
+                    : AppLocalizations.of(context)!.skip),
+            Gap(height(15)),
           ],
         );
       },
     );
   }
 
-  AwesomeDialog completed(BuildContext context, PagesProvider provider) {
+  AwesomeDialog showCompleted(BuildContext context, bool success) {
     return AwesomeDialog(
       context: context,
-      dialogType:
-          provider.image == null ? DialogType.error : DialogType.success,
-      animType: AnimType.rightSlide,
-      title: provider.image == null
-          ? AppLocalizations.of(context)!.error
-          : AppLocalizations.of(context)!.success,
-      desc: provider.image == null
-          ? AppLocalizations.of(context)!.errorDescription
-          : AppLocalizations.of(context)!.successDescription,
+      dialogType: success ? DialogType.success : DialogType.error,
+      animType: AnimType.scale,
+      title: success
+          ? AppLocalizations.of(context)!.success
+          : AppLocalizations.of(context)!.error,
+      desc: success
+          ? AppLocalizations.of(context)!.successDescription
+          : AppLocalizations.of(context)!.errorDescription,
       titleTextStyle: const TextStyle(fontFamily: 'Marhey'),
       descTextStyle: const TextStyle(fontFamily: 'Marhey'),
       buttonsTextStyle: const TextStyle(fontFamily: 'Marhey'),

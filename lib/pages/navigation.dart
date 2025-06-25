@@ -18,6 +18,7 @@ class Navigation extends StatelessWidget {
       builder: (context, provider, child) {
         return Scaffold(
           drawer: buildDrawer(context),
+          resizeToAvoidBottomInset: false,
           appBar: AppBar(
             backgroundColor: const Color(0xff81bdaf),
             centerTitle: true,
@@ -31,11 +32,6 @@ class Navigation extends StatelessWidget {
                 iconSize: width(23),
               );
             }),
-            // shape: const RoundedRectangleBorder(
-            //   borderRadius: BorderRadius.vertical(
-            //     bottom: Radius.circular(50),
-            //   ),
-            // ),
             shadowColor: Colors.grey.withOpacity(0.4),
             elevation: 8,
             title: Text(
@@ -46,54 +42,6 @@ class Navigation extends StatelessWidget {
               ),
             ),
           ),
-          // appBar: PreferredSize(
-          //   preferredSize: Size.fromHeight(width(80)),
-          //   child: Container(
-          //     decoration: BoxDecoration(
-          //       color: const Color(0xff81bdaf),
-          //       borderRadius: const BorderRadius.vertical(
-          //         bottom: Radius.circular(50),
-          //       ),
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: Colors.grey.withOpacity(0.4),
-          //     blurRadius: 5,
-          //     spreadRadius: 5,
-          //   ),
-          // ],
-          //     ),
-          //     child: Column(
-          //       mainAxisAlignment: MainAxisAlignment.center,
-          //       children: [
-          //         Gap(height(60)),
-          //         Row(
-          //           mainAxisAlignment: MainAxisAlignment.center,
-          //           children: [
-          //             Row(
-          //               children: [
-          //                 Gap(width(10)),
-          //                 IconButton(
-          //                   onPressed: () {},
-          //                   icon: const Icon(Icons.menu),
-          //                 ),
-          //               ],
-          //             ),
-          //             const Spacer(),
-          //             Text(
-          //               title[provider.pageIndex],
-          //               style: TextStyle(
-          //                 fontSize: height(20),
-          //                 fontFamily: 'Marhey',
-          //                 color: Colors.white,
-          //               ),
-          //             ),
-          //             const Spacer(),
-          //           ],
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
           body: buildContainer(
             context,
             PageView(
@@ -137,6 +85,7 @@ class Navigation extends StatelessWidget {
                 notchMargin: width(5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  spacing: width(50),
                   children: [
                     IconButton(
                       onPressed: () {
@@ -148,19 +97,19 @@ class Navigation extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                        onTap: () async {
-                          await provider.callAonk();
-                        },
-                        child: const Icon(
-                          IconsaxPlusBroken.call,
-                          color: Colors.white,
-                        )),
+                      onTap: () async {
+                        await provider.callAonk();
+                      },
+                      child: const Icon(
+                        IconsaxPlusBroken.call,
+                        color: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
           ),
-          resizeToAvoidBottomInset: false,
         );
       },
     );

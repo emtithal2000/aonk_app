@@ -60,7 +60,7 @@ class PagesProvider extends ChangeNotifier {
   XFile? image;
   Cities? selectedCity;
   Countries? selectedCountry;
-  String? selectedCharity;
+  int? selectedCharityId;
   String? selectedDonationType;
   String? selectedGiftName;
   String? selectedGiftPhone;
@@ -276,6 +276,12 @@ class PagesProvider extends ChangeNotifier {
         : selectedCountry!.country!.countryEn;
   }
 
+  String getLocalizedType(DonationTypes type) {
+    return LocaleProvider().locale.languageCode == 'ar'
+        ? type.nameAr!
+        : type.nameEn!;
+  }
+
   void jumpToPage(int page) {
     pageIndex = page;
     pageController.jumpToPage(page);
@@ -293,14 +299,14 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> postDonation() async {
+  Future<bool> postDonation() async {
     try {
       final storage = GetStorage().read('userData');
       final formDataMap = {
-        "charity_name": selectedCharity,
+        "charity_id": selectedCharityId,
         "types": selected,
-        "country": storage['country'],
-        "city": storage['city'],
+        "country_id": storage['country_id'],
+        "city_id": storage['city_id'],
         "name": storage['name'],
         "phone": storage['phone'],
         "email": storage['email'],
@@ -312,6 +318,7 @@ class PagesProvider extends ChangeNotifier {
         "gift_phone": controllers[6].text,
         "created_by": storage['name'],
         "request_date": DateTime.now(),
+        "platform": "mobile",
       };
 
       // Only add image if it exists
@@ -334,9 +341,10 @@ class PagesProvider extends ChangeNotifier {
           },
         ),
       );
-      log('Donation posted successfully');
+      return true;
     } on DioException catch (e) {
       log(e.response?.data.toString() ?? 'No response data');
+      return false;
     }
   }
 
@@ -346,6 +354,7 @@ class PagesProvider extends ChangeNotifier {
     // name.clear();
     // phone.clear();
     image = null;
+    selectedCharityId = null;
     notifyListeners();
   }
 
@@ -375,8 +384,8 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setCharity(String charity) {
-    selectedCharity = charity;
+  void setCharity(int charityId) {
+    selectedCharityId = charityId;
     notifyListeners();
   }
 
@@ -411,9 +420,7 @@ class PagesProvider extends ChangeNotifier {
   Future<void> saveUserData() async {
     final userData = {
       'name': controllers[0].text,
-      'phone': controllers[1].text.isNotEmpty
-          ? '${getPhoneCodeForCountry(selectedCountry)}${controllers[1].text}'
-          : '',
+      'phone': controllers[1].text.isNotEmpty ? controllers[1].text : '',
       'email': controllers[2].text,
       'street': controllers[3].text,
       'building': controllers[4].text,

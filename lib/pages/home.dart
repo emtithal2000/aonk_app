@@ -95,8 +95,7 @@ class _HomeState extends State<Home> {
             child: FloatingActionButton(
               heroTag: null,
               onPressed: () {
-                provider.setCharity(
-                    provider.charities[index].charity?.nameEn ?? '');
+                provider.setCharity(provider.charities[index].charity?.id ?? 0);
                 buildDonation(context, provider, index).whenComplete(() {
                   Future.delayed(const Duration(milliseconds: 500), () {
                     if (context.mounted) {
@@ -228,8 +227,8 @@ class _HomeState extends State<Home> {
               child: FloatingActionButton(
                 heroTag: null,
                 onPressed: () {
-                  provider.setCharity(
-                      provider.charities[index].charity?.nameEn ?? '');
+                  provider
+                      .setCharity(provider.charities[index].charity?.id ?? 0);
                   buildDonation(context, provider, index).whenComplete(() {
                     Future.delayed(const Duration(milliseconds: 500), () {
                       if (context.mounted) {
