@@ -92,7 +92,6 @@ class DriverProvider extends ChangeNotifier {
   List<CustomerDonation> get donations => _donations;
   String? get driverName => _driverName;
   String? get error => _error;
-
   bool get isLoading => _isLoading;
   DateTime? get selectedDate => _selectedDate;
 

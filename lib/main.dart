@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -63,8 +62,8 @@ class _MyAppState extends State<MyApp> {
             useMaterial3: true,
             fontFamily:
                 context.watch<LocaleProvider>().locale.languageCode == 'ar'
-                    ? GoogleFonts.tajawal().fontFamily
-                    : GoogleFonts.ubuntu().fontFamily,
+                    ? 'Tajawal'
+                    : 'Ubuntu',
           ),
           darkTheme: ThemeData(
             useMaterial3: true,

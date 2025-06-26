@@ -254,7 +254,6 @@ void showSettingsDialog(BuildContext context) {
             //             ? AppLocalizations.of(context)!.darkMode
             //             : AppLocalizations.of(context)!.lightMode,
             //         style: TextStyle(
-            //           fontFamily: 'Marhey',
             //           color: ThemeColors.getTextColor(context),
             //           fontSize: height(16),
             //         ),

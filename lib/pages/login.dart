@@ -244,7 +244,6 @@ class Login extends StatelessWidget {
                                           ? 'Enlish'
                                           : 'Arabic',
                                       style: TextStyle(
-                                        fontFamily: 'Marhey',
                                         fontSize: height(14),
                                         color: const Color(0xff52b8a0),
                                       ),

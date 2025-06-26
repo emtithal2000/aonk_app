@@ -214,77 +214,85 @@ class _DriverPageState extends State<DriverPage> {
                         return Card(
                           elevation: 2,
                           color: Colors.white,
-                          child: ExpansionTile(
-                            title: Text(
-                              '${AppLocalizations.of(context)!.order} ${provider.filteredDonations[index].requestId}',
-                              style: TextStyle(
-                                color: Color(0xff52b8a0),
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                              highlightColor: Colors.transparent,
+                              splashColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
                             ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: width(20),
-                                  vertical: height(10),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${AppLocalizations.of(context)!.name}: ${provider.donations[index].name}',
-                                      style: TextStyle(
-                                        color: Color(0xff52b8a0),
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    Gap(height(5)),
-                                    Text(
-                                      '${AppLocalizations.of(context)!.date}: ${provider.donations[index].deliveryDate}',
-                                      style: TextStyle(
-                                        color: Color(0xff52b8a0),
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    Gap(height(10)),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.menu,
-                                            color: Color(0xff52b8a0),
-                                          ),
-                                          onPressed: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) =>
-                                                  buildStatus(context, index),
-                                            );
-                                          },
-                                        ),
-                                        GestureDetector(
-                                          onTap: () async {
-                                            await launchUrlString(
-                                                "https://wa.me/${provider.donations[index].phone}");
-                                          },
-                                          child: Image.asset(
-                                            'assets/images/whatsapp.png',
-                                            width: width(25),
-                                            height: height(23),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                            child: ExpansionTile(
+                              title: Text(
+                                '${AppLocalizations.of(context)!.order} ${provider.filteredDonations[index].requestId}',
+                                style: TextStyle(
+                                  color: Color(0xff52b8a0),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ],
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: width(20),
+                                    vertical: height(10),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '${AppLocalizations.of(context)!.name}: ${provider.donations[index].name}',
+                                        style: TextStyle(
+                                          color: Color(0xff52b8a0),
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      Gap(height(5)),
+                                      Text(
+                                        '${AppLocalizations.of(context)!.date}: ${provider.donations[index].deliveryDate}',
+                                        style: TextStyle(
+                                          color: Color(0xff52b8a0),
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      Gap(height(10)),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.menu,
+                                              color: Color(0xff52b8a0),
+                                            ),
+                                            onPressed: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    buildStatus(context, index),
+                                              );
+                                            },
+                                          ),
+                                          GestureDetector(
+                                            onTap: () async {
+                                              await launchUrlString(
+                                                  "https://wa.me/${provider.donations[index].phone}");
+                                            },
+                                            child: Image.asset(
+                                              'assets/images/whatsapp.png',
+                                              width: width(25),
+                                              height: height(23),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },

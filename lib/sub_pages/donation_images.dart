@@ -73,9 +73,6 @@ class DonationImages extends StatelessWidget {
       desc: success
           ? AppLocalizations.of(context)!.successDescription
           : AppLocalizations.of(context)!.errorDescription,
-      titleTextStyle: const TextStyle(fontFamily: 'Marhey'),
-      descTextStyle: const TextStyle(fontFamily: 'Marhey'),
-      buttonsTextStyle: const TextStyle(fontFamily: 'Marhey'),
       btnOk: customButton(
         () {
           Navigator.pop(context);
