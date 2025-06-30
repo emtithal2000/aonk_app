@@ -34,7 +34,8 @@ dependencies:
     sdk: flutter
   intl: 
   get_storage:
-  location:
+  geolocator:
+  geocoding:
   dio:
   url_launcher:
   image_picker:

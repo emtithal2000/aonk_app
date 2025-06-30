@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:aonk_app/builders.dart';
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/pages/login.dart';
@@ -175,10 +173,16 @@ class _FirstTimeState extends State<FirstTime> {
                                             ),
                                             isDense: true,
                                             hintText: provider
-                                                .getLocalizedCountryName(
-                                              Platform.localeName.split('_')[1],
-                                              context,
-                                            ),
+                                                        .selectedCountry !=
+                                                    null
+                                                ? provider
+                                                        .getLocalizedSelectedCountryName(
+                                                            context) ??
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .country
+                                                : AppLocalizations.of(context)!
+                                                    .country,
                                             hintStyle: TextStyle(
                                               color: const Color(0xff84beb0),
                                             ),

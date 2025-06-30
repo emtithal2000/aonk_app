@@ -1,6 +1,4 @@
 import 'dart:developer';
-import 'dart:io';
-
 import 'package:aonk_app/models/charities_model.dart';
 import 'package:aonk_app/models/countries_model.dart';
 import 'package:aonk_app/models/country_details_model.dart';
@@ -18,6 +16,7 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:geolocator/geolocator.dart';
 
 Widget customButton(Function() onPressed, String title) {
   return SizedBox(
@@ -108,14 +107,19 @@ class PagesProvider extends ChangeNotifier {
 
   Future<void> getCountries() async {
     try {
-      await Dio().get('https://api.aonk.app/countries').then((value) {
+      await Dio().get(
+        'https://api.aonk.app/countries',
+        queryParameters: {
+          'country_id': 1,
+        },
+      ).then((value) {
         var data = value.data['countries'] as List;
         countries = data
             .map((e) => Countries.fromJson(e as Map<String, dynamic>))
             .toList();
 
-        // After fetching countries, automatically set country based on device locale
-        _setCountryFromDeviceLocale();
+        // After fetching countries, automatically set country based on user location
+        _getUserLocation();
       });
     } on DioException catch (e) {
       log(e.response?.data.toString() ?? 'Error');
@@ -123,69 +127,42 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Automatically sets the country based on device locale
-  void _setCountryFromDeviceLocale() {
-    if (countries.isEmpty) return;
-
-    final deviceLocale = Platform.localeName.split('_')[1];
-    // Find country by code
-    Countries? foundCountry;
-    for (var country in countries) {
-      final countryCode = _getCountryCode(country);
-      if (countryCode == deviceLocale) {
-        foundCountry = country;
-        break;
+  /// Automatically gets user's GPS location and saves it
+  Future<void> _getUserLocation() async {
+    try {
+      // Check if location services are enabled
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        log('Location services are disabled');
+        return;
       }
-    }
 
-    // If not found by code, try to find by name
-    if (foundCountry == null) {
-      final deviceCountryName = _getCountryNameFromCode(deviceLocale);
-      if (deviceCountryName != null) {
-        for (var country in countries) {
-          final countryNameEn = country.country?.countryEn;
-          final countryNameAr = country.country?.countryAr;
-
-          if (countryNameEn == deviceCountryName ||
-              countryNameAr == deviceCountryName) {
-            foundCountry = country;
-            break;
-          }
+      // Check location permission
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          log('Location permissions are denied');
+          return;
         }
       }
-    }
 
-    if (foundCountry != null) {
-      selectedCountry = foundCountry;
-    } else {
-      log('Could not find country for device locale: $deviceLocale');
-    }
-  }
+      if (permission == LocationPermission.deniedForever) {
+        log('Location permissions are permanently denied');
+        return;
+      }
 
-  /// Gets the country code from a Countries object
-  String _getCountryCode(Countries country) {
-    final countryNameEn = country.country?.countryEn;
-    final countryNameAr = country.country?.countryAr;
+      // Get current position with timeout
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+        timeLimit: const Duration(seconds: 10),
+      );
 
-    // Map country names to codes
-    if (countryNameEn == 'Oman' || countryNameAr == 'سلطنة عُمان') {
-      return 'OM';
-    } else if (countryNameEn == 'Qatar' || countryNameAr == 'قطر') {
-      return 'QR';
-    }
-
-    return '';
-  }
-
-  /// Gets the country name from country code
-  String? _getCountryNameFromCode(String code) {
-    switch (code) {
-      case 'OM':
-        return 'Oman';
-      case 'QR':
-        return 'Qatar';
-      default:
-        return null;
+      // Save location data
+      locationData = '${position.latitude},${position.longitude}';
+      log('Location obtained: $locationData');
+    } catch (e) {
+      log('Error in _getUserLocation: $e');
     }
   }
 

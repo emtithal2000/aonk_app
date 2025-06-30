@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/pages/first_time.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
@@ -52,10 +50,12 @@ class CustomerInfo extends StatelessWidget {
                                     borderSide: BorderSide.none,
                                   ),
                                   isDense: true,
-                                  hintText: provider.getLocalizedCountryName(
-                                    Platform.localeName.split('_')[1],
-                                    context,
-                                  ),
+                                  hintText: provider.selectedCountry != null
+                                      ? provider
+                                              .getLocalizedSelectedCountryName(
+                                                  context) ??
+                                          AppLocalizations.of(context)!.country
+                                      : AppLocalizations.of(context)!.country,
                                   hintStyle: TextStyle(
                                     color: const Color(0xff84beb0),
                                   ),
