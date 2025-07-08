@@ -111,6 +111,12 @@ Drawer buildDrawer(BuildContext context) {
               AppLocalizations.of(context)!.settings,
               () => showSettingsDialog(context)),
           // Spacer(),
+          // FloatingActionButton(
+          //   onPressed: () {
+          //     GetStorage().erase();
+          //   },
+          //   child: Icon(Icons.logout),
+          // ),
           // Container(
           //   padding: EdgeInsets.symmetric(horizontal: width(10)),
           //   alignment:

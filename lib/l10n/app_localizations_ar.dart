@@ -199,7 +199,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get success => 'تم إرسال التبرع بنجاح';
 
   @override
-  String get errorDescription => 'يرجى اختيار صورة';
+  String get errorDescription => 'حدث خطا ما';
 
   @override
   String get successDescription => 'سيتم التواصل معك من قبل فريق عونك';
@@ -289,6 +289,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noResponse => 'عدم الرد';
 
   @override
+  String get others => 'أخرى';
+
+  @override
   String get send => 'ارسال';
 
   @override
@@ -311,6 +314,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get editSuccessfully => 'تم التعديل بنجاح';
+
+  @override
+  String get editFailed => 'فشل التعديل';
 
   @override
   String get statusUpdated => 'تم تعديل الحالة';

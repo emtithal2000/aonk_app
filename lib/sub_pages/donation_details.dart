@@ -26,55 +26,57 @@ class DonationDetails extends StatelessWidget {
               ),
             ),
             Gap(height(15)),
-            SizedBox(
-              height: height(230),
-              width: width(300),
-              child: GridView.builder(
-                itemCount: provider.donationTypes.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: height(15),
-                  crossAxisSpacing: width(15),
-                  childAspectRatio: width(2.5),
+            Flexible(
+              child: SizedBox(
+                width: width(300),
+                child: GridView.builder(
+                  itemCount: provider.donationTypes.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: height(15),
+                    crossAxisSpacing: width(15),
+                    childAspectRatio: width(2.5),
+                  ),
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        if (provider.selected
+                            .contains(provider.donationTypes[index].id)) {
+                          provider.removeSelected(
+                              provider.donationTypes[index].id!);
+                        } else {
+                          provider
+                              .addSelected(provider.donationTypes[index].id!);
+                        }
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            color: provider.selected
+                                    .contains(provider.donationTypes[index].id!)
+                                ? const Color(0xFF81bdaf)
+                                : Colors.transparent,
+                            width: 2,
+                          ),
+                        ),
+                        child: Text(
+                          provider
+                              .getLocalizedType(provider.donationTypes[index]),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: width(14),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      if (provider.selected
-                          .contains(provider.donationTypes[index].id)) {
-                        provider
-                            .removeSelected(provider.donationTypes[index].id!);
-                      } else {
-                        provider.addSelected(provider.donationTypes[index].id!);
-                      }
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(
-                          color: provider.selected
-                                  .contains(provider.donationTypes[index].id!)
-                              ? const Color(0xFF81bdaf)
-                              : Colors.transparent,
-                          width: 2,
-                        ),
-                      ),
-                      child: Text(
-                        provider
-                            .getLocalizedType(provider.donationTypes[index]),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: width(14),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  );
-                },
               ),
             ),
             provider.selected.isNotEmpty

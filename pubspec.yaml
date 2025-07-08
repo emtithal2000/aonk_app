@@ -55,6 +55,7 @@ dependencies:
   flutter_image_compress: 
   new_version_plus:
   flutter_svg:
+  flutter_typeahead:
   
 
 dev_dependencies:

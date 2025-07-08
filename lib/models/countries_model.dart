@@ -1,14 +1,14 @@
 class Countries {
-  List<Cities>? cities;
+  List<City>? cities;
   Country? country;
 
   Countries({this.cities, this.country});
 
   Countries.fromJson(Map<String, dynamic> json) {
     if (json['cities'] != null) {
-      cities = <Cities>[];
+      cities = <City>[];
       json['cities'].forEach((v) {
-        cities!.add(Cities.fromJson(v));
+        cities!.add(City.fromJson(v));
       });
     }
     country =
@@ -27,14 +27,14 @@ class Countries {
   }
 }
 
-class Cities {
+class City {
   String? cityAr;
   String? cityEn;
   int? cityId;
 
-  Cities({this.cityAr, this.cityEn, this.cityId});
+  City({this.cityAr, this.cityEn, this.cityId});
 
-  Cities.fromJson(Map<String, dynamic> json) {
+  City.fromJson(Map<String, dynamic> json) {
     cityAr = json['city_ar'];
     cityEn = json['city_en'];
     cityId = json['city_id'];

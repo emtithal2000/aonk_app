@@ -13,26 +13,33 @@ import 'package:aonk_app/sub_pages/gift.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:gap/gap.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 Widget customButton(Function() onPressed, String title) {
-  return SizedBox(
-    width: double.infinity,
-    height: height(40),
-    child: FloatingActionButton(
-      onPressed: onPressed,
-      backgroundColor: const Color(0xFF81bdaf),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: width(15),
-          color: Colors.white,
+  return Column(
+    children: [
+      Gap(height(15)),
+      SizedBox(
+        width: double.infinity,
+        height: height(40),
+        child: FloatingActionButton(
+          onPressed: onPressed,
+          backgroundColor: const Color(0xFF81bdaf),
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: width(15),
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
-    ),
+    ],
   );
 }
 
@@ -57,7 +64,7 @@ class PagesProvider extends ChangeNotifier {
   int pageIndex = 0;
 
   XFile? image;
-  Cities? selectedCity;
+  City? selectedCity;
   Countries? selectedCountry;
   int? selectedCharityId;
   String? selectedDonationType;
@@ -65,6 +72,8 @@ class PagesProvider extends ChangeNotifier {
   String? selectedGiftPhone;
   String? locationData;
   bool isGift = false;
+
+  var userEdit = {};
 
   void addSelected(int id) {
     selected.add(id);
@@ -87,12 +96,16 @@ class PagesProvider extends ChangeNotifier {
   }
 
   Future<void> getCharities() async {
-    final countryID = GetStorage().read('userData')['country_id'];
-    final cityID = GetStorage().read('userData')['city_id'];
+    final countryMap =
+        GetStorage().read('userData')['country_data'] as Map<String, dynamic>;
+    final countryData = Country.fromJson(countryMap);
+    final cityMap =
+        GetStorage().read('userData')['city_data'] as Map<String, dynamic>;
+    final cityData = City.fromJson(cityMap);
 
     try {
       final response = await Dio().get(
-        'https://api.aonk.app/charities_mobile?country_id=$countryID&city_id=$cityID',
+        'https://api.aonk.app/charities_mobile?country_id=${countryData.countryId}&city_id=${cityData.cityId}',
       );
       if (response.statusCode == 200) {
         final List<dynamic> charitiesJson = response.data['charities_mobile'];
@@ -107,12 +120,11 @@ class PagesProvider extends ChangeNotifier {
 
   Future<void> getCountries() async {
     try {
-      await Dio().get(
+      await Dio()
+          .get(
         'https://api.aonk.app/countries',
-        queryParameters: {
-          'country_id': 1,
-        },
-      ).then((value) {
+      )
+          .then((value) {
         var data = value.data['countries'] as List;
         countries = data
             .map((e) => Countries.fromJson(e as Map<String, dynamic>))
@@ -122,7 +134,7 @@ class PagesProvider extends ChangeNotifier {
         _getUserLocation();
       });
     } on DioException catch (e) {
-      log(e.response?.data.toString() ?? 'Error');
+      log(e.toString());
     }
     notifyListeners();
   }
@@ -160,19 +172,54 @@ class PagesProvider extends ChangeNotifier {
 
       // Save location data
       locationData = '${position.latitude},${position.longitude}';
-      log('Location obtained: $locationData');
+      final country =
+          await getCountryFromLocation(position.latitude, position.longitude);
+
+      if (country != null) {
+        selectedCountry = country;
+      }
+      notifyListeners();
     } catch (e) {
       log('Error in _getUserLocation: $e');
     }
   }
 
-  List<Cities> getCitiesForCountry() {
+  /// Gets country from coordinates and returns country model based on app language
+  Future<Countries?> getCountryFromLocation(
+      double latitude, double longitude) async {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(latitude, longitude);
+
+      if (placemarks.isNotEmpty) {
+        String? countryName = placemarks.first.country;
+
+        if (countryName != null) {
+          // Search for the country in our countries list
+          return countries.firstWhere(
+            (country) =>
+                country.country?.countryEn?.toLowerCase() ==
+                    countryName.toLowerCase() ||
+                country.country?.countryAr?.toLowerCase() ==
+                    countryName.toLowerCase(),
+            orElse: () => Countries(),
+          );
+        }
+      }
+      return null;
+    } catch (e) {
+      log('Error getting country from location: $e');
+      return null;
+    }
+  }
+
+  List<City> getCitiesForCountry() {
     if (selectedCountry == null || selectedCountry!.cities == null) return [];
     return selectedCountry!.cities!;
   }
 
   Future<void> getDetailedCountry() async {
-    final countryID = GetStorage().read('userData')['country_id'];
+    final countryID = GetStorage().read('userData')['country_data']['id'];
 
     try {
       final response = await Dio().get(
@@ -189,9 +236,11 @@ class PagesProvider extends ChangeNotifier {
   }
 
   Future<void> getDonationTypes() async {
+    final countryID = GetStorage().read('userData')['country_data']['id'];
+
     try {
       await Dio()
-          .get('https://api.aonk.app/donation_types?country_id=1')
+          .get('https://api.aonk.app/donation_types?country_id=$countryID')
           .then((value) {
         var data = value.data['donation_types'] as List;
         donationTypes = data
@@ -224,10 +273,24 @@ class PagesProvider extends ChangeNotifier {
     return '';
   }
 
-  String getLocalizedCityName(Cities city) {
+  String getLocalizedCityName(City city) {
     return LocaleProvider().locale.languageCode == 'ar'
         ? city.cityAr!
         : city.cityEn!;
+  }
+
+  String localizedName(BuildContext context, Object object) {
+    if (object is Charity) {
+      return LocaleProvider().locale.languageCode == 'ar'
+          ? object.nameAr ?? ''
+          : object.nameEn ?? '';
+    }
+    if (object is Country) {
+      return LocaleProvider().locale.languageCode == 'ar'
+          ? object.countryAr ?? ''
+          : object.countryEn ?? '';
+    }
+    return '';
   }
 
   String getLocalizedCountryName(String countryCode, BuildContext context) {
@@ -249,8 +312,8 @@ class PagesProvider extends ChangeNotifier {
 
     final localeCode = Localizations.localeOf(context).languageCode;
     return localeCode == 'ar'
-        ? selectedCountry!.country!.countryAr
-        : selectedCountry!.country!.countryEn;
+        ? selectedCountry?.country?.countryAr
+        : selectedCountry?.country?.countryEn;
   }
 
   String getLocalizedType(DonationTypes type) {
@@ -279,11 +342,14 @@ class PagesProvider extends ChangeNotifier {
   Future<bool> postDonation() async {
     try {
       final storage = GetStorage().read('userData');
+      final countryID = GetStorage().read('userData')['country_data']['id'];
+      final cityID = GetStorage().read('userData')['city_data']['city_id'];
+
       final formDataMap = {
         "charity_id": selectedCharityId,
         "types": selected,
-        "country_id": storage['country_id'],
-        "city_id": storage['city_id'],
+        "country_id": countryID,
+        "city_id": cityID,
         "name": storage['name'],
         "phone": storage['phone'],
         "email": storage['email'],
@@ -335,6 +401,13 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void resetControllers() {
+    for (var controller in controllers) {
+      controller.clear();
+    }
+    notifyListeners();
+  }
+
   Future<void> selectImage(bool isCamera) async {
     await ImagePicker()
         .pickImage(
@@ -366,13 +439,16 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setCity(Cities city) {
+  void setCity(City city) {
     selectedCity = city;
+    updateUserMap('city_data', city.toJson());
     notifyListeners();
   }
 
   void setCountry(Countries country) {
     selectedCountry = country;
+    selectedCity = null;
+    updateUserMap('country_data', country.country?.toJson() ?? {});
     notifyListeners();
   }
 
@@ -386,31 +462,49 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateUserData(String key, String value) {
-    final userData = GetStorage().read('userData') ?? {};
-    userData[key] = value;
-    GetStorage().write('userData', userData);
+  void updateUserMap(String key, Map<String, dynamic> map) {
+    userEdit[key] = map;
     notifyListeners();
+  }
+
+  void updateUserEdit(String key, String value) {
+    userEdit[key] = value;
+    notifyListeners();
+  }
+
+  bool updateUserData() {
+    try {
+      final userData = GetStorage().read('userData') ?? {};
+
+      userEdit.forEach((key, value) {
+        userData[key] = value;
+      });
+      GetStorage().write('userData', userData);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      log('updateUserData: Exception caught = $e');
+      return false;
+    }
   }
 
   /// Saves complete user data to storage
   Future<void> saveUserData() async {
     final userData = {
       'name': controllers[0].text,
-      'phone': controllers[1].text.isNotEmpty ? controllers[1].text : '',
+      'phone': controllers[1].text,
       'email': controllers[2].text,
       'street': controllers[3].text,
       'building': controllers[4].text,
-      'city_id': selectedCity?.cityId,
-      'city_name':
-          selectedCity != null ? getLocalizedCityName(selectedCity!) : null,
-      'country_id': selectedCountry?.country?.countryId,
-      'country_name': selectedCountry?.country?.countryEn,
+      'city_data': selectedCity?.toJson(),
+      'country_data': selectedCountry?.country?.toJson(),
       'location': locationData,
       'created_by': controllers[0].text,
     };
 
     await GetStorage().write('userData', userData);
+
+    resetControllers();
     notifyListeners();
   }
 }

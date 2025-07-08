@@ -82,6 +82,7 @@ class DonationImages extends StatelessWidget {
       btnOkOnPress: () {
         Navigator.pop(context);
       },
+      padding: EdgeInsets.symmetric(vertical: height(15)),
     );
   }
 

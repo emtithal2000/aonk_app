@@ -123,9 +123,10 @@ Widget buildSelectionMobile(
   double size,
   BuildContext context,
   PagesProvider provider, {
-  required Function(Cities) onSelected,
+  required Function(City) onSelected,
   bool isExpanded = false,
-  String? Function(Cities?)? validator,
+  bool isSaved = false,
+  String? Function(City?)? validator,
 }) {
   return Card(
     elevation: 3,
@@ -138,14 +139,14 @@ Widget buildSelectionMobile(
           highlightColor: Colors.transparent,
           hoverColor: Colors.transparent,
         ),
-        child: PopupMenuButton<Cities>(
+        child: PopupMenuButton<City>(
           offset: Offset(0, size * 0.1),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
           itemBuilder: (context) =>
-              provider.getCitiesForCountry().map((Cities item) {
-            return PopupMenuItem<Cities>(
+              provider.getCitiesForCountry().map((City item) {
+            return PopupMenuItem<City>(
               value: item,
               child: Text(
                 provider.getLocalizedCityName(item),
@@ -235,6 +236,85 @@ Widget buildTextField({
           prefixIcon,
           color: const Color(0xff52b8a0),
           size: size * 0.03,
+        ),
+      ),
+    ),
+  );
+}
+
+Widget buildSelectionCountry(
+  double size,
+  BuildContext context,
+  PagesProvider provider, {
+  required Function(Countries) onSelected,
+  bool isExpanded = false,
+}) {
+  return Card(
+    elevation: 3,
+    color: Colors.white,
+    child: Padding(
+      padding: EdgeInsets.symmetric(vertical: size * 0.03),
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+        ),
+        child: PopupMenuButton<Countries>(
+          offset: Offset(0, size * 0.1),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          itemBuilder: (context) => provider.countries.map((Countries item) {
+            return PopupMenuItem<Countries>(
+              value: item,
+              child: Text(
+                Localizations.localeOf(context).languageCode == 'ar'
+                    ? (item.country?.countryAr ?? '')
+                    : (item.country?.countryEn ?? ''),
+                style: TextStyle(
+                  fontSize: size * 0.035,
+                  color: const Color(0xff52b8a0),
+                ),
+              ),
+            );
+          }).toList(),
+          onSelected: onSelected,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: size * 0.035),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: isExpanded ? size * 0.25 : size * 0.6,
+                  child: Text(
+                    provider.selectedCountry?.country != null
+                        ? (Localizations.localeOf(context).languageCode == 'ar'
+                                ? provider.selectedCountry!.country!.countryAr
+                                : provider
+                                    .selectedCountry!.country!.countryEn) ??
+                            AppLocalizations.of(context)!.country
+                        : AppLocalizations.of(context)!.country,
+                    style: TextStyle(
+                      fontSize: size * 0.035,
+                      color: const Color(0xff52b8a0),
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xff52b8a0).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    color: Color(0xff52b8a0),
+                    size: size * 0.05,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     ),

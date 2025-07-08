@@ -40,24 +40,69 @@ class CustomerInfo extends StatelessWidget {
                             child: Card(
                               elevation: 3,
                               color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: TextField(
-                                enabled: false,
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
+                              child: Theme(
+                                data: Theme.of(context).copyWith(
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  hoverColor: Colors.transparent,
+                                ),
+                                child: PopupMenuButton<Countries>(
+                                  offset: Offset(0, size * 0.15),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
                                   ),
-                                  isDense: true,
-                                  hintText: provider.selectedCountry != null
-                                      ? provider
-                                              .getLocalizedSelectedCountryName(
-                                                  context) ??
-                                          AppLocalizations.of(context)!.country
-                                      : AppLocalizations.of(context)!.country,
-                                  hintStyle: TextStyle(
-                                    color: const Color(0xff84beb0),
+                                  itemBuilder: (context) =>
+                                      provider.countries.map((Countries item) {
+                                    return PopupMenuItem<Countries>(
+                                      value: item,
+                                      child: Text(
+                                        provider.localizedName(
+                                            context, item.country!),
+                                        style: TextStyle(
+                                          fontSize: size * 0.035,
+                                          color: const Color(0xff52b8a0),
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onSelected: (Countries value) {
+                                    provider.setCountry(value);
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: size * 0.04,
+                                      horizontal: size * 0.035,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          width: size * 0.25,
+                                          child: Text(
+                                            _getCountryDisplayText(
+                                                context, provider, userData),
+                                            style: TextStyle(
+                                              fontSize: size * 0.035,
+                                              color: const Color(0xff52b8a0),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: Color(0xff52b8a0)
+                                                .withOpacity(0.1),
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
+                                          child: Icon(
+                                            Icons.keyboard_arrow_down_rounded,
+                                            color: Color(0xff52b8a0),
+                                            size: size * 0.05,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -67,77 +112,69 @@ class CustomerInfo extends StatelessWidget {
                             child: Card(
                               elevation: 3,
                               color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: size * 0.04,
+                              clipBehavior: Clip.hardEdge,
+                              child: Theme(
+                                data: Theme.of(context).copyWith(
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  hoverColor: Colors.transparent,
                                 ),
-                                child: Theme(
-                                  data: Theme.of(context).copyWith(
-                                    splashColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
+                                child: PopupMenuButton<City>(
+                                  offset: Offset(0, size * 0.1),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
                                   ),
-                                  child: PopupMenuButton<Cities>(
-                                    offset: Offset(0, size * 0.1),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
+                                  itemBuilder: (context) => provider
+                                      .getCitiesForCountry()
+                                      .map((City item) {
+                                    return PopupMenuItem<City>(
+                                      value: item,
+                                      child: Text(
+                                        provider.getLocalizedCityName(item),
+                                        style: TextStyle(
+                                          fontSize: size * 0.035,
+                                          color: const Color(0xff52b8a0),
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onSelected: (City value) {
+                                    provider.setCity(value);
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: size * 0.04,
+                                      horizontal: size * 0.035,
                                     ),
-                                    itemBuilder: (context) => provider
-                                        .getCitiesForCountry()
-                                        .map((Cities item) {
-                                      return PopupMenuItem<Cities>(
-                                        value: item,
-                                        child: Text(
-                                          provider.getLocalizedCityName(item),
-                                          style: TextStyle(
-                                            fontSize: size * 0.035,
-                                            color: const Color(0xff52b8a0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          width: size * 0.25,
+                                          child: Text(
+                                            _getCityDisplayText(
+                                                context, provider, userData),
+                                            style: TextStyle(
+                                              fontSize: size * 0.035,
+                                              color: const Color(0xff52b8a0),
+                                            ),
                                           ),
                                         ),
-                                      );
-                                    }).toList(),
-                                    onSelected: (Cities value) {
-                                      provider.setCity(value);
-                                      provider.updateUserData('city',
-                                          provider.getLocalizedCityName(value));
-                                    },
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: size * 0.035,
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            provider.selectedCity != null
-                                                ? provider.getLocalizedCityName(
-                                                    provider.selectedCity!)
-                                                : AppLocalizations.of(context)!
-                                                    .city,
-                                            style: TextStyle(
-                                              color: const Color(0xff84beb0),
-                                              fontSize: size * 0.04,
-                                            ),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: Color(0xff52b8a0)
+                                                .withOpacity(0.1),
+                                            borderRadius:
+                                                BorderRadius.circular(4),
                                           ),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              color: Color(0xff52b8a0)
-                                                  .withOpacity(0.1),
-                                              borderRadius:
-                                                  BorderRadius.circular(4),
-                                            ),
-                                            child: Icon(
-                                              Icons.keyboard_arrow_down_rounded,
-                                              color: Color(0xff52b8a0),
-                                              size: size * 0.05,
-                                            ),
+                                          child: Icon(
+                                            Icons.keyboard_arrow_down_rounded,
+                                            color: Color(0xff52b8a0),
+                                            size: size * 0.05,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -158,12 +195,12 @@ class CustomerInfo extends StatelessWidget {
                             context,
                             userData['name'] == ''
                                 ? AppLocalizations.of(context)!.name
-                                : userData['name'],
+                                : '${userData['name']}',
                             IconsaxPlusBroken.user,
                             true,
                           ),
                           onChanged: (value) {
-                            provider.updateUserData('name', value);
+                            provider.updateUserEdit('name', value);
                           },
                         ),
                       ),
@@ -188,11 +225,16 @@ class CustomerInfo extends StatelessWidget {
 
                             return null;
                           },
+                          onChanged: (value) {
+                            provider.updateUserEdit('phone', value);
+                          },
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderSide: BorderSide.none,
                             ),
-                            hintText: AppLocalizations.of(context)!.phoneNumber,
+                            hintText: userData['phone'] == ''
+                                ? AppLocalizations.of(context)!.phoneNumber
+                                : '${userData['phone']}',
                             hintStyle: TextStyle(
                               color: const Color(0xff84beb0),
                               fontSize: height(16),
@@ -220,9 +262,6 @@ class CustomerInfo extends StatelessWidget {
                             isDense: true,
                             counterText: '',
                           ),
-                          onChanged: (value) {
-                            provider.updateUserData('phone', value);
-                          },
                         ),
                       ),
                       Card(
@@ -243,17 +282,17 @@ class CustomerInfo extends StatelessWidget {
                             }
                             return null;
                           },
+                          onChanged: (value) {
+                            provider.updateUserEdit('email', value);
+                          },
                           decoration: inputDecoration(
                             context,
                             userData['email'] == ''
                                 ? AppLocalizations.of(context)!.email
-                                : userData['email'],
+                                : '${userData['email']}',
                             IconsaxPlusBroken.sms,
                             false,
                           ),
-                          onChanged: (value) {
-                            provider.updateUserData('email', value);
-                          },
                         ),
                       ),
                       Card(
@@ -265,17 +304,17 @@ class CustomerInfo extends StatelessWidget {
                           controller: provider.controllers[3],
                           autovalidateMode: AutovalidateMode.onUnfocus,
                           keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            provider.updateUserEdit('street', value);
+                          },
                           decoration: inputDecoration(
                             context,
                             userData['street'] == ''
                                 ? AppLocalizations.of(context)!.streetNumber
-                                : userData['street'],
+                                : '${userData['street']}',
                             IconsaxPlusBroken.location,
                             false,
                           ),
-                          onChanged: (value) {
-                            provider.updateUserData('street', value);
-                          },
                         ),
                       ),
                       Card(
@@ -287,17 +326,17 @@ class CustomerInfo extends StatelessWidget {
                           controller: provider.controllers[4],
                           autovalidateMode: AutovalidateMode.onUnfocus,
                           keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            provider.updateUserEdit('building', value);
+                          },
                           decoration: inputDecoration(
                             context,
                             userData['building'] == ''
                                 ? AppLocalizations.of(context)!.buildingNumber
-                                : userData['building'],
+                                : '${userData['building']}',
                             IconsaxPlusBroken.building_4,
                             false,
                           ),
-                          onChanged: (value) {
-                            provider.updateUserData('building', value);
-                          },
                         ),
                       ),
                       Gap(height(10)),
@@ -306,32 +345,39 @@ class CustomerInfo extends StatelessWidget {
                         child: FloatingActionButton(
                           heroTag: null,
                           onPressed: () async {
-                            if (provider.selectedCountry == null ||
-                                provider.selectedCity == null) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.country} ${AppLocalizations.of(context)!.city}',
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                              return;
-                            }
                             if (provider.loginKey.currentState!.validate()) {
-                              await provider.saveUserData();
                               if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      AppLocalizations.of(context)!
-                                          .editSuccessfully,
-                                      textAlign: TextAlign.center,
+                                if (provider.updateUserData()) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        AppLocalizations.of(context)!
+                                            .editSuccessfully,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      backgroundColor: const Color(0xff81bdaf),
+                                      behavior: SnackBarBehavior.floating,
                                     ),
-                                    backgroundColor: const Color(0xff81bdaf),
-                                  ),
-                                );
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        AppLocalizations.of(context)!
+                                            .editFailed,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      backgroundColor: Colors.red,
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
+                                  );
+                                }
                               }
                             }
                           },
@@ -358,6 +404,62 @@ class CustomerInfo extends StatelessWidget {
         );
       },
     );
+  }
+
+  String _getCountryDisplayText(BuildContext context, PagesProvider provider,
+      Map<String, dynamic>? userData) {
+    // First option: Check if there's saved data from storage and use it based on app language
+    if (userData != null && userData['country_data'] != null) {
+      final savedCountry = userData['country_data'];
+      final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+
+      final countryName =
+          isArabic ? savedCountry['name_ar'] : savedCountry['name_en'];
+
+      if (countryName != null && countryName.toString().isNotEmpty) {
+        return countryName.toString();
+      }
+    }
+
+    // Second option: If selectedCountry is not null, show it based on current language
+    if (provider.selectedCountry?.country != null) {
+      final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+      final countryName = isArabic
+          ? provider.selectedCountry!.country!.countryAr
+          : provider.selectedCountry!.country!.countryEn;
+
+      // If the localized name is available, return it
+      if (countryName != null && countryName.isNotEmpty) {
+        return countryName;
+      }
+    }
+
+    // Third option: Default value from localization
+    return AppLocalizations.of(context)!.country;
+  }
+
+  String _getCityDisplayText(BuildContext context, PagesProvider provider,
+      Map<String, dynamic>? userData) {
+    // First option: If selectedCity is not null, show it based on current language (active selection takes precedence)
+    if (provider.selectedCity != null) {
+      return provider.getLocalizedCityName(provider.selectedCity!);
+    }
+
+    // Second option: Check if there's saved data from storage and use it based on app language
+    if (userData != null && userData['city_data'] != null) {
+      final savedCity = userData['city_data'];
+      final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+      final cityName = isArabic
+          ? savedCity['cityAr'] ?? savedCity['city_ar']
+          : savedCity['cityEn'] ?? savedCity['city_en'];
+
+      if (cityName != null && cityName.toString().isNotEmpty) {
+        return cityName.toString();
+      }
+    }
+
+    // Third option: Default value from localization
+    return AppLocalizations.of(context)!.city;
   }
 
   Widget buildInput(

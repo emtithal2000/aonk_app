@@ -3,6 +3,8 @@ import 'package:aonk_app/providers/driver_provider.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:gap/gap.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
@@ -132,29 +134,56 @@ class _DriverPageState extends State<DriverPage> {
                         Expanded(
                           child: Card(
                             elevation: 3,
+                            color: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
+                            child: TypeAheadField(
+                              hideOnError: true,
+                              hideOnEmpty: true,
+                              hideOnLoading: true,
+                              builder: (_, controller, focusNode) {
+                                return TextField(
+                                  controller: controller,
+                                  focusNode: focusNode,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                  ],
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    hintText:
+                                        AppLocalizations.of(context)!.search,
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                );
+                              },
+                              suggestionsCallback: provider.searchBoxesByName,
+                              decorationBuilder: (context, child) {
+                                return Material(
+                                  elevation: 4,
+                                  clipBehavior: Clip.hardEdge,
                                   borderRadius: BorderRadius.circular(15),
-                                ),
-                                fillColor: Colors.white,
-                                filled: true,
-                                hintText: AppLocalizations.of(context)!.search,
-                                isDense: true,
-                                hintStyle: TextStyle(
-                                  color: const Color(0xff84beb0),
-                                  fontSize: height(16),
-                                ),
-                                prefixIcon: const Icon(
-                                  Icons.search,
-                                  color: Color(0xff52b8a0),
-                                ),
-                              ),
-                              onChanged: (value) {},
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Colors.white,
+                                    ),
+                                    child: child,
+                                  ),
+                                );
+                              },
+                              itemBuilder: (context, suggestion) {
+                                return ListTile(
+                                  title: Text('${suggestion.requestId}'),
+                                  trailing: Text(suggestion.name),
+                                  tileColor: Colors.white,
+                                );
+                              },
+                              onSelected: (suggestion) {},
                             ),
                           ),
                         ),
@@ -268,10 +297,16 @@ class _DriverPageState extends State<DriverPage> {
                                               color: Color(0xff52b8a0),
                                             ),
                                             onPressed: () {
+                                              provider.clearSelectedStatus();
                                               showDialog(
                                                 context: context,
                                                 builder: (context) =>
-                                                    buildStatus(context, index),
+                                                    buildStatus(
+                                                        context,
+                                                        provider
+                                                            .filteredDonations[
+                                                                index]
+                                                            .requestId),
                                               );
                                             },
                                           ),
@@ -309,7 +344,7 @@ class _DriverPageState extends State<DriverPage> {
 
   Widget buildStatus(
     BuildContext context,
-    int index,
+    int id,
   ) {
     return AlertDialog(
       title: Text(
@@ -323,7 +358,7 @@ class _DriverPageState extends State<DriverPage> {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ...List.generate(4, (index) {
+              ...List.generate(5, (index) {
                 final status = DonationStatus.values[index];
                 final isSelected = provider.selectedStatus == status;
 
@@ -367,17 +402,25 @@ class _DriverPageState extends State<DriverPage> {
                   minimumSize: Size(double.infinity, 40),
                 ),
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: Color(0xff52b8a0),
-                      content: Text(
-                        provider.selectedStatus != null
-                            ? '${AppLocalizations.of(context)!.statusUpdated} ${getDonationStatusDisplayName(context, provider.selectedStatus!)}'
-                            : AppLocalizations.of(context)!.pleaseSelectStatus,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
+                  provider.updateDonationStatus(id).then(
+                    (value) {
+                      if (value && context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Color(0xff52b8a0),
+                            content: Text(
+                              provider.selectedStatus != null
+                                  ? '${AppLocalizations.of(context)!.statusUpdated} ${getDonationStatusDisplayName(context, provider.selectedStatus!)}'
+                                  : AppLocalizations.of(context)!
+                                      .pleaseSelectStatus,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        );
+                      }
+                    },
                   );
+
                   Navigator.pop(context);
                 },
                 child: Text(

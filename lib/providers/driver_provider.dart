@@ -18,6 +18,8 @@ String getDonationStatusDisplayName(
       return AppLocalizations.of(context)!.cancelled;
     case DonationStatus.noResponse:
       return AppLocalizations.of(context)!.noResponse;
+    case DonationStatus.others:
+      return AppLocalizations.of(context)!.others;
   }
 }
 
@@ -26,7 +28,8 @@ enum DonationStatus {
   received,
   postponed,
   cancelled,
-  noResponse;
+  noResponse,
+  others;
 
   Color get color {
     switch (this) {
@@ -38,6 +41,8 @@ enum DonationStatus {
         return Colors.red;
       case DonationStatus.noResponse:
         return Colors.blueGrey;
+      case DonationStatus.others:
+        return Colors.orange;
     }
   }
 
@@ -51,6 +56,8 @@ enum DonationStatus {
         return 'Cancelled';
       case DonationStatus.noResponse:
         return 'No Response';
+      case DonationStatus.others:
+        return 'Others';
     }
   }
 
@@ -64,6 +71,8 @@ enum DonationStatus {
         return Icons.cancel_outlined;
       case DonationStatus.noResponse:
         return Icons.pending_outlined;
+      case DonationStatus.others:
+        return Icons.more_horiz;
     }
   }
 
@@ -113,6 +122,22 @@ class DriverProvider extends ChangeNotifier {
     username.clear();
     password.clear();
     notifyListeners();
+  }
+
+  Future<bool> updateDonationStatus(int requestId) async {
+    try {
+      await Dio().put(
+        'https://api.aonk.app/delivery_status',
+        data: {
+          'request_id': requestId,
+          'delivery_status': _selectedStatus?.name,
+        },
+      );
+      return true;
+    } on DioException catch (e) {
+      log(e.response?.data.toString() ?? 'No response data');
+      return false;
+    }
   }
 
   /// Fetches donations for a specific driver
@@ -169,6 +194,12 @@ class DriverProvider extends ChangeNotifier {
       notifyListeners();
       return false;
     }
+  }
+
+  Future<List<CustomerDonation>> searchBoxesByName(String requestId) async {
+    return _donations
+        .where((donation) => donation.requestId.toString().contains(requestId))
+        .toList();
   }
 
   void setSelectedDate(DateTime? date) {

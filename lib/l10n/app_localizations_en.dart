@@ -199,7 +199,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get success => 'Success';
 
   @override
-  String get errorDescription => 'Please select an image';
+  String get errorDescription => 'There is an error';
 
   @override
   String get successDescription => 'You will be contacted by Aonk team.';
@@ -289,6 +289,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noResponse => 'No Response';
 
   @override
+  String get others => 'Others';
+
+  @override
   String get send => 'Send';
 
   @override
@@ -311,6 +314,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editSuccessfully => 'Edit Successfully';
+
+  @override
+  String get editFailed => 'Edit Faild';
 
   @override
   String get statusUpdated => 'Status updated to';

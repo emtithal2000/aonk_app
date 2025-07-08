@@ -75,9 +75,8 @@ class _HomeState extends State<Home> {
           SizedBox(
             width: width(120),
             child: Text(
-              context.watch<LocaleProvider>().locale.languageCode == 'ar'
-                  ? provider.charities[index].charity?.nameAr ?? ''
-                  : provider.charities[index].charity?.nameEn ?? '',
+              provider.localizedName(
+                  context, provider.charities[index].charity!),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -121,7 +120,7 @@ class _HomeState extends State<Home> {
             child: FloatingActionButton(
               heroTag: null,
               onPressed: () {
-                buildINformation(context, provider, index);
+                buildInformation(context, provider, index);
               },
               backgroundColor: const Color(0xff81bdaf),
               foregroundColor: Colors.white,
@@ -145,9 +144,7 @@ class _HomeState extends State<Home> {
       builder: (dialogContext) => Consumer<PagesProvider>(
         builder: (_, dialogProvider, __) => AlertDialog(
           title: Text(
-            context.watch<LocaleProvider>().locale.languageCode == 'ar'
-                ? provider.charities[index].charity?.nameAr ?? ''
-                : provider.charities[index].charity?.nameEn ?? '',
+            provider.localizedName(context, provider.charities[index].charity!),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: width(20),
@@ -160,7 +157,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Future<dynamic> buildINformation(
+  Future<dynamic> buildInformation(
       BuildContext context, PagesProvider provider, int index) {
     return showDialog(
       context: context,
@@ -168,9 +165,8 @@ class _HomeState extends State<Home> {
         builder: (_, dialogProvider, __) {
           return AlertDialog(
             title: Text(
-              context.watch<LocaleProvider>().locale.languageCode == 'ar'
-                  ? provider.charities[index].charity?.nameAr ?? ''
-                  : provider.charities[index].charity?.nameEn ?? '',
+              provider.localizedName(
+                  context, provider.charities[index].charity!),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: height(22),
@@ -207,10 +203,9 @@ class _HomeState extends State<Home> {
             SizedBox(
               width: width(200),
               child: Text(
-                context.watch<LocaleProvider>().locale.languageCode == 'ar'
-                    ? provider.charities[index].charity?.nameAr ?? ''
-                    : provider.charities[index].charity?.nameEn ?? '',
-                maxLines: 1,
+                provider.localizedName(
+                    context, provider.charities[index].charity!),
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: height(16),
@@ -254,7 +249,7 @@ class _HomeState extends State<Home> {
               child: FloatingActionButton(
                 heroTag: null,
                 onPressed: () {
-                  buildINformation(context, provider, index);
+                  buildInformation(context, provider, index);
                 },
                 backgroundColor: const Color(0xff81bdaf),
                 foregroundColor: Colors.white,

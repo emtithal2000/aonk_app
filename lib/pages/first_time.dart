@@ -158,43 +158,21 @@ class _FirstTimeState extends State<FirstTime> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Expanded(
-                                      child: Card(
-                                        elevation: 3,
-                                        color: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                        child: TextField(
-                                          enabled: false,
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                              borderSide: BorderSide.none,
-                                            ),
-                                            isDense: true,
-                                            hintText: provider
-                                                        .selectedCountry !=
-                                                    null
-                                                ? provider
-                                                        .getLocalizedSelectedCountryName(
-                                                            context) ??
-                                                    AppLocalizations.of(
-                                                            context)!
-                                                        .country
-                                                : AppLocalizations.of(context)!
-                                                    .country,
-                                            hintStyle: TextStyle(
-                                              color: const Color(0xff84beb0),
-                                            ),
-                                          ),
-                                        ),
+                                      child: buildSelectionCountry(
+                                        size,
+                                        context,
+                                        provider,
+                                        onSelected: (Countries value) {
+                                          provider.setCountry(value);
+                                        },
+                                        isExpanded: true,
                                       ),
                                     ),
                                     buildSelectionMobile(
                                       size,
                                       context,
                                       provider,
-                                      onSelected: (Cities value) {
+                                      onSelected: (City value) {
                                         provider.setCity(value);
                                       },
                                       isExpanded: true,
@@ -380,7 +358,6 @@ class _FirstTimeState extends State<FirstTime> {
                                       if (provider.loginKey.currentState!
                                           .validate()) {
                                         await provider.saveUserData();
-
                                         if (context.mounted) {
                                           Navigator.pushReplacement(
                                             context,

@@ -70,59 +70,62 @@ class _SplashScreenState extends State<SplashScreen> {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (context) => AlertDialog(
-              title: Text(
-                'Update Available!',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'A new version of the app is available. Please update to the latest version.',
-                  ),
-                  Gap(height(10)),
-                  Divider(
-                    color: Colors.grey,
-                    thickness: 1,
-                  ),
-                  Gap(height(10)),
-                  Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/svg/${Platform.isAndroid ? 'google-play' : 'app-store'}.svg',
-                        width: width(35),
-                      ),
-                      Gap(width(5)),
-                      Text(
-                        Platform.isAndroid ? 'Google Play' : 'App Store',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey,
-                          fontSize: width(13),
+            builder: (context) => Directionality(
+              textDirection: TextDirection.ltr,
+              child: AlertDialog(
+                title: Text(
+                  'Update Available!',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'A new version of the app is available. Please update to the latest version.',
+                    ),
+                    Gap(height(10)),
+                    Divider(
+                      color: Colors.grey,
+                      thickness: 1,
+                    ),
+                    Gap(height(10)),
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/svg/${Platform.isAndroid ? 'google-play' : 'app-store'}.svg',
+                          width: width(35),
                         ),
-                      ),
-                      Spacer(),
-                      ElevatedButton(
-                        onPressed: () {
-                          newVersionPlus.launchAppStore(
-                            status!.appStoreLink,
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Platform.isAndroid
-                              ? const Color(0xff038a5d)
-                              : const Color(0xff229df7),
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                        Gap(width(5)),
+                        Text(
+                          Platform.isAndroid ? 'Google Play' : 'App Store',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey,
+                            fontSize: width(13),
                           ),
                         ),
-                        child: Text('Update'),
-                      ),
-                    ],
-                  )
-                ],
+                        Spacer(),
+                        ElevatedButton(
+                          onPressed: () {
+                            newVersionPlus.launchAppStore(
+                              status!.appStoreLink,
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Platform.isAndroid
+                                ? const Color(0xff038a5d)
+                                : const Color(0xff229df7),
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: Text('Update'),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           );

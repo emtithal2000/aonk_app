@@ -467,7 +467,7 @@ abstract class AppLocalizations {
   /// No description provided for @errorDescription.
   ///
   /// In en, this message translates to:
-  /// **'Please select an image'**
+  /// **'There is an error'**
   String get errorDescription;
 
   /// No description provided for @successDescription.
@@ -644,6 +644,12 @@ abstract class AppLocalizations {
   /// **'No Response'**
   String get noResponse;
 
+  /// No description provided for @others.
+  ///
+  /// In en, this message translates to:
+  /// **'Others'**
+  String get others;
+
   /// No description provided for @send.
   ///
   /// In en, this message translates to:
@@ -691,6 +697,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit Successfully'**
   String get editSuccessfully;
+
+  /// No description provided for @editFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Faild'**
+  String get editFailed;
 
   /// No description provided for @statusUpdated.
   ///

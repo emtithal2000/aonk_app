@@ -2,7 +2,7 @@ import 'package:aonk_app/models/countries_model.dart';
 
 class CharitiesModel {
   Charity? charity;
-  Cities? city;
+  City? city;
   String? contactPhone;
   Country? country;
   String? descriptionAr;
@@ -25,7 +25,7 @@ class CharitiesModel {
   CharitiesModel.fromJson(Map<String, dynamic> json) {
     charity =
         json['charity'] != null ? Charity.fromJson(json['charity']) : null;
-    city = json['city'] != null ? Cities.fromJson(json['city']) : null;
+    city = json['city'] != null ? City.fromJson(json['city']) : null;
     contactPhone = json['contact_phone'];
     country =
         json['country'] != null ? Country.fromJson(json['country']) : null;
