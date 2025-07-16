@@ -572,6 +572,12 @@ abstract class AppLocalizations {
   /// **'Orders'**
   String get orders;
 
+  /// No description provided for @todayOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Orders'**
+  String get todayOrders;
+
   /// No description provided for @search.
   ///
   /// In en, this message translates to:

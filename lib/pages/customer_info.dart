@@ -11,14 +11,15 @@ import 'package:provider/provider.dart';
 import 'package:aonk_app/models/countries_model.dart';
 
 class CustomerInfo extends StatelessWidget {
-  const CustomerInfo({super.key});
+  CustomerInfo({super.key});
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Consumer<PagesProvider>(
       builder: (_, provider, __) {
         return Form(
-          key: provider.loginKey,
+          key: formKey,
           child: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -345,7 +346,7 @@ class CustomerInfo extends StatelessWidget {
                         child: FloatingActionButton(
                           heroTag: null,
                           onPressed: () async {
-                            if (provider.loginKey.currentState!.validate()) {
+                            if (formKey.currentState!.validate()) {
                               if (context.mounted) {
                                 if (provider.updateUserData()) {
                                   ScaffoldMessenger.of(context).showSnackBar(

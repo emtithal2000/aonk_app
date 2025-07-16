@@ -6,14 +6,15 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
 class Gift extends StatelessWidget {
-  const Gift({super.key});
+  Gift({super.key});
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Consumer<PagesProvider>(
       builder: (_, provider, __) {
         return Form(
-          key: provider.formKey,
+          key: formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -39,7 +40,7 @@ class Gift extends StatelessWidget {
               ),
               Gap(height(15)),
               customButton(() {
-                if (provider.formKey.currentState!.validate()) {
+                if (formKey.currentState!.validate()) {
                   provider.nextPage(false);
                 }
               }, AppLocalizations.of(context)!.next),

@@ -47,7 +47,7 @@ class Navigation extends StatelessWidget {
             PageView(
               physics: const NeverScrollableScrollPhysics(),
               controller: provider.pageController,
-              children: const [
+              children: [
                 Home(),
                 CustomerInfo(),
               ],

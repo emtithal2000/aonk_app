@@ -1,4 +1,5 @@
 import 'package:aonk_app/l10n/app_localizations.dart';
+import 'package:aonk_app/pages/login.dart';
 import 'package:aonk_app/providers/driver_provider.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/size_config.dart';
@@ -9,6 +10,23 @@ import 'package:gap/gap.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+// Import the helper function
+String getDonationStatusDisplayName(
+    BuildContext context, DonationStatus status) {
+  switch (status) {
+    case DonationStatus.received:
+      return AppLocalizations.of(context)!.received;
+    case DonationStatus.postponed:
+      return AppLocalizations.of(context)!.postponed;
+    case DonationStatus.cancelled:
+      return AppLocalizations.of(context)!.cancelled;
+    case DonationStatus.noResponse:
+      return AppLocalizations.of(context)!.noResponse;
+    case DonationStatus.others:
+      return AppLocalizations.of(context)!.others;
+  }
+}
 
 class DriverPage extends StatefulWidget {
   final String driverName;
@@ -60,8 +78,13 @@ class _DriverPageState extends State<DriverPage> {
                               : Alignment.centerLeft,
                           child: IconButton(
                             onPressed: () {
-                              provider.clearLogin();
-                              Navigator.pop(context);
+                              provider.clearDriverLogin();
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Login(),
+                                ),
+                              );
                             },
                             icon: Icon(
                               context
@@ -120,13 +143,26 @@ class _DriverPageState extends State<DriverPage> {
                       ],
                     ),
                     Gap(height(50)),
-                    Text(
-                      AppLocalizations.of(context)!.orders,
-                      style: TextStyle(
-                        color: Color(0xff52b8a0),
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          provider.handleDate(provider.selectedDate, context),
+                          style: TextStyle(
+                            color: Color(0xff52b8a0),
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Gap(width(10)),
+                        Text(
+                          '${provider.filteredDonations.length}',
+                          style: TextStyle(
+                            color: Color(0xff52b8a0),
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                     Gap(height(15)),
                     Row(
@@ -189,7 +225,7 @@ class _DriverPageState extends State<DriverPage> {
                         ),
                         Card(
                           elevation: 3,
-                          color: const Color(0xff84beb0),
+                          color: const Color(0xff52b8a0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -203,7 +239,8 @@ class _DriverPageState extends State<DriverPage> {
                                 context: context,
                                 initialDate:
                                     provider.selectedDate ?? DateTime.now(),
-                                firstDate: DateTime(2000),
+                                firstDate: DateTime.now()
+                                    .subtract(const Duration(days: 1000)),
                                 lastDate: DateTime.now()
                                     .add(const Duration(days: 365)),
                               );
@@ -258,6 +295,43 @@ class _DriverPageState extends State<DriverPage> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
+                              subtitle: provider.filteredDonations[index]
+                                              .deliveryStatus !=
+                                          null &&
+                                      provider.filteredDonations[index]
+                                          .deliveryStatus!.isNotEmpty
+                                  ? Text(
+                                      getDonationStatusDisplayName(
+                                        context,
+                                        DonationStatus.fromString(provider
+                                            .filteredDonations[index]
+                                            .deliveryStatus!),
+                                      ),
+                                      style: TextStyle(
+                                        color: DonationStatus.fromString(
+                                                provider
+                                                    .filteredDonations[index]
+                                                    .deliveryStatus!)
+                                            .color,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    )
+                                  : null,
+                              leading: () {
+                                final deliveryStatus = provider
+                                    .filteredDonations[index].deliveryStatus;
+                                if (deliveryStatus == null ||
+                                    deliveryStatus.isEmpty) {
+                                  return null;
+                                }
+                                final status =
+                                    DonationStatus.fromString(deliveryStatus);
+                                return Icon(
+                                  status.icon,
+                                  color: status.color,
+                                );
+                              }(),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -271,20 +345,68 @@ class _DriverPageState extends State<DriverPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        '${AppLocalizations.of(context)!.name}: ${provider.donations[index].name}',
-                                        style: TextStyle(
-                                          color: Color(0xff52b8a0),
-                                          fontSize: 16,
-                                        ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '${AppLocalizations.of(context)!.name}: ',
+                                            style: TextStyle(
+                                              color: Color(0xff52b8a0),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            provider
+                                                .filteredDonations[index].name,
+                                            style: TextStyle(
+                                              color: Color(0xff52b8a0),
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                       Gap(height(5)),
-                                      Text(
-                                        '${AppLocalizations.of(context)!.date}: ${provider.donations[index].deliveryDate}',
-                                        style: TextStyle(
-                                          color: Color(0xff52b8a0),
-                                          fontSize: 16,
-                                        ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '${AppLocalizations.of(context)!.date}: ',
+                                            style: TextStyle(
+                                              color: Color(0xff52b8a0),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            '${provider.filteredDonations[index].deliveryDate}',
+                                            textDirection: TextDirection.ltr,
+                                            style: TextStyle(
+                                              color: Color(0xff52b8a0),
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Gap(height(5)),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '${AppLocalizations.of(context)!.city}: ',
+                                            style: TextStyle(
+                                              color: Color(0xff52b8a0),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            provider.filteredDonations[index]
+                                                    .city.cityAr ??
+                                                '',
+                                            style: TextStyle(
+                                              color: Color(0xff52b8a0),
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                       Gap(height(10)),
                                       Row(
@@ -313,7 +435,7 @@ class _DriverPageState extends State<DriverPage> {
                                           GestureDetector(
                                             onTap: () async {
                                               await launchUrlString(
-                                                  "https://wa.me/${provider.donations[index].phone}");
+                                                  "https://wa.me/${provider.filteredDonations[index].phone}");
                                             },
                                             child: Image.asset(
                                               'assets/images/whatsapp.png',

@@ -5,6 +5,7 @@ import 'package:aonk_app/models/customer_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:get_storage/get_storage.dart';
 
 // Helper function for localization
 String getDonationStatusDisplayName(
@@ -87,7 +88,6 @@ enum DonationStatus {
 class DriverProvider extends ChangeNotifier {
   final username = TextEditingController();
   final password = TextEditingController();
-  var formKey = GlobalKey<FormState>();
 
   List<CustomerDonation> _donations = [];
   DonationStatus? _selectedStatus;
@@ -108,7 +108,7 @@ class DriverProvider extends ChangeNotifier {
 
   void clearSelectedDate() {
     _selectedDate = null;
-    filteredDonations = _donations;
+    filterDonationsByCurrentDate();
     notifyListeners();
   }
 
@@ -133,6 +133,28 @@ class DriverProvider extends ChangeNotifier {
           'delivery_status': _selectedStatus?.name,
         },
       );
+
+      // Update local state after successful API call
+      if (_selectedStatus != null) {
+        // Update in main donations list
+        final donationIndex =
+            _donations.indexWhere((d) => d.requestId == requestId);
+        if (donationIndex != -1) {
+          _donations[donationIndex].deliveryStatus =
+              _selectedStatus!.displayName;
+        }
+
+        // Update in filtered donations list
+        final filteredIndex =
+            filteredDonations.indexWhere((d) => d.requestId == requestId);
+        if (filteredIndex != -1) {
+          filteredDonations[filteredIndex].deliveryStatus =
+              _selectedStatus!.displayName;
+        }
+
+        notifyListeners();
+      }
+
       return true;
     } on DioException catch (e) {
       log(e.response?.data.toString() ?? 'No response data');
@@ -157,6 +179,7 @@ class DriverProvider extends ChangeNotifier {
       final jsonData = response.data['driver_donations'] as List<dynamic>;
       _donations = jsonData.map((e) => CustomerDonation.fromJson(e)).toList();
       filteredDonations = _donations;
+      filterDonationsByCurrentDate();
 
       _isLoading = false;
       notifyListeners();
@@ -185,6 +208,12 @@ class DriverProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         _driverName = response.data['name'] as String;
+        // Save driver login state in storage
+        final box = GetStorage();
+        await box.write('driver_login', {
+          'name': _driverName,
+          'username': username.text,
+        });
         return true;
       }
       return false;
@@ -196,6 +225,13 @@ class DriverProvider extends ChangeNotifier {
     }
   }
 
+  /// Clears driver login state from storage
+  Future<void> clearDriverLogin() async {
+    final box = GetStorage();
+    await box.remove('driver_login');
+    clearLogin();
+  }
+
   Future<List<CustomerDonation>> searchBoxesByName(String requestId) async {
     return _donations
         .where((donation) => donation.requestId.toString().contains(requestId))
@@ -204,28 +240,8 @@ class DriverProvider extends ChangeNotifier {
 
   void setSelectedDate(DateTime? date) {
     _selectedDate = date;
-    if (_selectedDate == null) {
-      filteredDonations = _donations;
-    } else {
-      filteredDonations = _donations.where((donation) {
-        if (donation.deliveryDate == null) {
-          return false;
-        }
-        try {
-          // Assuming the date format is 'yyyy-MM-dd' or similar.
-          // Adjust DateFormat if your date string is in a different format.
-          final deliveryDateTime =
-              DateFormat('dd-MM-yyyy').parse(donation.deliveryDate!);
-          return deliveryDateTime.year == _selectedDate!.year &&
-              deliveryDateTime.month == _selectedDate!.month &&
-              deliveryDateTime.day == _selectedDate!.day;
-        } catch (e) {
-          // Handle parsing error, e.g., log it or treat as non-matching
-          log('Error parsing date: \${donation.deliveryDate}, error: \$e');
-          return false;
-        }
-      }).toList();
-    }
+
+    filterDonationsByDate();
     notifyListeners();
   }
 
@@ -233,5 +249,75 @@ class DriverProvider extends ChangeNotifier {
   void setSelectedStatus(DonationStatus status) {
     _selectedStatus = status;
     notifyListeners();
+  }
+
+  void filterDonationsByDate() {
+    filteredDonations = _donations;
+    filteredDonations = filteredDonations.where((donation) {
+      if (donation.deliveryDate == null) {
+        return false;
+      }
+
+      final dateFormat = DateFormat('dd-MM-yyyy h:mm a');
+      final donationDate = dateFormat.parse(donation.deliveryDate!);
+
+      final matches = donationDate.year == _selectedDate!.year &&
+          donationDate.month == _selectedDate!.month &&
+          donationDate.day == _selectedDate!.day;
+
+      return matches;
+    }).toList();
+    // Sort by hour (earliest first)
+    filteredDonations.sort((a, b) {
+      final dateFormat = DateFormat('dd-MM-yyyy h:mm a');
+      final aDate = a.deliveryDate != null
+          ? dateFormat.parse(a.deliveryDate!)
+          : DateTime(2100);
+      final bDate = b.deliveryDate != null
+          ? dateFormat.parse(b.deliveryDate!)
+          : DateTime(2100);
+      return aDate.compareTo(bDate);
+    });
+    notifyListeners();
+  }
+
+  /// Filters donations by the current date
+  void filterDonationsByCurrentDate() {
+    final now = DateTime.now();
+    final dateFormat = DateFormat('dd-MM-yyyy h:mm a');
+    filteredDonations = _donations.where((donation) {
+      if (donation.deliveryDate == null) {
+        return false;
+      }
+      final donationDate = dateFormat.parse(donation.deliveryDate!);
+      return donationDate.year == now.year &&
+          donationDate.month == now.month &&
+          donationDate.day == now.day;
+    }).toList();
+    // Sort by hour (earliest first)
+    filteredDonations.sort((a, b) {
+      final aDate = a.deliveryDate != null
+          ? dateFormat.parse(a.deliveryDate!)
+          : DateTime(2100);
+      final bDate = b.deliveryDate != null
+          ? dateFormat.parse(b.deliveryDate!)
+          : DateTime(2100);
+      return aDate.compareTo(bDate);
+    });
+    notifyListeners();
+  }
+
+  String formetDate(DateTime date, String format) {
+    final dateFormat = DateFormat(format);
+    return dateFormat.format(date);
+  }
+
+  String handleDate(DateTime? date, BuildContext context) {
+    if (date == null) {
+      return '${AppLocalizations.of(context)!.todayOrders}:';
+    }
+    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+    final dateFormat = isArabic ? 'yyyy-MM-dd' : 'dd-MM-yyyy';
+    return '${AppLocalizations.of(context)!.orders} ${formetDate(date, dateFormat)}:';
   }
 }

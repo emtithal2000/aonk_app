@@ -51,14 +51,12 @@ class PagesProvider extends ChangeNotifier {
   DetailedCountry? detailedCountry;
   List<Widget> pages = [
     const DonationType(), //0
-    const Gift(), //1
+    Gift(), //1
     const DonationDetails(), //2
     const DonationImages(), //3
   ];
   var controllers = List.generate(7, (index) => TextEditingController());
   var pageController = PageController();
-  var formKey = GlobalKey<FormState>();
-  final loginKey = GlobalKey<FormState>();
 
   int currentPage = 0;
   int pageIndex = 0;

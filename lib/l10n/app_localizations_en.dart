@@ -253,6 +253,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get orders => 'Orders';
 
   @override
+  String get todayOrders => 'Today\'s Orders';
+
+  @override
   String get search => 'Search';
 
   @override

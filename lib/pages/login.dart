@@ -1,5 +1,6 @@
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/pages/driver_page.dart';
+import 'package:aonk_app/pages/first_time.dart';
 import 'package:aonk_app/providers/driver_provider.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/size_config.dart';
@@ -42,7 +43,8 @@ InputDecoration inputDecoration(
 }
 
 class Login extends StatelessWidget {
-  const Login({super.key});
+  Login({super.key});
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,7 @@ class Login extends StatelessWidget {
               ),
             ),
             child: Form(
-              key: provider.formKey,
+              key: formKey,
               child: SafeArea(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -78,8 +80,13 @@ class Login extends StatelessWidget {
                               : Alignment.centerLeft,
                       child: IconButton(
                         onPressed: () {
-                          provider.clearLogin();
-                          Navigator.pop(context);
+                          provider.clearDriverLogin();
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FirstTime(),
+                            ),
+                          );
                         },
                         icon: Icon(
                           context.watch<LocaleProvider>().locale.languageCode ==
@@ -167,8 +174,7 @@ class Login extends StatelessWidget {
                                 child: FloatingActionButton(
                                   heroTag: null,
                                   onPressed: () async {
-                                    if (provider.formKey.currentState!
-                                        .validate()) {
+                                    if (formKey.currentState!.validate()) {
                                       provider.login().then(
                                         (value) {
                                           if (context.mounted) {

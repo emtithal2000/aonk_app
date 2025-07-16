@@ -13,6 +13,7 @@ import 'package:new_version_plus/new_version_plus.dart';
 import 'dart:developer' as developer;
 
 import 'package:provider/provider.dart';
+import 'package:aonk_app/pages/driver_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -144,6 +145,17 @@ class _SplashScreenState extends State<SplashScreen> {
         const Duration(seconds: 3),
         () {
           if (mounted) {
+            final driverLogin = GetStorage().read('driver_login');
+            if (driverLogin != null && driverLogin['name'] != null) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      DriverPage(driverName: driverLogin['name']),
+                ),
+              );
+              return;
+            }
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(

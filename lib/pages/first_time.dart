@@ -65,6 +65,7 @@ class FirstTime extends StatefulWidget {
 }
 
 class _FirstTimeState extends State<FirstTime> {
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,358 +87,339 @@ class _FirstTimeState extends State<FirstTime> {
           child: Consumer<PagesProvider>(
             builder: (_, provider, __) {
               return Form(
-                key: provider.loginKey,
+                key: formKey,
                 child: LayoutBuilder(
                   builder: (context, constraints) {
                     final size = constraints.maxWidth;
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const Login(),
-                                  ),
-                                );
-                              },
-                              borderRadius: BorderRadius.circular(10),
-                              child: Card(
-                                elevation: 2,
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(8),
-                                  child: Icon(
-                                    IconsaxPlusBroken.car,
-                                    color: const Color(0xff52b8a0),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            padding: EdgeInsets.only(
-                              left: width(30),
-                              right: width(30),
-                              bottom: MediaQuery.of(context).viewInsets.bottom +
-                                  height(20),
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Gap(height(40)),
-                                Text(
-                                  AppLocalizations.of(context)!.welcomeToAonk,
-                                  style: TextStyle(
-                                    fontSize: height(22),
-                                    fontWeight: FontWeight.bold,
-                                    color: const Color(0xff52b8a0),
-                                  ),
-                                ),
-                                Text(
-                                  AppLocalizations.of(context)!.enterYourData,
-                                  style: TextStyle(
-                                    fontSize: height(19),
-                                    color: const Color(0xff52b8a0),
-                                  ),
-                                ),
-                                Gap(height(50)),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: buildSelectionCountry(
-                                        size,
-                                        context,
-                                        provider,
-                                        onSelected: (Countries value) {
-                                          provider.setCountry(value);
-                                        },
-                                        isExpanded: true,
-                                      ),
+                    return SingleChildScrollView(
+                      padding: EdgeInsets.only(
+                        left: width(30),
+                        right: width(30),
+                        bottom: MediaQuery.of(context).viewInsets.bottom +
+                            height(20),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Gap(height(15)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Login(),
                                     ),
-                                    buildSelectionMobile(
-                                      size,
-                                      context,
-                                      provider,
-                                      onSelected: (City value) {
-                                        provider.setCity(value);
-                                      },
-                                      isExpanded: true,
-                                    ),
-                                  ],
-                                ),
-                                Card(
-                                  elevation: 3,
-                                  color: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: TextFormField(
-                                    controller: provider.controllers[0],
-                                    keyboardType: TextInputType.name,
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.name}';
-                                      }
-                                      return null;
-                                    },
-                                    decoration: inputDecoration(
-                                      context,
-                                      AppLocalizations.of(context)!.name,
-                                      IconsaxPlusBroken.user,
-                                      true,
-                                    ),
-                                    onChanged: (value) {},
-                                  ),
-                                ),
-                                Card(
-                                  elevation: 3,
-                                  clipBehavior: Clip.hardEdge,
-                                  color: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: TextFormField(
-                                    controller: provider.controllers[1],
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly,
-                                      LengthLimitingTextInputFormatter(8),
-                                    ],
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      hintText: AppLocalizations.of(context)!
-                                          .phoneNumber,
-                                      hintStyle: TextStyle(
-                                        color: const Color(0xff84beb0),
-                                        fontSize: height(16),
-                                      ),
-                                      prefixIcon: Icon(
-                                        IconsaxPlusBroken.call,
-                                        color: const Color(0xff52b8a0),
-                                      ),
-                                      prefixText: provider.selectedCountry !=
-                                                  null ||
-                                              provider.controllers[1].text
-                                                  .isNotEmpty
-                                          ? '${provider.getPhoneCodeForCountry(provider.selectedCountry)} '
-                                          : '',
-                                      floatingLabelBehavior:
-                                          FloatingLabelBehavior.always,
-                                      prefixStyle: TextStyle(
-                                        color: const Color(0xff52b8a0),
-                                        fontSize: height(16),
-                                      ),
-                                      suffixIcon: Icon(
-                                        Icons.star,
-                                        color: Colors.red,
-                                        size: height(10),
-                                      ),
-                                      fillColor: Colors.white,
-                                      filled: true,
-                                      isDense: true,
-                                      counterText: '',
-                                    ),
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.phoneNumber}';
-                                      }
-                                      if (value.length < 8) {
-                                        return '${AppLocalizations.of(context)!.phoneNumber} must be at least 8 digits';
-                                      }
-                                      return null;
-                                    },
-                                    onChanged: (value) {},
-                                  ),
-                                ),
-                                Card(
-                                  elevation: 3,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: TextFormField(
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    controller: provider.controllers[2],
-                                    keyboardType: TextInputType.emailAddress,
-                                    validator: (value) {
-                                      if (value != null && value.isNotEmpty) {
-                                        if (!RegExp(
-                                                r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                            .hasMatch(value)) {
-                                          return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.validEmail}';
-                                        }
-                                      }
-                                      return null;
-                                    },
-                                    decoration: inputDecoration(
-                                      context,
-                                      AppLocalizations.of(context)!.email,
-                                      IconsaxPlusBroken.sms,
-                                      false,
-                                    ),
-                                    onChanged: (value) {},
-                                  ),
-                                ),
-                                Card(
-                                  elevation: 3,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: TextFormField(
-                                    autovalidateMode:
-                                        AutovalidateMode.onUnfocus,
-                                    controller: provider.controllers[3],
-                                    keyboardType: TextInputType.number,
-                                    decoration: inputDecoration(
-                                      context,
-                                      AppLocalizations.of(context)!
-                                          .streetNumber,
-                                      IconsaxPlusBroken.location,
-                                      false,
-                                    ),
-                                    onChanged: (value) {},
-                                  ),
-                                ),
-                                Card(
-                                  elevation: 3,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: TextFormField(
-                                    controller: provider.controllers[4],
-                                    autovalidateMode:
-                                        AutovalidateMode.onUnfocus,
-                                    keyboardType: TextInputType.number,
-                                    decoration: inputDecoration(
-                                      context,
-                                      AppLocalizations.of(context)!
-                                          .buildingNumber,
-                                      IconsaxPlusBroken.building_4,
-                                      false,
-                                    ),
-                                    onChanged: (value) {},
-                                  ),
-                                ),
-                                Gap(height(25)),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: FloatingActionButton(
-                                    heroTag: null,
-                                    onPressed: () async {
-                                      if (provider.selectedCountry == null ||
-                                          provider.selectedCity == null) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.country} ${AppLocalizations.of(context)!.city}',
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            backgroundColor: Colors.red,
-                                          ),
-                                        );
-                                        return;
-                                      }
-
-                                      if (provider.loginKey.currentState!
-                                          .validate()) {
-                                        await provider.saveUserData();
-                                        if (context.mounted) {
-                                          Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Navigation(),
-                                            ),
-                                          );
-                                        }
-                                      }
-                                    },
-                                    backgroundColor: const Color(0xff81bdaf),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Text(
-                                      AppLocalizations.of(context)!.save,
-                                      style: TextStyle(
-                                        fontSize: height(18),
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Gap(height(25)),
-                                Text(
-                                  AppLocalizations.of(context)!.detailsRequired,
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: height(14),
-                                  ),
-                                ),
-                                Gap(height(35)),
-                                Card(
+                                  );
+                                },
+                                borderRadius: BorderRadius.circular(10),
+                                child: Card(
                                   elevation: 2,
                                   color: Colors.white,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: InkWell(
-                                    onTap: () {
-                                      final localeProvider =
-                                          context.read<LocaleProvider>();
-                                      if (localeProvider.locale.languageCode ==
-                                          'ar') {
-                                        localeProvider.setLocale(
-                                            const Locale('en'), context);
-                                      } else {
-                                        localeProvider.setLocale(
-                                            const Locale('ar'), context);
-                                      }
-                                    },
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Icon(
+                                      IconsaxPlusBroken.car,
+                                      color: const Color(0xff52b8a0),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  final localeProvider =
+                                      context.read<LocaleProvider>();
+                                  if (localeProvider.locale.languageCode ==
+                                      'ar') {
+                                    localeProvider.setLocale(
+                                        const Locale('en'), context);
+                                  } else {
+                                    localeProvider.setLocale(
+                                        const Locale('ar'), context);
+                                  }
+                                },
+                                borderRadius: BorderRadius.circular(10),
+                                child: Card(
+                                  elevation: 2,
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: width(16),
-                                        vertical: height(8),
-                                      ),
-                                      child: Text(
-                                        context
-                                                    .watch<LocaleProvider>()
-                                                    .locale
-                                                    .languageCode ==
-                                                'ar'
-                                            ? 'English'
-                                            : 'Arabic',
-                                        style: TextStyle(
-                                          color: const Color(0xff52b8a0),
-                                          fontSize: height(14),
-                                        ),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      context
+                                                  .watch<LocaleProvider>()
+                                                  .locale
+                                                  .languageCode ==
+                                              'ar'
+                                          ? 'En'
+                                          : 'Ar',
+                                      style: TextStyle(
+                                        color: const Color(0xff84beb0),
+                                        fontSize: height(16),
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
                                 ),
-                              ],
+                              ),
+                            ],
+                          ),
+                          Gap(height(40)),
+                          Text(
+                            AppLocalizations.of(context)!.welcomeToAonk,
+                            style: TextStyle(
+                              fontSize: height(22),
+                              fontWeight: FontWeight.bold,
+                              color: const Color(0xff52b8a0),
                             ),
                           ),
-                        ),
-                      ],
+                          Text(
+                            AppLocalizations.of(context)!.enterYourData,
+                            style: TextStyle(
+                              fontSize: height(19),
+                              color: const Color(0xff52b8a0),
+                            ),
+                          ),
+                          Gap(height(50)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: buildSelectionCountry(
+                                  size,
+                                  context,
+                                  provider,
+                                  onSelected: (Countries value) {
+                                    provider.setCountry(value);
+                                  },
+                                  isExpanded: true,
+                                ),
+                              ),
+                              buildSelectionMobile(
+                                size,
+                                context,
+                                provider,
+                                onSelected: (City value) {
+                                  provider.setCity(value);
+                                },
+                                isExpanded: true,
+                              ),
+                            ],
+                          ),
+                          Card(
+                            elevation: 3,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: TextFormField(
+                              controller: provider.controllers[0],
+                              keyboardType: TextInputType.name,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.name}';
+                                }
+                                return null;
+                              },
+                              decoration: inputDecoration(
+                                context,
+                                AppLocalizations.of(context)!.name,
+                                IconsaxPlusBroken.user,
+                                true,
+                              ),
+                              onChanged: (value) {},
+                            ),
+                          ),
+                          Card(
+                            elevation: 3,
+                            clipBehavior: Clip.hardEdge,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: TextFormField(
+                              controller: provider.controllers[1],
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(8),
+                              ],
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                ),
+                                hintText:
+                                    AppLocalizations.of(context)!.phoneNumber,
+                                hintStyle: TextStyle(
+                                  color: const Color(0xff84beb0),
+                                  fontSize: height(16),
+                                ),
+                                prefixIcon: Icon(
+                                  IconsaxPlusBroken.call,
+                                  color: const Color(0xff52b8a0),
+                                ),
+                                prefixText: provider.selectedCountry != null ||
+                                        provider.controllers[1].text.isNotEmpty
+                                    ? '${provider.getPhoneCodeForCountry(provider.selectedCountry)} '
+                                    : '',
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                                prefixStyle: TextStyle(
+                                  color: const Color(0xff52b8a0),
+                                  fontSize: height(16),
+                                ),
+                                suffixIcon: Icon(
+                                  Icons.star,
+                                  color: Colors.red,
+                                  size: height(10),
+                                ),
+                                fillColor: Colors.white,
+                                filled: true,
+                                isDense: true,
+                                counterText: '',
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.phoneNumber}';
+                                }
+                                if (value.length < 8) {
+                                  return '${AppLocalizations.of(context)!.phoneNumber} must be at least 8 digits';
+                                }
+                                return null;
+                              },
+                              onChanged: (value) {},
+                            ),
+                          ),
+                          Card(
+                            elevation: 3,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              controller: provider.controllers[2],
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (value) {
+                                if (value != null && value.isNotEmpty) {
+                                  if (!RegExp(
+                                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                      .hasMatch(value)) {
+                                    return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.validEmail}';
+                                  }
+                                }
+                                return null;
+                              },
+                              decoration: inputDecoration(
+                                context,
+                                AppLocalizations.of(context)!.email,
+                                IconsaxPlusBroken.sms,
+                                false,
+                              ),
+                              onChanged: (value) {},
+                            ),
+                          ),
+                          Card(
+                            elevation: 3,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: TextFormField(
+                              autovalidateMode: AutovalidateMode.onUnfocus,
+                              controller: provider.controllers[3],
+                              keyboardType: TextInputType.number,
+                              decoration: inputDecoration(
+                                context,
+                                AppLocalizations.of(context)!.streetNumber,
+                                IconsaxPlusBroken.location,
+                                false,
+                              ),
+                              onChanged: (value) {},
+                            ),
+                          ),
+                          Card(
+                            elevation: 3,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: TextFormField(
+                              controller: provider.controllers[4],
+                              autovalidateMode: AutovalidateMode.onUnfocus,
+                              keyboardType: TextInputType.number,
+                              decoration: inputDecoration(
+                                context,
+                                AppLocalizations.of(context)!.buildingNumber,
+                                IconsaxPlusBroken.building_4,
+                                false,
+                              ),
+                              onChanged: (value) {},
+                            ),
+                          ),
+                          Gap(height(25)),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: FloatingActionButton(
+                              heroTag: null,
+                              onPressed: () async {
+                                if (provider.selectedCountry == null ||
+                                    provider.selectedCity == null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.country} ${AppLocalizations.of(context)!.city}',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                  return;
+                                }
+
+                                if (formKey.currentState!.validate()) {
+                                  await provider.saveUserData();
+                                  if (context.mounted) {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const Navigation(),
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
+                              backgroundColor: const Color(0xff81bdaf),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Text(
+                                AppLocalizations.of(context)!.save,
+                                style: TextStyle(
+                                  fontSize: height(18),
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Gap(height(25)),
+                          Text(
+                            AppLocalizations.of(context)!.detailsRequired,
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                              fontSize: height(14),
+                            ),
+                          ),
+                        ],
+                      ),
                     );
                   },
                 ),

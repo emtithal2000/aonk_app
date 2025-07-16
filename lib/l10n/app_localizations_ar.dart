@@ -253,6 +253,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get orders => 'الطلبات';
 
   @override
+  String get todayOrders => 'طلبات اليوم';
+
+  @override
   String get search => 'بحث';
 
   @override

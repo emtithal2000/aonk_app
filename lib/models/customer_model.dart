@@ -1,9 +1,11 @@
+import 'package:aonk_app/models/countries_model.dart';
+
 class CustomerDonation {
   final int requestId;
-  final String city;
+  final City city;
   final String? requestDate;
   final String? deliveryDate;
-  final String? deliveryStatus;
+  String? deliveryStatus; // Changed to mutable
   final List<String> donationTypes;
   final String? driverName;
   final String name;
@@ -26,7 +28,7 @@ class CustomerDonation {
   factory CustomerDonation.fromJson(Map<String, dynamic> json) {
     return CustomerDonation(
       requestId: json['request_id'] as int,
-      city: json['city'] as String,
+      city: City.fromJson(json['city']),
       requestDate: json['request_date'] as String?,
       deliveryDate: json['delivery_date'] as String?,
       deliveryStatus: json['delivery_status'] as String?,
