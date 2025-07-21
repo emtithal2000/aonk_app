@@ -3,6 +3,7 @@ import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/sub_pages/association_info.dart';
+import 'package:aonk_app/theme/color_pallate.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
@@ -81,7 +82,7 @@ class _HomeState extends State<Home> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: height(12),
-                color: const Color.fromARGB(181, 0, 0, 0),
+                color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
@@ -103,7 +104,7 @@ class _HomeState extends State<Home> {
                   });
                 });
               },
-              backgroundColor: const Color(0xff81bdaf),
+              backgroundColor: ColorPallate.primary,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -122,7 +123,7 @@ class _HomeState extends State<Home> {
               onPressed: () {
                 buildInformation(context, provider, index);
               },
-              backgroundColor: const Color(0xff81bdaf),
+              backgroundColor: ColorPallate.primary,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -171,7 +172,7 @@ class _HomeState extends State<Home> {
               style: TextStyle(
                 fontSize: height(22),
                 fontWeight: FontWeight.bold,
-                color: const Color(0xff81bdaf),
+                color: ColorPallate.primary,
               ),
             ),
             content: AssociationInfo(
@@ -232,7 +233,7 @@ class _HomeState extends State<Home> {
                     });
                   });
                 },
-                backgroundColor: const Color(0xff81bdaf),
+                backgroundColor: ColorPallate.primary,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -251,7 +252,7 @@ class _HomeState extends State<Home> {
                 onPressed: () {
                   buildInformation(context, provider, index);
                 },
-                backgroundColor: const Color(0xff81bdaf),
+                backgroundColor: ColorPallate.primary,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),

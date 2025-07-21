@@ -5,6 +5,7 @@ import 'package:aonk_app/pages/navigation.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
+import 'package:aonk_app/theme/color_pallate.dart';
 import 'package:aonk_app/value.dart' as staticvalues;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,8 +30,8 @@ InputDecoration inputDecoration(
     hintText: hintText,
     isDense: true,
     hintStyle: TextStyle(
-      color: const Color(0xff84beb0),
-      fontSize: height(16),
+      color: const Color(0xff3a8270),
+      fontSize: height(15),
     ),
     errorStyle: TextStyle(
       height: 0,
@@ -45,12 +46,12 @@ InputDecoration inputDecoration(
     ),
     prefixIcon: Icon(
       icon,
-      color: const Color(0xff52b8a0),
+      color: ColorPallate.secondary,
     ),
     suffixIcon: isRequired
         ? Icon(
             Icons.star,
-            color: Colors.red,
+            color: Colors.red[700],
             size: height(10),
           )
         : null,
@@ -126,7 +127,8 @@ class _FirstTimeState extends State<FirstTime> {
                                     padding: EdgeInsets.all(8),
                                     child: Icon(
                                       IconsaxPlusBroken.car,
-                                      color: const Color(0xff52b8a0),
+                                      color: const Color(0xff3a8270)
+                                          .withAlpha(200),
                                     ),
                                   ),
                                 ),
@@ -162,7 +164,8 @@ class _FirstTimeState extends State<FirstTime> {
                                           ? 'En'
                                           : 'Ar',
                                       style: TextStyle(
-                                        color: const Color(0xff84beb0),
+                                        color: const Color(0xff3a8270)
+                                            .withOpacity(0.8),
                                         fontSize: height(16),
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -178,14 +181,14 @@ class _FirstTimeState extends State<FirstTime> {
                             style: TextStyle(
                               fontSize: height(22),
                               fontWeight: FontWeight.bold,
-                              color: const Color(0xff52b8a0),
+                              color: const Color(0xff3a8270).withOpacity(0.8),
                             ),
                           ),
                           Text(
                             AppLocalizations.of(context)!.enterYourData,
                             style: TextStyle(
                               fontSize: height(19),
-                              color: const Color(0xff52b8a0),
+                              color: const Color(0xff3a8270),
                             ),
                           ),
                           Gap(height(50)),
@@ -259,12 +262,12 @@ class _FirstTimeState extends State<FirstTime> {
                                 hintText:
                                     AppLocalizations.of(context)!.phoneNumber,
                                 hintStyle: TextStyle(
-                                  color: const Color(0xff84beb0),
+                                  color: const Color(0xff3a8270),
                                   fontSize: height(16),
                                 ),
                                 prefixIcon: Icon(
                                   IconsaxPlusBroken.call,
-                                  color: const Color(0xff52b8a0),
+                                  color: const Color(0xfff5a647),
                                 ),
                                 prefixText: provider.selectedCountry != null ||
                                         provider.controllers[1].text.isNotEmpty
@@ -273,12 +276,12 @@ class _FirstTimeState extends State<FirstTime> {
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.always,
                                 prefixStyle: TextStyle(
-                                  color: const Color(0xff52b8a0),
+                                  color: const Color(0xff3a8270),
                                   fontSize: height(16),
                                 ),
                                 suffixIcon: Icon(
                                   Icons.star,
-                                  color: Colors.red,
+                                  color: Colors.red[700],
                                   size: height(10),
                                 ),
                                 fillColor: Colors.white,
@@ -396,7 +399,8 @@ class _FirstTimeState extends State<FirstTime> {
                                   }
                                 }
                               },
-                              backgroundColor: const Color(0xff81bdaf),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 108, 167, 153),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
@@ -404,6 +408,7 @@ class _FirstTimeState extends State<FirstTime> {
                                 AppLocalizations.of(context)!.save,
                                 style: TextStyle(
                                   fontSize: height(18),
+                                  fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
                               ),
@@ -413,7 +418,7 @@ class _FirstTimeState extends State<FirstTime> {
                           Text(
                             AppLocalizations.of(context)!.detailsRequired,
                             style: TextStyle(
-                              color: Colors.red,
+                              color: Colors.red[700],
                               fontWeight: FontWeight.bold,
                               fontSize: height(14),
                             ),

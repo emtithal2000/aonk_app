@@ -1,6 +1,7 @@
 import 'package:aonk_app/location.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/size_config.dart';
+import 'package:aonk_app/theme/color_pallate.dart';
 import 'package:flutter/material.dart';
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
@@ -35,10 +36,10 @@ class NotificationScreen extends StatelessWidget {
                     context.watch<LocaleProvider>().locale.languageCode == 'ar'
                         ? IconsaxPlusBroken.arrow_left_2
                         : IconsaxPlusBroken.arrow_right_3,
-                    color: const Color(0xff84beb0),
+                    color: ColorPallate.primary,
                     size: height(35),
                   ),
-                  color: const Color(0xff84beb0),
+                  color: ColorPallate.primary,
                   iconSize: height(35),
                 ),
               ],

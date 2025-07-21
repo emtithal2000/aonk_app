@@ -21,7 +21,7 @@ InputDecoration inputDecoration(
     hintText: hintText,
     isDense: true,
     hintStyle: TextStyle(
-      color: const Color(0xff84beb0),
+      color: const Color(0xff3a8270),
       fontSize: height(16),
     ),
     errorStyle: TextStyle(
@@ -37,7 +37,7 @@ InputDecoration inputDecoration(
     ),
     prefixIcon: Icon(
       icon,
-      color: const Color(0xff52b8a0),
+      color: const Color(0xfff5a647),
     ),
   );
 }
@@ -93,7 +93,7 @@ class Login extends StatelessWidget {
                                   'ar'
                               ? IconsaxPlusBroken.arrow_right_3
                               : IconsaxPlusBroken.arrow_left_2,
-                          color: const Color(0xff84beb0),
+                          color: const Color(0xff3a8270),
                           size: height(30),
                         ),
                       ),
@@ -110,7 +110,7 @@ class Login extends StatelessWidget {
                               Text(
                                 AppLocalizations.of(context)!.welcomeToAonk,
                                 style: TextStyle(
-                                  color: Color(0xff52b8a0),
+                                  color: Color(0xff3a8270),
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -118,7 +118,7 @@ class Login extends StatelessWidget {
                               Text(
                                 AppLocalizations.of(context)!.login,
                                 style: TextStyle(
-                                  color: Color(0xff52b8a0),
+                                  color: Color(0xff3a8270),
                                   fontSize: 20,
                                 ),
                               ),
@@ -202,7 +202,8 @@ class Login extends StatelessWidget {
                                       );
                                     }
                                   },
-                                  backgroundColor: const Color(0xff81bdaf),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 108, 167, 153),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
@@ -210,6 +211,7 @@ class Login extends StatelessWidget {
                                     AppLocalizations.of(context)!.loginButton,
                                     style: TextStyle(
                                       fontSize: height(18),
+                                      fontWeight: FontWeight.bold,
                                       color: Colors.white,
                                     ),
                                   ),
@@ -251,7 +253,7 @@ class Login extends StatelessWidget {
                                           : 'Arabic',
                                       style: TextStyle(
                                         fontSize: height(14),
-                                        color: const Color(0xff52b8a0),
+                                        color: const Color(0xff3a8270),
                                       ),
                                     ),
                                   ),

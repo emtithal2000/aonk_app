@@ -4,12 +4,10 @@ import 'package:aonk_app/pages/about_us.dart';
 import 'package:aonk_app/pages/notification.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/size_config.dart';
+import 'package:aonk_app/theme/color_pallate.dart';
 import 'package:aonk_app/theme/theme_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-// Update the _primaryColor constant to use ThemeColors
-const _primaryColor = ThemeColors.primaryColor;
 
 Drawer buildDrawer(BuildContext context) {
   return Drawer(
@@ -21,8 +19,8 @@ Drawer buildDrawer(BuildContext context) {
         children: [
           Container(
             alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              color: _primaryColor,
+            decoration: BoxDecoration(
+              color: ColorPallate.primary,
             ),
             height: height(200),
             child: Column(
@@ -205,7 +203,7 @@ Drawer buildDrawer(BuildContext context) {
 ListTile drawerItems(
     BuildContext context, IconData icon, String title, dynamic page) {
   return ListTile(
-    leading: Icon(icon, color: ThemeColors.iconColor),
+    leading: Icon(icon, color: ColorPallate.primary),
     title: Text(
       title,
       style: TextStyle(
@@ -278,7 +276,7 @@ void showSettingsDialog(BuildContext context) {
               return ListTile(
                 leading: Icon(
                   Icons.language,
-                  color: ThemeColors.iconColor,
+                  color: ColorPallate.primary,
                   size: height(24),
                 ),
                 title: SizedBox(
@@ -286,7 +284,7 @@ void showSettingsDialog(BuildContext context) {
                   child: Text(
                     AppLocalizations.of(context)!.language,
                     style: TextStyle(
-                      color: ThemeColors.getTextColor(context),
+                      color: Colors.black,
                       fontSize: height(14),
                       fontWeight: FontWeight.bold,
                     ),
@@ -311,7 +309,7 @@ void showSettingsDialog(BuildContext context) {
                             value ? const Locale('ar') : const Locale('en'),
                             context);
                       },
-                      activeColor: ThemeColors.accentColor,
+                      activeColor: ColorPallate.primary,
                     ),
                   ],
                 ),

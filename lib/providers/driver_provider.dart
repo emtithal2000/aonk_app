@@ -128,10 +128,10 @@ class DriverProvider extends ChangeNotifier {
     try {
       await Dio().put(
         'https://api.aonk.app/delivery_status',
-        data: {
+        data: FormData.fromMap({
           'request_id': requestId,
-          'delivery_status': _selectedStatus?.name,
-        },
+          'delivery_status': _selectedStatus?.displayName,
+        }),
       );
 
       // Update local state after successful API call
@@ -232,7 +232,10 @@ class DriverProvider extends ChangeNotifier {
     clearLogin();
   }
 
-  Future<List<CustomerDonation>> searchBoxesByName(String requestId) async {
+  Future<List<CustomerDonation>> searchRequestById(String requestId) async {
+    if (requestId.isEmpty) {
+      return [];
+    }
     return _donations
         .where((donation) => donation.requestId.toString().contains(requestId))
         .toList();

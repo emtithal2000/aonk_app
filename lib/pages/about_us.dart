@@ -3,6 +3,7 @@ import 'package:aonk_app/location.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
+import 'package:aonk_app/theme/color_pallate.dart';
 import 'package:aonk_app/value.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -36,7 +37,7 @@ class AboutUs extends StatelessWidget {
                 language == 'ar'
                     ? IconsaxPlusBroken.arrow_left_2
                     : IconsaxPlusBroken.arrow_right_3,
-                color: const Color(0xff84beb0),
+                color: ColorPallate.primary,
                 size: height(35),
               ),
             ),
@@ -119,8 +120,7 @@ class AboutUs extends StatelessWidget {
                                       .aonkDescription,
                                   style: TextStyle(
                                     fontSize: height(18),
-                                    color: const Color(0xff2b6c59)
-                                        .withOpacity(0.75),
+                                    color: ColorPallate.primary,
                                   ),
                                 ),
                                 const TextSpan(text: '\n \n'),
@@ -139,8 +139,7 @@ class AboutUs extends StatelessWidget {
                                       .aonkDescription5,
                                   style: TextStyle(
                                     fontSize: height(15),
-                                    color: const Color(0xff2b6c59)
-                                        .withOpacity(0.5),
+                                    color: ColorPallate.primary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),

@@ -2,6 +2,7 @@ import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/pages/first_time.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
+import 'package:aonk_app/theme/color_pallate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
@@ -61,7 +62,7 @@ class CustomerInfo extends StatelessWidget {
                                             context, item.country!),
                                         style: TextStyle(
                                           fontSize: size * 0.035,
-                                          color: const Color(0xff52b8a0),
+                                          color: ColorPallate.primary,
                                         ),
                                       ),
                                     );
@@ -85,20 +86,20 @@ class CustomerInfo extends StatelessWidget {
                                                 context, provider, userData),
                                             style: TextStyle(
                                               fontSize: size * 0.035,
-                                              color: const Color(0xff52b8a0),
+                                              color: ColorPallate.primary,
                                             ),
                                           ),
                                         ),
                                         Container(
                                           decoration: BoxDecoration(
-                                            color: Color(0xff52b8a0)
+                                            color: ColorPallate.primary
                                                 .withOpacity(0.1),
                                             borderRadius:
                                                 BorderRadius.circular(4),
                                           ),
                                           child: Icon(
                                             Icons.keyboard_arrow_down_rounded,
-                                            color: Color(0xff52b8a0),
+                                            color: ColorPallate.primary,
                                             size: size * 0.05,
                                           ),
                                         ),
@@ -134,7 +135,7 @@ class CustomerInfo extends StatelessWidget {
                                         provider.getLocalizedCityName(item),
                                         style: TextStyle(
                                           fontSize: size * 0.035,
-                                          color: const Color(0xff52b8a0),
+                                          color: ColorPallate.primary,
                                         ),
                                       ),
                                     );
@@ -158,20 +159,20 @@ class CustomerInfo extends StatelessWidget {
                                                 context, provider, userData),
                                             style: TextStyle(
                                               fontSize: size * 0.035,
-                                              color: const Color(0xff52b8a0),
+                                              color: ColorPallate.primary,
                                             ),
                                           ),
                                         ),
                                         Container(
                                           decoration: BoxDecoration(
-                                            color: Color(0xff52b8a0)
+                                            color: ColorPallate.primary
                                                 .withOpacity(0.1),
                                             borderRadius:
                                                 BorderRadius.circular(4),
                                           ),
                                           child: Icon(
                                             Icons.keyboard_arrow_down_rounded,
-                                            color: Color(0xff52b8a0),
+                                            color: ColorPallate.primary,
                                             size: size * 0.05,
                                           ),
                                         ),
@@ -237,12 +238,12 @@ class CustomerInfo extends StatelessWidget {
                                 ? AppLocalizations.of(context)!.phoneNumber
                                 : '${userData['phone']}',
                             hintStyle: TextStyle(
-                              color: const Color(0xff84beb0),
+                              color: ColorPallate.primary,
                               fontSize: height(16),
                             ),
                             prefixIcon: Icon(
                               IconsaxPlusBroken.call,
-                              color: const Color(0xff52b8a0),
+                              color: ColorPallate.secondary,
                             ),
                             prefixText: provider.selectedCountry != null ||
                                     provider.controllers[1].text.isNotEmpty
@@ -250,7 +251,7 @@ class CustomerInfo extends StatelessWidget {
                                 : '',
                             floatingLabelBehavior: FloatingLabelBehavior.always,
                             prefixStyle: TextStyle(
-                              color: const Color(0xff52b8a0),
+                              color: ColorPallate.primary,
                               fontSize: height(16),
                             ),
                             suffixIcon: Icon(
@@ -382,7 +383,7 @@ class CustomerInfo extends StatelessWidget {
                               }
                             }
                           },
-                          backgroundColor: const Color(0xff81bdaf),
+                          backgroundColor: ColorPallate.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
@@ -491,7 +492,7 @@ class CustomerInfo extends StatelessWidget {
           hintText: hintText,
           isDense: true,
           hintStyle: TextStyle(
-            color: const Color(0xff84beb0),
+            color: ColorPallate.secondary,
             fontSize: height(16),
           ),
           enabledBorder: OutlineInputBorder(
@@ -504,7 +505,7 @@ class CustomerInfo extends StatelessWidget {
           ),
           prefixIcon: Icon(
             icon,
-            color: const Color(0xff52b8a0),
+            color: ColorPallate.primary,
           ),
           counterText: counterText,
         ),

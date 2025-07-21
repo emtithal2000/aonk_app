@@ -10,6 +10,7 @@ import 'package:aonk_app/sub_pages/donation_details.dart';
 import 'package:aonk_app/sub_pages/donation_images.dart';
 import 'package:aonk_app/sub_pages/donation_type.dart';
 import 'package:aonk_app/sub_pages/gift.dart';
+import 'package:aonk_app/theme/color_pallate.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -29,7 +30,7 @@ Widget customButton(Function() onPressed, String title) {
         height: height(40),
         child: FloatingActionButton(
           onPressed: onPressed,
-          backgroundColor: const Color(0xFF81bdaf),
+          backgroundColor: ColorPallate.primary,
           child: Text(
             title,
             style: TextStyle(

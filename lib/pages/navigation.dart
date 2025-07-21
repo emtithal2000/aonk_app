@@ -5,6 +5,7 @@ import 'package:aonk_app/pages/home.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/sub_pages/drawer.dart';
+import 'package:aonk_app/theme/color_pallate.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,7 @@ class Navigation extends StatelessWidget {
           drawer: buildDrawer(context),
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
-            backgroundColor: const Color(0xff81bdaf),
+            backgroundColor: ColorPallate.primary,
             centerTitle: true,
             leading: Builder(builder: (context) {
               return IconButton(
@@ -58,7 +59,7 @@ class Navigation extends StatelessWidget {
             width: width(60),
             margin: EdgeInsets.zero,
             child: FloatingActionButton(
-              backgroundColor: const Color(0xff81bdaf),
+              backgroundColor: ColorPallate.primary,
               shape: const CircleBorder(),
               onPressed: () {
                 provider.jumpToPage(0);
@@ -81,7 +82,7 @@ class Navigation extends StatelessWidget {
               child: BottomAppBar(
                 height: width(50),
                 shape: const CircularNotchedRectangle(),
-                color: const Color(0xff81bdaf),
+                color: ColorPallate.primary,
                 notchMargin: width(5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,

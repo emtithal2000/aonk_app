@@ -3,6 +3,7 @@ import 'package:aonk_app/pages/login.dart';
 import 'package:aonk_app/providers/driver_provider.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/size_config.dart';
+import 'package:aonk_app/theme/color_pallate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -68,34 +69,30 @@ class _DriverPageState extends State<DriverPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Align(
-                          alignment: context
-                                      .watch<LocaleProvider>()
-                                      .locale
-                                      .languageCode ==
-                                  'ar'
-                              ? Alignment.centerRight
-                              : Alignment.centerLeft,
-                          child: IconButton(
-                            onPressed: () {
-                              provider.clearDriverLogin();
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Login(),
-                                ),
-                              );
-                            },
-                            icon: Icon(
-                              context
-                                          .watch<LocaleProvider>()
-                                          .locale
-                                          .languageCode ==
-                                      'ar'
-                                  ? IconsaxPlusBroken.arrow_right_3
-                                  : IconsaxPlusBroken.arrow_left_2,
-                              color: const Color(0xff84beb0),
-                              size: height(30),
+                        CircleAvatar(
+                          backgroundColor: Colors.red[100],
+                          child: RotatedBox(
+                            quarterTurns: context
+                                        .watch<LocaleProvider>()
+                                        .locale
+                                        .languageCode ==
+                                    'ar'
+                                ? 0
+                                : 2,
+                            child: IconButton(
+                              onPressed: () {
+                                provider.clearDriverLogin();
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Login(),
+                                  ),
+                                );
+                              },
+                              icon: Icon(
+                                IconsaxPlusLinear.logout_1,
+                                color: Colors.red,
+                              ),
                             ),
                           ),
                         ),
@@ -132,7 +129,7 @@ class _DriverPageState extends State<DriverPage> {
                                     ? 'En'
                                     : 'Ar',
                                 style: TextStyle(
-                                  color: const Color(0xff84beb0),
+                                  color: ColorPallate.primary,
                                   fontSize: height(16),
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -148,7 +145,7 @@ class _DriverPageState extends State<DriverPage> {
                         Text(
                           provider.handleDate(provider.selectedDate, context),
                           style: TextStyle(
-                            color: Color(0xff52b8a0),
+                            color: ColorPallate.primary,
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
                           ),
@@ -157,7 +154,7 @@ class _DriverPageState extends State<DriverPage> {
                         Text(
                           '${provider.filteredDonations.length}',
                           style: TextStyle(
-                            color: Color(0xff52b8a0),
+                            color: ColorPallate.primary,
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
                           ),
@@ -197,7 +194,7 @@ class _DriverPageState extends State<DriverPage> {
                                   ),
                                 );
                               },
-                              suggestionsCallback: provider.searchBoxesByName,
+                              suggestionsCallback: provider.searchRequestById,
                               decorationBuilder: (context, child) {
                                 return Material(
                                   elevation: 4,
@@ -215,7 +212,13 @@ class _DriverPageState extends State<DriverPage> {
                               itemBuilder: (context, suggestion) {
                                 return ListTile(
                                   title: Text('${suggestion.requestId}'),
-                                  trailing: Text(suggestion.name),
+                                  trailing: Text(
+                                    suggestion.name,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13,
+                                    ),
+                                  ),
                                   tileColor: Colors.white,
                                 );
                               },
@@ -225,7 +228,7 @@ class _DriverPageState extends State<DriverPage> {
                         ),
                         Card(
                           elevation: 3,
-                          color: const Color(0xff52b8a0),
+                          color: ColorPallate.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -290,7 +293,7 @@ class _DriverPageState extends State<DriverPage> {
                               title: Text(
                                 '${AppLocalizations.of(context)!.order} ${provider.filteredDonations[index].requestId}',
                                 style: TextStyle(
-                                  color: Color(0xff52b8a0),
+                                  color: ColorPallate.primary,
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -350,7 +353,7 @@ class _DriverPageState extends State<DriverPage> {
                                           Text(
                                             '${AppLocalizations.of(context)!.name}: ',
                                             style: TextStyle(
-                                              color: Color(0xff52b8a0),
+                                              color: ColorPallate.primary,
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -359,7 +362,7 @@ class _DriverPageState extends State<DriverPage> {
                                             provider
                                                 .filteredDonations[index].name,
                                             style: TextStyle(
-                                              color: Color(0xff52b8a0),
+                                              color: ColorPallate.primary,
                                               fontSize: 16,
                                             ),
                                           ),
@@ -371,7 +374,7 @@ class _DriverPageState extends State<DriverPage> {
                                           Text(
                                             '${AppLocalizations.of(context)!.date}: ',
                                             style: TextStyle(
-                                              color: Color(0xff52b8a0),
+                                              color: ColorPallate.primary,
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -380,7 +383,7 @@ class _DriverPageState extends State<DriverPage> {
                                             '${provider.filteredDonations[index].deliveryDate}',
                                             textDirection: TextDirection.ltr,
                                             style: TextStyle(
-                                              color: Color(0xff52b8a0),
+                                              color: ColorPallate.primary,
                                               fontSize: 16,
                                             ),
                                           ),
@@ -392,7 +395,7 @@ class _DriverPageState extends State<DriverPage> {
                                           Text(
                                             '${AppLocalizations.of(context)!.city}: ',
                                             style: TextStyle(
-                                              color: Color(0xff52b8a0),
+                                              color: ColorPallate.primary,
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -402,7 +405,7 @@ class _DriverPageState extends State<DriverPage> {
                                                     .city.cityAr ??
                                                 '',
                                             style: TextStyle(
-                                              color: Color(0xff52b8a0),
+                                              color: ColorPallate.primary,
                                               fontSize: 16,
                                             ),
                                           ),
@@ -416,7 +419,7 @@ class _DriverPageState extends State<DriverPage> {
                                           IconButton(
                                             icon: const Icon(
                                               Icons.menu,
-                                              color: Color(0xff52b8a0),
+                                              color: Color(0xff3a8270),
                                             ),
                                             onPressed: () {
                                               provider.clearSelectedStatus();

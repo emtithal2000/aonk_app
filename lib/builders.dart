@@ -152,7 +152,7 @@ Widget buildSelectionMobile(
                 provider.getLocalizedCityName(item),
                 style: TextStyle(
                   fontSize: size * 0.035,
-                  color: const Color(0xff52b8a0),
+                  color: const Color(0xff3a8270),
                 ),
               ),
             );
@@ -171,7 +171,7 @@ Widget buildSelectionMobile(
                         : AppLocalizations.of(context)!.city,
                     style: TextStyle(
                       fontSize: size * 0.035,
-                      color: const Color(0xff52b8a0),
+                      color: const Color(0xff3a8270),
                     ),
                   ),
                 ),
@@ -182,7 +182,7 @@ Widget buildSelectionMobile(
                   ),
                   child: Icon(
                     Icons.keyboard_arrow_down_rounded,
-                    color: Color(0xff52b8a0),
+                    color: Color(0xff3a8270),
                     size: size * 0.05,
                   ),
                 ),
@@ -297,7 +297,7 @@ Widget buildSelectionCountry(
                         : AppLocalizations.of(context)!.country,
                     style: TextStyle(
                       fontSize: size * 0.035,
-                      color: const Color(0xff52b8a0),
+                      color: const Color(0xff3a8270),
                     ),
                   ),
                 ),
@@ -308,7 +308,7 @@ Widget buildSelectionCountry(
                   ),
                   child: Icon(
                     Icons.keyboard_arrow_down_rounded,
-                    color: Color(0xff52b8a0),
+                    color: Color(0xff3a8270),
                     size: size * 0.05,
                   ),
                 ),

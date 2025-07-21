@@ -1,6 +1,7 @@
 import 'package:aonk_app/models/charities_model.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/size_config.dart';
+import 'package:aonk_app/theme/color_pallate.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +42,7 @@ class AssociationInfo extends StatelessWidget {
                 child: Image.asset(
                   'assets/images/globe.png',
                   width: width(33),
-                  color: const Color(0xff81bdaf),
+                  color: ColorPallate.secondary,
                 ),
               ),
               GestureDetector(
@@ -52,7 +53,7 @@ class AssociationInfo extends StatelessWidget {
                 child: Image.asset(
                   'assets/images/viber.png',
                   width: width(30),
-                  color: const Color(0xff81bdaf),
+                  color: ColorPallate.primary,
                 ),
               ),
             ],
@@ -62,19 +63,3 @@ class AssociationInfo extends StatelessWidget {
     );
   }
 }
-
-  // Future<void> _callNumber() async {
-  //   const number = '+96824162601';
-  //   try {
-  //     bool? res = await FlutterPhoneDirectCaller.callNumber(number);
-  //     if (res == false) {
-  //       final Uri phoneUri = Uri(scheme: 'tel', path: number);
-  //       if (await canLaunchUrl(phoneUri)) {
-  //         await launchUrl(phoneUri);
-  //       }
-  //     }
-  //   } catch (e) {
-  //     debugPrint('Error making phone call: $e');
-  //   }
-  // }
-

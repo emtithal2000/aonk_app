@@ -1,6 +1,7 @@
 import 'package:aonk_app/location.dart';
 import 'package:aonk_app/pages/home.dart';
 import 'package:aonk_app/size_config.dart';
+import 'package:aonk_app/theme/color_pallate.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
@@ -19,7 +20,7 @@ class NotificationsPage extends StatelessWidget {
         title: Text(
           'الاشعارات',
           style: TextStyle(
-            color: const Color(0xff81bdaf),
+            color: ColorPallate.primary,
             fontSize: height(25),
             fontWeight: FontWeight.bold,
           ),
