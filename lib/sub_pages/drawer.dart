@@ -272,49 +272,51 @@ void showSettingsDialog(BuildContext context) {
             //     );
             //   },
             // ),
-            Consumer<LocaleProvider>(builder: (context, localeProvider, child) {
-              return ListTile(
-                leading: Icon(
-                  Icons.language,
-                  color: ColorPallate.primary,
-                  size: height(24),
-                ),
-                title: SizedBox(
-                  width: width(100),
-                  child: Text(
-                    AppLocalizations.of(context)!.language,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: height(14),
-                      fontWeight: FontWeight.bold,
-                    ),
+            Consumer<LocaleProvider>(
+              builder: (context, localeProvider, child) {
+                return ListTile(
+                  leading: Icon(
+                    Icons.language,
+                    color: ColorPallate.primary,
+                    size: height(24),
                   ),
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      localeProvider.locale.languageCode == 'ar'
-                          ? 'عربي'
-                          : 'English',
+                  title: SizedBox(
+                    width: width(100),
+                    child: Text(
+                      AppLocalizations.of(context)!.language,
                       style: TextStyle(
-                        color: ThemeColors.getTextColor(context),
-                        fontSize: height(12),
+                        color: Colors.black,
+                        fontSize: height(14),
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Switch(
-                      value: localeProvider.locale.languageCode == 'ar',
-                      onChanged: (value) {
-                        localeProvider.setLocale(
-                            value ? const Locale('ar') : const Locale('en'),
-                            context);
-                      },
-                      activeColor: ColorPallate.primary,
-                    ),
-                  ],
-                ),
-              );
-            }),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        localeProvider.locale.languageCode == 'ar'
+                            ? 'عربي'
+                            : 'English',
+                        style: TextStyle(
+                          color: ThemeColors.getTextColor(context),
+                          fontSize: height(12),
+                        ),
+                      ),
+                      Switch(
+                        value: localeProvider.locale.languageCode == 'ar',
+                        onChanged: (value) {
+                          localeProvider.setLocale(
+                              value ? const Locale('ar') : const Locale('en'),
+                              context);
+                        },
+                        activeColor: ColorPallate.primary,
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           ],
         ),
       );

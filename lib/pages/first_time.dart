@@ -6,7 +6,6 @@ import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/theme/color_pallate.dart';
-import 'package:aonk_app/value.dart' as staticvalues;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
@@ -30,7 +29,7 @@ InputDecoration inputDecoration(
     hintText: hintText,
     isDense: true,
     hintStyle: TextStyle(
-      color: const Color(0xff3a8270),
+      color: ColorPallate.primary.withOpacity(0.7),
       fontSize: height(15),
     ),
     errorStyle: TextStyle(
@@ -46,12 +45,12 @@ InputDecoration inputDecoration(
     ),
     prefixIcon: Icon(
       icon,
-      color: ColorPallate.secondary,
+      color: ColorPallate.primary,
     ),
     suffixIcon: isRequired
         ? Icon(
             Icons.star,
-            color: Colors.red[700],
+            color: Colors.red[600],
             size: height(10),
           )
         : null,
@@ -238,7 +237,6 @@ class _FirstTimeState extends State<FirstTime> {
                                 IconsaxPlusBroken.user,
                                 true,
                               ),
-                              onChanged: (value) {},
                             ),
                           ),
                           Card(
@@ -262,12 +260,12 @@ class _FirstTimeState extends State<FirstTime> {
                                 hintText:
                                     AppLocalizations.of(context)!.phoneNumber,
                                 hintStyle: TextStyle(
-                                  color: const Color(0xff3a8270),
+                                  color: ColorPallate.primary.withOpacity(0.7),
                                   fontSize: height(16),
                                 ),
                                 prefixIcon: Icon(
                                   IconsaxPlusBroken.call,
-                                  color: const Color(0xfff5a647),
+                                  color: ColorPallate.primary,
                                 ),
                                 prefixText: provider.selectedCountry != null ||
                                         provider.controllers[1].text.isNotEmpty
@@ -276,12 +274,12 @@ class _FirstTimeState extends State<FirstTime> {
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.always,
                                 prefixStyle: TextStyle(
-                                  color: const Color(0xff3a8270),
+                                  color: ColorPallate.primary,
                                   fontSize: height(16),
                                 ),
                                 suffixIcon: Icon(
                                   Icons.star,
-                                  color: Colors.red[700],
+                                  color: Colors.red[600],
                                   size: height(10),
                                 ),
                                 fillColor: Colors.white,
@@ -298,7 +296,6 @@ class _FirstTimeState extends State<FirstTime> {
                                 }
                                 return null;
                               },
-                              onChanged: (value) {},
                             ),
                           ),
                           Card(
@@ -363,7 +360,6 @@ class _FirstTimeState extends State<FirstTime> {
                                 IconsaxPlusBroken.building_4,
                                 false,
                               ),
-                              onChanged: (value) {},
                             ),
                           ),
                           Gap(height(25)),
@@ -399,8 +395,7 @@ class _FirstTimeState extends State<FirstTime> {
                                   }
                                 }
                               },
-                              backgroundColor:
-                                  const Color.fromARGB(255, 108, 167, 153),
+                              backgroundColor: ColorPallate.primary,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
@@ -418,7 +413,7 @@ class _FirstTimeState extends State<FirstTime> {
                           Text(
                             AppLocalizations.of(context)!.detailsRequired,
                             style: TextStyle(
-                              color: Colors.red[700],
+                              color: Colors.red[600],
                               fontWeight: FontWeight.bold,
                               fontSize: height(14),
                             ),
@@ -434,10 +429,5 @@ class _FirstTimeState extends State<FirstTime> {
         ),
       ),
     );
-  }
-
-  String? getPhoneCodeForCountry(String? country) {
-    if (country == null) return '';
-    return staticvalues.countryPhoneCodes[country] ?? '';
   }
 }

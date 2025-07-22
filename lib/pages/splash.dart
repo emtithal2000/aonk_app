@@ -5,6 +5,7 @@ import 'package:aonk_app/pages/first_time.dart';
 import 'package:aonk_app/pages/navigation.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
+import 'package:aonk_app/theme/color_pallate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
@@ -22,42 +23,67 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+    _scaleAnimation = Tween<double>(begin: 0.3, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.linear),
+    );
+    _controller.forward();
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _initializeFiirstCheck();
+      }
+    });
+    _checkVersion(context);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: buildContainer(
         context,
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: height(150),
-              child: Image.asset(
-                'assets/images/logo.png',
-                fit: BoxFit.cover,
-                color: const Color(0xff52b8a0),
+        ScaleTransition(
+          scale: _scaleAnimation,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: height(150),
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            Gap(height(50)),
-            Text(
-              "\"نحول ما لا تحتاجه الي خير\"",
-              style: TextStyle(
-                color: const Color(0xff52b8a0),
-                fontSize: height(30),
-                fontWeight: FontWeight.bold,
+              Gap(height(50)),
+              Text(
+                "\"نحول ما لا تحتاجه الي خير\"",
+                style: TextStyle(
+                  color: ColorPallate.primary,
+                  fontSize: height(30),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _checkVersion(context);
   }
 
   Future<void> _checkVersion(BuildContext context) async {
@@ -131,8 +157,6 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           );
         }
-      } else {
-        _initializeFiirstCheck();
       }
     } catch (e) {
       developer.log('Error checking for updates: $e');
@@ -140,33 +164,31 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _initializeFiirstCheck() async {
-    if (mounted) {
-      Future.delayed(
-        const Duration(seconds: 3),
-        () {
-          if (mounted) {
-            final driverLogin = GetStorage().read('driver_login');
-            if (driverLogin != null && driverLogin['name'] != null) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      DriverPage(driverName: driverLogin['name']),
-                ),
-              );
-              return;
-            }
+    Future.delayed(
+      const Duration(milliseconds: 100),
+      () {
+        if (mounted) {
+          final driverLogin = GetStorage().read('driver_login');
+          if (driverLogin != null && driverLogin['name'] != null) {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => GetStorage().read('userData') != null
-                    ? const Navigation()
-                    : const FirstTime(),
+                builder: (context) =>
+                    DriverPage(driverName: driverLogin['name']),
               ),
             );
+            return;
           }
-        },
-      );
-    }
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => GetStorage().read('userData') != null
+                  ? Navigation()
+                  : FirstTime(),
+            ),
+          );
+        }
+      },
+    );
   }
 }

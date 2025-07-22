@@ -11,8 +11,14 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:aonk_app/models/countries_model.dart';
 
-class CustomerInfo extends StatelessWidget {
-  CustomerInfo({super.key});
+class CustomerInfo extends StatefulWidget {
+  const CustomerInfo({super.key});
+
+  @override
+  State<CustomerInfo> createState() => _CustomerInfoState();
+}
+
+class _CustomerInfoState extends State<CustomerInfo> {
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -30,7 +36,6 @@ class CustomerInfo extends StatelessWidget {
                 builder: (context, constraints) {
                   double size = constraints.maxWidth;
                   final userData = GetStorage().read('userData');
-
                   return Column(
                     spacing: height(10),
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -410,20 +415,7 @@ class CustomerInfo extends StatelessWidget {
 
   String _getCountryDisplayText(BuildContext context, PagesProvider provider,
       Map<String, dynamic>? userData) {
-    // First option: Check if there's saved data from storage and use it based on app language
-    if (userData != null && userData['country_data'] != null) {
-      final savedCountry = userData['country_data'];
-      final isArabic = Localizations.localeOf(context).languageCode == 'ar';
-
-      final countryName =
-          isArabic ? savedCountry['name_ar'] : savedCountry['name_en'];
-
-      if (countryName != null && countryName.toString().isNotEmpty) {
-        return countryName.toString();
-      }
-    }
-
-    // Second option: If selectedCountry is not null, show it based on current language
+    // First option: If selectedCountry is not null, show it based on current language
     if (provider.selectedCountry?.country != null) {
       final isArabic = Localizations.localeOf(context).languageCode == 'ar';
       final countryName = isArabic
@@ -433,6 +425,18 @@ class CustomerInfo extends StatelessWidget {
       // If the localized name is available, return it
       if (countryName != null && countryName.isNotEmpty) {
         return countryName;
+      }
+    }
+
+    // Second option: Check if there's saved data from storage and use it based on app language
+    if (userData != null && userData['country_data'] != null) {
+      final savedCountry = userData['country_data'];
+      final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+      final countryName =
+          isArabic ? savedCountry['name_ar'] : savedCountry['name_en'];
+
+      if (countryName != null && countryName.toString().isNotEmpty) {
+        return countryName.toString();
       }
     }
 

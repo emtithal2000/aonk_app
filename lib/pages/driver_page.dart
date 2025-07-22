@@ -69,6 +69,44 @@ class _DriverPageState extends State<DriverPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        Card(
+                          elevation: 3,
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              final localeProvider =
+                                  context.read<LocaleProvider>();
+                              if (localeProvider.locale.languageCode == 'ar') {
+                                localeProvider.setLocale(
+                                    const Locale('en'), context);
+                              } else {
+                                localeProvider.setLocale(
+                                    const Locale('ar'), context);
+                              }
+                            },
+                            borderRadius: BorderRadius.circular(10),
+                            child: Padding(
+                              padding: EdgeInsets.all(6),
+                              child: Text(
+                                context
+                                            .watch<LocaleProvider>()
+                                            .locale
+                                            .languageCode ==
+                                        'ar'
+                                    ? 'En'
+                                    : 'Ar',
+                                style: TextStyle(
+                                  color: ColorPallate.primary,
+                                  fontSize: height(16),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                         CircleAvatar(
                           backgroundColor: Colors.red[100],
                           child: RotatedBox(
@@ -90,49 +128,8 @@ class _DriverPageState extends State<DriverPage> {
                                 );
                               },
                               icon: Icon(
-                                IconsaxPlusLinear.logout_1,
+                                IconsaxPlusLinear.logout,
                                 color: Colors.red,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Card(
-                          elevation: 3,
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              final localeProvider =
-                                  context.read<LocaleProvider>();
-                              if (localeProvider.locale.languageCode == 'ar') {
-                                localeProvider.setLocale(
-                                    const Locale('en'), context);
-                              } else {
-                                localeProvider.setLocale(
-                                    const Locale('ar'), context);
-                              }
-                            },
-                            borderRadius: BorderRadius.circular(10),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: width(6),
-                                vertical: height(4),
-                              ),
-                              child: Text(
-                                context
-                                            .watch<LocaleProvider>()
-                                            .locale
-                                            .languageCode ==
-                                        'ar'
-                                    ? 'En'
-                                    : 'Ar',
-                                style: TextStyle(
-                                  color: ColorPallate.primary,
-                                  fontSize: height(16),
-                                  fontWeight: FontWeight.bold,
-                                ),
                               ),
                             ),
                           ),

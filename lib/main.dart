@@ -60,10 +60,7 @@ class _MyAppState extends State<MyApp> {
           themeMode: ThemeMode.light,
           theme: ThemeData(
             useMaterial3: true,
-            fontFamily:
-                context.watch<LocaleProvider>().locale.languageCode == 'ar'
-                    ? 'Tajawal'
-                    : 'Ubuntu',
+            fontFamily: 'ElMessiri',
           ),
           darkTheme: ThemeData(
             useMaterial3: true,

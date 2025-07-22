@@ -1,12 +1,15 @@
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/location.dart';
 import 'package:aonk_app/pages/customer_info.dart';
+import 'package:aonk_app/pages/first_time.dart';
 import 'package:aonk_app/pages/home.dart';
+import 'package:aonk_app/providers/locale_provider.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/sub_pages/drawer.dart';
 import 'package:aonk_app/theme/color_pallate.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
 
@@ -33,8 +36,6 @@ class Navigation extends StatelessWidget {
                 iconSize: width(23),
               );
             }),
-            shadowColor: Colors.grey.withOpacity(0.4),
-            elevation: 8,
             title: Text(
               AppLocalizations.of(context)!.appbarTitle,
               style: TextStyle(
@@ -42,6 +43,27 @@ class Navigation extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
+            actions: [
+              RotatedBox(
+                quarterTurns:
+                    context.watch<LocaleProvider>().locale.languageCode == 'ar'
+                        ? 0
+                        : 2,
+                child: IconButton(
+                  onPressed: () {
+                    GetStorage().erase();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FirstTime(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(IconsaxPlusLinear.logout),
+                  color: Colors.white,
+                ),
+              ),
+            ],
           ),
           body: buildContainer(
             context,
@@ -54,21 +76,16 @@ class Navigation extends StatelessWidget {
               ],
             ),
           ),
-          floatingActionButton: Container(
-            height: height(60),
-            width: width(60),
-            margin: EdgeInsets.zero,
-            child: FloatingActionButton(
-              backgroundColor: ColorPallate.primary,
-              shape: const CircleBorder(),
-              onPressed: () {
-                provider.jumpToPage(0);
-              },
-              child: Icon(
-                IconsaxPlusBroken.home_1,
-                size: height(25),
-                color: Colors.white,
-              ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: ColorPallate.primary,
+            shape: const CircleBorder(),
+            onPressed: () {
+              provider.jumpToPage(0);
+            },
+            child: Icon(
+              IconsaxPlusBroken.home_1,
+              size: height(25),
+              color: Colors.white,
             ),
           ),
           floatingActionButtonLocation:
@@ -97,7 +114,7 @@ class Navigation extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    GestureDetector(
+                    InkWell(
                       onTap: () async {
                         await provider.callAonk();
                       },

@@ -49,6 +49,7 @@ class PagesProvider extends ChangeNotifier {
   List<CharitiesModel> charities = [];
   List<Countries> countries = [];
   List<DonationTypes> donationTypes = [];
+
   DetailedCountry? detailedCountry;
   List<Widget> pages = [
     const DonationType(), //0
