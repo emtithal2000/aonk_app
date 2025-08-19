@@ -46,6 +46,17 @@ class DonationImages extends StatelessWidget {
             ),
             Gap(height(15)),
             customButton(() async {
+              // Show loading dialog
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              );
+              Navigator.pop(context);
               await provider.postDonation().then((value) {
                 if (context.mounted) {
                   showCompleted(context, value).show();
@@ -59,6 +70,25 @@ class DonationImages extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  Widget buildSelection(String image) {
+    return Container(
+      height: height(100),
+      width: width(100),
+      padding: EdgeInsets.all(height(10)),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            blurRadius: 10,
+          ),
+        ],
+      ),
+      child: Image.asset('assets/images/$image.png'),
     );
   }
 
@@ -79,29 +109,7 @@ class DonationImages extends StatelessWidget {
         },
         AppLocalizations.of(context)!.ok,
       ),
-      btnOkOnPress: () {
-        Navigator.pop(context);
-      },
       padding: EdgeInsets.symmetric(vertical: height(15)),
-    );
-  }
-
-  Widget buildSelection(String image) {
-    return Container(
-      height: height(100),
-      width: width(100),
-      padding: EdgeInsets.all(height(10)),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            blurRadius: 10,
-          ),
-        ],
-      ),
-      child: Image.asset('assets/images/$image.png'),
     );
   }
 }

@@ -105,5 +105,13 @@
 "editFailed": "فشل التعديل",
 "statusUpdated":"تم تعديل الحالة",
 "pleaseSelectStatus": "يرجى اختيار الحالة",
-"detailsRequired": "(*) البيانات المطلوبة"
+"detailsRequired": "(*) البيانات المطلوبة",
+"thereIsNotification": "يوجد اشعار",
+"pleaseRate": "الرجاء التقييم",
+"service": "الخدمة",
+"driver": "السائق",
+"callCenter": "مركز تحكم",
+"pleaseEnterComment": "يرجى ادخال التعليق"
+
+
 }

@@ -105,5 +105,11 @@
 "editFailed": "Edit Faild",
 "statusUpdated": "Status updated to",
 "pleaseSelectStatus": "Please select a status",
-"detailsRequired": "(*) Required"
+"detailsRequired": "(*) Required",
+"thereIsNotification": "There is a notification",
+"pleaseRate": "Please rate",
+"service": "Service",
+"driver": "Driver",
+"callCenter": "Call Center",
+"pleaseEnterComment": "Please enter comment"
 }

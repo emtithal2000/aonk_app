@@ -727,6 +727,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'(*) Required'**
   String get detailsRequired;
+
+  /// No description provided for @thereIsNotification.
+  ///
+  /// In en, this message translates to:
+  /// **'There is a notification'**
+  String get thereIsNotification;
+
+  /// No description provided for @pleaseRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Please rate'**
+  String get pleaseRate;
+
+  /// No description provided for @service.
+  ///
+  /// In en, this message translates to:
+  /// **'Service'**
+  String get service;
+
+  /// No description provided for @driver.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver'**
+  String get driver;
+
+  /// No description provided for @callCenter.
+  ///
+  /// In en, this message translates to:
+  /// **'Call Center'**
+  String get callCenter;
+
+  /// No description provided for @pleaseEnterComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter comment'**
+  String get pleaseEnterComment;
 }
 
 class _AppLocalizationsDelegate

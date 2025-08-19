@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:aonk_app/models/charities_model.dart';
 import 'package:aonk_app/models/countries_model.dart';
 import 'package:aonk_app/models/country_details_model.dart';
@@ -15,11 +16,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:gap/gap.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:geocoding/geocoding.dart';
 
 Widget customButton(Function() onPressed, String title) {
   return Column(
@@ -46,6 +47,10 @@ Widget customButton(Function() onPressed, String title) {
 
 class PagesProvider extends ChangeNotifier {
   List<int> selected = [];
+  int serviceIndex = 0;
+  int driverIndex = 0;
+  int callCenterIndex = 0;
+
   List<CharitiesModel> charities = [];
   List<Countries> countries = [];
   List<DonationTypes> donationTypes = [];
@@ -77,11 +82,6 @@ class PagesProvider extends ChangeNotifier {
 
   void addSelected(int id) {
     selected.add(id);
-    notifyListeners();
-  }
-
-  void removeSelected(int id) {
-    selected.remove(id);
     notifyListeners();
   }
 
@@ -118,6 +118,11 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<City> getCitiesForCountry() {
+    if (selectedCountry == null || selectedCountry!.cities == null) return [];
+    return selectedCountry!.cities!;
+  }
+
   Future<void> getCountries() async {
     try {
       await Dio()
@@ -137,51 +142,6 @@ class PagesProvider extends ChangeNotifier {
       log(e.toString());
     }
     notifyListeners();
-  }
-
-  /// Automatically gets user's GPS location and saves it
-  Future<void> _getUserLocation() async {
-    try {
-      // Check if location services are enabled
-      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) {
-        log('Location services are disabled');
-        return;
-      }
-
-      // Check location permission
-      LocationPermission permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          log('Location permissions are denied');
-          return;
-        }
-      }
-
-      if (permission == LocationPermission.deniedForever) {
-        log('Location permissions are permanently denied');
-        return;
-      }
-
-      // Get current position with timeout
-      Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-        timeLimit: const Duration(seconds: 10),
-      );
-
-      // Save location data
-      locationData = '${position.latitude},${position.longitude}';
-      final country =
-          await getCountryFromLocation(position.latitude, position.longitude);
-
-      if (country != null) {
-        selectedCountry = country;
-      }
-      notifyListeners();
-    } catch (e) {
-      log('Error in _getUserLocation: $e');
-    }
   }
 
   /// Gets country from coordinates and returns country model based on app language
@@ -211,11 +171,6 @@ class PagesProvider extends ChangeNotifier {
       log('Error getting country from location: $e');
       return null;
     }
-  }
-
-  List<City> getCitiesForCountry() {
-    if (selectedCountry == null || selectedCountry!.cities == null) return [];
-    return selectedCountry!.cities!;
   }
 
   Future<void> getDetailedCountry() async {
@@ -253,44 +208,10 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String? getPhoneCodeForCountry(Countries? country) {
-    if (country == null) return '';
-
-    final countryNameEn = country.country?.countryEn;
-    final countryNameAr = country.country?.countryAr;
-
-    // Use the existing countryPhoneCodes getter for better performance
-    // First try with English name
-    if (countryNameEn != null && countryPhoneCodes.containsKey(countryNameEn)) {
-      return countryPhoneCodes[countryNameEn];
-    }
-
-    // Then try with Arabic name
-    if (countryNameAr != null && countryPhoneCodes.containsKey(countryNameAr)) {
-      return countryPhoneCodes[countryNameAr];
-    }
-
-    return '';
-  }
-
   String getLocalizedCityName(City city) {
     return LocaleProvider().locale.languageCode == 'ar'
         ? city.cityAr!
         : city.cityEn!;
-  }
-
-  String localizedName(BuildContext context, Object object) {
-    if (object is Charity) {
-      return LocaleProvider().locale.languageCode == 'ar'
-          ? object.nameAr ?? ''
-          : object.nameEn ?? '';
-    }
-    if (object is Country) {
-      return LocaleProvider().locale.languageCode == 'ar'
-          ? object.countryAr ?? ''
-          : object.countryEn ?? '';
-    }
-    return '';
   }
 
   String getLocalizedCountryName(String countryCode, BuildContext context) {
@@ -322,10 +243,44 @@ class PagesProvider extends ChangeNotifier {
         : type.nameEn!;
   }
 
+  String? getPhoneCodeForCountry(Countries? country) {
+    if (country == null) return '';
+
+    final countryNameEn = country.country?.countryEn;
+    final countryNameAr = country.country?.countryAr;
+
+    // Use the existing countryPhoneCodes getter for better performance
+    // First try with English name
+    if (countryNameEn != null && countryPhoneCodes.containsKey(countryNameEn)) {
+      return countryPhoneCodes[countryNameEn];
+    }
+
+    // Then try with Arabic name
+    if (countryNameAr != null && countryPhoneCodes.containsKey(countryNameAr)) {
+      return countryPhoneCodes[countryNameAr];
+    }
+
+    return '';
+  }
+
   void jumpToPage(int page) {
     pageIndex = page;
     pageController.jumpToPage(page);
     notifyListeners();
+  }
+
+  String localizedName(BuildContext context, Object object) {
+    if (object is Charity) {
+      return LocaleProvider().locale.languageCode == 'ar'
+          ? object.nameAr ?? ''
+          : object.nameEn ?? '';
+    }
+    if (object is Country) {
+      return LocaleProvider().locale.languageCode == 'ar'
+          ? object.countryAr ?? ''
+          : object.countryEn ?? '';
+    }
+    return '';
   }
 
   void nextPage(bool isPersonal) {
@@ -375,20 +330,25 @@ class PagesProvider extends ChangeNotifier {
 
       final formData = FormData.fromMap(formDataMap);
 
-      await Dio().post(
-        'https://api.aonk.app/customer_donations',
-        data: formData,
-        options: Options(
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        ),
-      );
+      // await Dio().post(
+      //   'https://api.aonk.app/customer_donations',
+      //   data: formData,
+      //   options: Options(
+      //     headers: {
+      //       'Content-Type': 'multipart/form-data',
+      //     },
+      //   ),
+      // );
       return true;
     } on DioException catch (e) {
       log(e.response?.data.toString() ?? 'No response data');
       return false;
     }
+  }
+
+  void removeSelected(int id) {
+    selected.remove(id);
+    notifyListeners();
   }
 
   void reset() {
@@ -405,6 +365,26 @@ class PagesProvider extends ChangeNotifier {
     for (var controller in controllers) {
       controller.clear();
     }
+    notifyListeners();
+  }
+
+  /// Saves complete user data to storage
+  Future<void> saveUserData() async {
+    final userData = {
+      'name': controllers[0].text,
+      'phone': controllers[1].text,
+      'email': controllers[2].text,
+      'street': controllers[3].text,
+      'building': controllers[4].text,
+      'city_data': selectedCity?.toJson(),
+      'country_data': selectedCountry?.country?.toJson(),
+      'location': locationData,
+      'created_by': controllers[0].text,
+    };
+
+    await GetStorage().write('userData', userData);
+
+    resetControllers();
     notifyListeners();
   }
 
@@ -462,13 +442,14 @@ class PagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateUserMap(String key, Map<String, dynamic> map) {
-    userEdit[key] = map;
-    notifyListeners();
-  }
-
-  void updateUserEdit(String key, String value) {
-    userEdit[key] = value;
+  void setIndex(int index, RatingType ratingType) {
+    if (ratingType == RatingType.service) {
+      serviceIndex = index;
+    } else if (ratingType == RatingType.driver) {
+      driverIndex = index;
+    } else if (ratingType == RatingType.callCenter) {
+      callCenterIndex = index;
+    }
     notifyListeners();
   }
 
@@ -488,23 +469,60 @@ class PagesProvider extends ChangeNotifier {
     }
   }
 
-  /// Saves complete user data to storage
-  Future<void> saveUserData() async {
-    final userData = {
-      'name': controllers[0].text,
-      'phone': controllers[1].text,
-      'email': controllers[2].text,
-      'street': controllers[3].text,
-      'building': controllers[4].text,
-      'city_data': selectedCity?.toJson(),
-      'country_data': selectedCountry?.country?.toJson(),
-      'location': locationData,
-      'created_by': controllers[0].text,
-    };
-
-    await GetStorage().write('userData', userData);
-
-    resetControllers();
+  void updateUserEdit(String key, String value) {
+    userEdit[key] = value;
     notifyListeners();
   }
+
+  void updateUserMap(String key, Map<String, dynamic> map) {
+    userEdit[key] = map;
+    notifyListeners();
+  }
+
+  /// Automatically gets user's GPS location and saves it
+  Future<void> _getUserLocation() async {
+    try {
+      // Check if location services are enabled
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        log('Location services are disabled');
+        return;
+      }
+
+      // Check location permission
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          log('Location permissions are denied');
+          return;
+        }
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        log('Location permissions are permanently denied');
+        return;
+      }
+
+      // Get current position with timeout
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+        timeLimit: const Duration(seconds: 10),
+      );
+
+      // Save location data
+      locationData = '${position.latitude},${position.longitude}';
+      final country =
+          await getCountryFromLocation(position.latitude, position.longitude);
+
+      if (country != null) {
+        selectedCountry = country;
+      }
+      notifyListeners();
+    } catch (e) {
+      log('Error in _getUserLocation: $e');
+    }
+  }
 }
+
+enum RatingType { service, driver, callCenter }

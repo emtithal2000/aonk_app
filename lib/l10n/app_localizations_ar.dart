@@ -329,4 +329,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get detailsRequired => '(*) البيانات المطلوبة';
+
+  @override
+  String get thereIsNotification => 'يوجد اشعار';
+
+  @override
+  String get pleaseRate => 'الرجاء التقييم';
+
+  @override
+  String get service => 'الخدمة';
+
+  @override
+  String get driver => 'السائق';
+
+  @override
+  String get callCenter => 'مركز تحكم';
+
+  @override
+  String get pleaseEnterComment => 'يرجى ادخال التعليق';
 }

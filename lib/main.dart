@@ -69,7 +69,7 @@ class _MyAppState extends State<MyApp> {
               brightness: Brightness.dark,
             ),
           ),
-          home: SplashScreen(),
+          home: const SplashScreen(),
         );
       },
     );

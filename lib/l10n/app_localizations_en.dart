@@ -329,4 +329,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get detailsRequired => '(*) Required';
+
+  @override
+  String get thereIsNotification => 'There is a notification';
+
+  @override
+  String get pleaseRate => 'Please rate';
+
+  @override
+  String get service => 'Service';
+
+  @override
+  String get driver => 'Driver';
+
+  @override
+  String get callCenter => 'Call Center';
+
+  @override
+  String get pleaseEnterComment => 'Please enter comment';
 }

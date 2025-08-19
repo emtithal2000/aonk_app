@@ -97,6 +97,12 @@ final List<Image> donationTypeImages = [
   Image.asset('assets/images/donation.png'),
   Image.asset('assets/images/clothes.png'),
 ];
+List<String> emojis = [
+  '😠',
+  '😐',
+  '🙂',
+  '🤩',
+];
 List<IconData> icons = [
   IconsaxPlusBroken.user,
   IconsaxPlusBroken.call,
@@ -104,10 +110,17 @@ List<IconData> icons = [
   IconsaxPlusBroken.home,
   IconsaxPlusBroken.building,
 ];
+
 final List<String> images = [
   'dar alattaa.png',
   'd2.png',
   'd3.png',
+];
+
+List<String> notification = [
+  'تم استلام طلب تبرعك سيتم التواصل معك قريبا',
+  'تم تحديد موعد استلام تبرعك',
+  "تقييم الخدمة",
 ];
 
 List<String> personalInfo = [
