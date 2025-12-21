@@ -310,7 +310,7 @@ void showSettingsDialog(BuildContext context) {
                               value ? const Locale('ar') : const Locale('en'),
                               context);
                         },
-                        activeColor: ColorPallate.primary,
+                        activeThumbColor: ColorPallate.primary,
                       ),
                     ],
                   ),

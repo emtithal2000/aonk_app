@@ -32,7 +32,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  intl: 
+  intl:
   get_storage:
   geolocator:
   geocoding:
@@ -45,18 +45,17 @@ dependencies:
   gap:
   provider:
   iconsax_plus:
-  lottie: 
+  lottie:
   shimmer:
   sidebarx:
   clipboard:
   intl_phone_field: ^3.2.0
-  flutter_image_compress: 
+  flutter_image_compress:
   new_version_plus:
   flutter_svg:
   flutter_typeahead:
   flutter_screenutil:
-  whatsapp:
-  
+  # rive: ^0.14.0
 
 dev_dependencies:
   flutter_test:
@@ -107,7 +106,7 @@ flutter:
           weight: 700
         - asset: assets/fonts/ElMessiri/ElMessiri-SemiBold.ttf
           weight: 600
-    
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
@@ -125,4 +124,4 @@ flutter_launcher_icons:
 
 # Add this section if you're using Flutter localizations
 flutter_gen:
-  enabled: false  # This disables the old synthetic package generation
+  enabled: false # This disables the old synthetic package generation
