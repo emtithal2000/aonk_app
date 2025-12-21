@@ -32,6 +32,12 @@ target 'Runner' do
   use_modular_headers!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  
+  # Add Facebook SDK pods
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKLoginKit'
+  pod 'FBSDKShareKit'
+  
   target 'RunnerTests' do
     inherit! :search_paths
   end
@@ -53,4 +59,20 @@ post_install do |installer|
       ]
     end
   end
+  
+  # Add -ObjC linker flag for Facebook SDK compatibility
+  require 'xcodeproj'
+  project_path = File.join(File.dirname(__FILE__), 'Runner.xcodeproj')
+  project = Xcodeproj::Project.open(project_path)
+  project.targets.each do |target|
+    if target.name == 'Runner'
+      target.build_configurations.each do |config|
+        existing_flags = config.build_settings['OTHER_LDFLAGS'] || ['$(inherited)']
+        existing_flags = [existing_flags] unless existing_flags.is_a?(Array)
+        existing_flags << '-ObjC' unless existing_flags.include?('-ObjC')
+        config.build_settings['OTHER_LDFLAGS'] = existing_flags
+      end
+    end
+  end
+  project.save
 end

@@ -2,6 +2,7 @@ import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:aonk_app/l10n/app_localizations.dart';
+import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
@@ -37,6 +38,7 @@ class Gift extends StatelessWidget {
                 AppLocalizations.of(context)!.phoneNumber,
                 provider.controllers[6],
                 context,
+                isPhone: true,
               ),
               Gap(height(15)),
               customButton(() {
@@ -52,10 +54,8 @@ class Gift extends StatelessWidget {
   }
 
   Widget customInput(
-    String hintText,
-    TextEditingController controller,
-    BuildContext context,
-  ) {
+      String hintText, TextEditingController controller, BuildContext context,
+      {bool isPhone = false}) {
     return TextFormField(
       controller: controller,
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -65,6 +65,13 @@ class Gift extends StatelessWidget {
         }
         return null;
       },
+      keyboardType: isPhone ? TextInputType.phone : TextInputType.text,
+      inputFormatters: isPhone
+          ? [
+              FilteringTextInputFormatter.digitsOnly,
+              LengthLimitingTextInputFormatter(8),
+            ]
+          : [],
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderSide: BorderSide.none,

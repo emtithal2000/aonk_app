@@ -29,22 +29,24 @@ class DonationType extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text(
-                          AppLocalizations.of(context)!.donationAsGift,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xff52b8a0),
-                          ),
-                        ),
-                        content: Text(
-                          AppLocalizations.of(context)!.comingSoon,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    );
+                    // showDialog(
+                    //   context: context,
+                    //   builder: (context) => AlertDialog(
+                    //     title: Text(
+                    //       AppLocalizations.of(context)!.donationAsGift,
+                    //       textAlign: TextAlign.center,
+                    //       style: TextStyle(
+                    //         color: Color(0xff52b8a0),
+                    //       ),
+                    //     ),
+                    //     content: Text(
+                    //       AppLocalizations.of(context)!.comingSoon,
+                    //       textAlign: TextAlign.center,
+                    //     ),
+                    //   ),
+                    // );
+                    provider.setDonationType('gift');
+                    provider.nextPage(false);
                   },
                   child: buildSelection(context, 'gift'),
                 ),

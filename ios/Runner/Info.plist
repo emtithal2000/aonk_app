@@ -58,5 +58,27 @@
 	<string>We need access to your location to show nearby donation centers</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>This app needs access to local network for debugging and development purposes</string>
+	
+	<!-- Facebook SDK Configuration -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1329959388319786</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>1329959388319786</string>
+	<key>FacebookDisplayName</key>
+	<string>Aonk App</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 </dict>
 </plist>

@@ -23,8 +23,7 @@
 "save": "حفظ",
 "pleaseEnter": "يرجى إدخال",
 "phoneNumber": "رقم الهاتف",
-"city": "المدينة",
-"email": "البريد الإلكتروني",
+"city": "المدينة","email": "البريد الإلكتروني",
 "name": "الاسم",
 "streetNumber": "رقم الشارع",
 "buildingNumber": "رقم المبنى",
@@ -112,6 +111,5 @@
 "driver": "السائق",
 "callCenter": "مركز تحكم",
 "pleaseEnterComment": "يرجى ادخال التعليق"
-
 
 }

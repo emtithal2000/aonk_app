@@ -13,7 +13,11 @@
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
         android:enableOnBackInvokedCallback="true"
-        android:usesCleartextTraffic="false">
+        android:usesCleartextTraffic="false"
+        android:windowOptOutEdgeToEdgeEnforcement="true">
+        <meta-data 
+            android:name="com.facebook.sdk.ApplicationId" 
+            android:value="@string/facebook_app_id"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

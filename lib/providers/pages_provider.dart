@@ -330,15 +330,15 @@ class PagesProvider extends ChangeNotifier {
 
       final formData = FormData.fromMap(formDataMap);
 
-      // await Dio().post(
-      //   'https://api.aonk.app/customer_donations',
-      //   data: formData,
-      //   options: Options(
-      //     headers: {
-      //       'Content-Type': 'multipart/form-data',
-      //     },
-      //   ),
-      // );
+      await Dio().post(
+        'https://api.aonk.app/customer_donations',
+        data: formData,
+        options: Options(
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        ),
+      );
       return true;
     } on DioException catch (e) {
       log(e.response?.data.toString() ?? 'No response data');
@@ -354,8 +354,8 @@ class PagesProvider extends ChangeNotifier {
   void reset() {
     currentPage = 0;
     selected.clear();
-    // name.clear();
-    // phone.clear();
+    controllers[5].clear();
+    controllers[6].clear();
     image = null;
     selectedCharityId = null;
     notifyListeners();
