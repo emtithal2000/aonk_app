@@ -45,27 +45,35 @@ class DonationImages extends StatelessWidget {
               ],
             ),
             Gap(height(15)),
-            customButton(() async {
-              // Show loading dialog
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (BuildContext context) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-              );
-              Navigator.pop(context);
-              await provider.postDonation().then((value) {
-                if (context.mounted) {
-                  showCompleted(context, value).show();
+            customButton(
+              () async {
+                if (provider.isSubmittingDonation) return;
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                );
+                var success = false;
+                try {
+                  success = await provider.postDonation();
+                } finally {
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                  }
                 }
-              });
-            },
-                provider.image != null
-                    ? AppLocalizations.of(context)!.next
-                    : AppLocalizations.of(context)!.skip),
+                if (context.mounted) {
+                  showCompleted(context, success).show();
+                }
+              },
+              provider.image != null
+                  ? AppLocalizations.of(context)!.next
+                  : AppLocalizations.of(context)!.skip,
+              enabled: !provider.isSubmittingDonation,
+            ),
             Gap(height(15)),
           ],
         );

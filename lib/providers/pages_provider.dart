@@ -22,7 +22,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-Widget customButton(Function() onPressed, String title) {
+Widget customButton(Function()? onPressed, String title, {bool enabled = true}) {
   return Column(
     children: [
       Gap(height(15)),
@@ -30,7 +30,7 @@ Widget customButton(Function() onPressed, String title) {
         width: double.infinity,
         height: height(40),
         child: FloatingActionButton(
-          onPressed: onPressed,
+          onPressed: enabled ? onPressed : null,
           backgroundColor: ColorPallate.primary,
           child: Text(
             title,
@@ -77,6 +77,9 @@ class PagesProvider extends ChangeNotifier {
   String? selectedGiftPhone;
   String? locationData;
   bool isGift = false;
+  bool _isSubmittingDonation = false;
+
+  bool get isSubmittingDonation => _isSubmittingDonation;
 
   var userEdit = {};
 
@@ -295,54 +298,62 @@ class PagesProvider extends ChangeNotifier {
   }
 
   Future<bool> postDonation() async {
+    if (_isSubmittingDonation) return false;
+    _isSubmittingDonation = true;
+    notifyListeners();
     try {
-      final storage = GetStorage().read('userData');
-      final countryID = GetStorage().read('userData')['country_data']['id'];
-      final cityID = GetStorage().read('userData')['city_data']['city_id'];
+      try {
+        final storage = GetStorage().read('userData');
+        final countryID = GetStorage().read('userData')['country_data']['id'];
+        final cityID = GetStorage().read('userData')['city_data']['city_id'];
 
-      final formDataMap = {
-        "charity_id": selectedCharityId,
-        "types": selected,
-        "country_id": countryID,
-        "city_id": cityID,
-        "name": storage['name'],
-        "phone": storage['phone'],
-        "email": storage['email'],
-        "street": storage['street'],
-        "building": storage['building'],
-        "gift": isGift,
-        "location": storage['location'],
-        "gift_name": controllers[5].text,
-        "gift_phone": controllers[6].text,
-        "created_by": storage['name'],
-        "request_date": DateTime.now(),
-        "platform": "mobile",
-      };
+        final formDataMap = {
+          "charity_id": selectedCharityId,
+          "types": selected,
+          "country_id": countryID,
+          "city_id": cityID,
+          "name": storage['name'],
+          "phone": storage['phone'],
+          "email": storage['email'],
+          "street": storage['street'],
+          "building": storage['building'],
+          "gift": isGift,
+          "location": storage['location'],
+          "gift_name": controllers[5].text,
+          "gift_phone": controllers[6].text,
+          "created_by": storage['name'],
+          "request_date": DateTime.now(),
+          "platform": "mobile",
+        };
 
-      // Only add image if it exists
-      if (image != null) {
-        final imageBytes = await image!.readAsBytes();
-        formDataMap["donation_image"] = MultipartFile.fromBytes(
-          imageBytes,
-          filename: 'image_${image?.path.split('/').last}.jpg',
+        // Only add image if it exists
+        if (image != null) {
+          final imageBytes = await image!.readAsBytes();
+          formDataMap["donation_image"] = MultipartFile.fromBytes(
+            imageBytes,
+            filename: 'image_${image?.path.split('/').last}.jpg',
+          );
+        }
+
+        final formData = FormData.fromMap(formDataMap);
+
+        await Dio().post(
+          'https://api.aonk.app/customer_donations',
+          data: formData,
+          options: Options(
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          ),
         );
+        return true;
+      } on DioException catch (e) {
+        log(e.response?.data.toString() ?? 'No response data');
+        return false;
       }
-
-      final formData = FormData.fromMap(formDataMap);
-
-      await Dio().post(
-        'https://api.aonk.app/customer_donations',
-        data: formData,
-        options: Options(
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        ),
-      );
-      return true;
-    } on DioException catch (e) {
-      log(e.response?.data.toString() ?? 'No response data');
-      return false;
+    } finally {
+      _isSubmittingDonation = false;
+      notifyListeners();
     }
   }
 
@@ -358,6 +369,7 @@ class PagesProvider extends ChangeNotifier {
     controllers[6].clear();
     image = null;
     selectedCharityId = null;
+    _isSubmittingDonation = false;
     notifyListeners();
   }
 
