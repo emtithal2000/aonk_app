@@ -1,6 +1,7 @@
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
+import 'package:aonk_app/version_check.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -48,6 +49,10 @@ class DonationImages extends StatelessWidget {
             customButton(
               () async {
                 if (provider.isSubmittingDonation) return;
+
+                final canProceed = await ensureLatestVersion(context);
+                if (!context.mounted || !canProceed) return;
+
                 showDialog(
                   context: context,
                   barrierDismissible: false,

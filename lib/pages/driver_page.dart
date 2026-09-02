@@ -1,4 +1,5 @@
 import 'package:aonk_app/l10n/app_localizations.dart';
+import 'package:aonk_app/models/customer_model.dart';
 import 'package:aonk_app/pages/login.dart';
 import 'package:aonk_app/providers/driver_provider.dart';
 import 'package:aonk_app/providers/locale_provider.dart';
@@ -30,15 +31,52 @@ String getDonationStatusDisplayName(
 }
 
 class DriverPage extends StatefulWidget {
-  final String driverName;
-
-  const DriverPage({super.key, required this.driverName});
+  const DriverPage({super.key});
 
   @override
   State<DriverPage> createState() => _DriverPageState();
 }
 
 class _DriverPageState extends State<DriverPage> {
+  final _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) return;
+      final provider = context.read<DriverProvider>();
+      final hasSession = provider.hasSession || await provider.restoreSession();
+      if (!mounted) return;
+
+      if (!hasSession) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Login()),
+        );
+        return;
+      }
+
+      await provider.fetchDonations();
+      if (!mounted) return;
+      _showErrorIfNeeded(provider);
+    });
+  }
+
+  void _showErrorIfNeeded(DriverProvider provider) {
+    final error = provider.error;
+    if (error == null || error.isEmpty) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(error)),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,10 +206,11 @@ class _DriverPageState extends State<DriverPage> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            child: TypeAheadField(
+                            child: TypeAheadField<CustomerDonation>(
                               hideOnError: true,
                               hideOnEmpty: true,
                               hideOnLoading: true,
+                              controller: _searchController,
                               builder: (_, controller, focusNode) {
                                 return TextField(
                                   controller: controller,
@@ -180,6 +219,12 @@ class _DriverPageState extends State<DriverPage> {
                                   inputFormatters: [
                                     FilteringTextInputFormatter.digitsOnly,
                                   ],
+                                  onChanged: (value) {
+                                    if (value.isEmpty &&
+                                        provider.isSearchFilterActive) {
+                                      provider.clearSearchFilter();
+                                    }
+                                  },
                                   decoration: InputDecoration(
                                     isDense: true,
                                     hintText:
@@ -219,10 +264,32 @@ class _DriverPageState extends State<DriverPage> {
                                   tileColor: Colors.white,
                                 );
                               },
-                              onSelected: (suggestion) {},
+                              onSelected: (suggestion) {
+                                _searchController.text =
+                                    suggestion.requestId.toString();
+                                provider.filterToRequest(suggestion);
+                              },
                             ),
                           ),
                         ),
+                        if (provider.isSearchFilterActive)
+                          Card(
+                            elevation: 3,
+                            color: Colors.redAccent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.clear,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                _searchController.clear();
+                                provider.clearSearchFilter();
+                              },
+                            ),
+                          ),
                         Card(
                           elevation: 3,
                           color: ColorPallate.primary,
@@ -245,7 +312,10 @@ class _DriverPageState extends State<DriverPage> {
                                     .add(const Duration(days: 365)),
                               );
                               if (selectedDate != null) {
-                                provider.setSelectedDate(selectedDate);
+                                await provider.setSelectedDate(selectedDate);
+                                if (context.mounted) {
+                                  _showErrorIfNeeded(provider);
+                                }
                               }
                             },
                           ),
@@ -262,13 +332,24 @@ class _DriverPageState extends State<DriverPage> {
                                 Icons.clear,
                                 color: Colors.white,
                               ),
-                              onPressed: () {
-                                provider.clearSelectedDate();
+                              onPressed: () async {
+                                await provider.clearSelectedDate();
+                                if (context.mounted) {
+                                  _showErrorIfNeeded(provider);
+                                }
                               },
                             ),
                           ),
                       ],
                     ),
+                    if (provider.isLoading)
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: height(30)),
+                        child: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    else
                     ListView.separated(
                       shrinkWrap: true,
                       physics: BouncingScrollPhysics(),
@@ -559,16 +640,5 @@ class _DriverPageState extends State<DriverPage> {
         },
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // Schedule the state update for the next frame
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        context.read<DriverProvider>().getDonations(widget.driverName);
-      }
-    });
   }
 }

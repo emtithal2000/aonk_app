@@ -4,6 +4,7 @@ import 'package:aonk_app/providers/pages_provider.dart';
 import 'package:aonk_app/size_config.dart';
 import 'package:aonk_app/sub_pages/association_info.dart';
 import 'package:aonk_app/theme/color_pallate.dart';
+import 'package:aonk_app/version_check.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
@@ -94,7 +95,10 @@ class _HomeState extends State<Home> {
             width: width(100),
             child: FloatingActionButton(
               heroTag: null,
-              onPressed: () {
+              onPressed: () async {
+                final canProceed = await ensureLatestVersion(context);
+                if (!context.mounted || !canProceed) return;
+
                 provider.setCharity(provider.charities[index].charity?.id ?? 0);
                 buildDonation(context, provider, index).whenComplete(() {
                   Future.delayed(const Duration(milliseconds: 500), () {
@@ -222,7 +226,10 @@ class _HomeState extends State<Home> {
               width: width(150),
               child: FloatingActionButton(
                 heroTag: null,
-                onPressed: () {
+                onPressed: () async {
+                  final canProceed = await ensureLatestVersion(context);
+                  if (!context.mounted || !canProceed) return;
+
                   provider
                       .setCharity(provider.charities[index].charity?.id ?? 0);
                   buildDonation(context, provider, index).whenComplete(() {

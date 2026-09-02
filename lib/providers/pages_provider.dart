@@ -22,7 +22,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-Widget customButton(Function()? onPressed, String title, {bool enabled = true}) {
+Widget customButton(Function()? onPressed, String title,
+    {bool enabled = true}) {
   return Column(
     children: [
       Gap(height(15)),

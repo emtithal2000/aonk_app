@@ -37,7 +37,7 @@ class City {
   City.fromJson(Map<String, dynamic> json) {
     cityAr = json['city_ar'];
     cityEn = json['city_en'];
-    cityId = json['city_id'];
+    cityId = json['city_id'] ?? json['id'];
   }
 
   Map<String, dynamic> toJson() {

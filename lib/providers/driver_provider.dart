@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:aonk_app/l10n/app_localizations.dart';
 import 'package:aonk_app/models/customer_model.dart';
+import 'package:aonk_app/models/driver_session.dart';
+import 'package:aonk_app/services/driver_api_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -86,6 +88,9 @@ enum DonationStatus {
 }
 
 class DriverProvider extends ChangeNotifier {
+  static const _sessionKey = 'driver_login';
+
+  final Dio _dio = Dio();
   final username = TextEditingController();
   final password = TextEditingController();
 
@@ -96,23 +101,55 @@ class DriverProvider extends ChangeNotifier {
   bool _isLoading = false;
   String? _error;
   String? _driverName;
+  String? _username;
+  bool _isSearchFilterActive = false;
 
   List<CustomerDonation> filteredDonations = [];
   List<CustomerDonation> get donations => _donations;
   String? get driverName => _driverName;
+  String? get usernameValue => _username;
   String? get error => _error;
   bool get isLoading => _isLoading;
+  bool get isSearchFilterActive => _isSearchFilterActive;
   DateTime? get selectedDate => _selectedDate;
+  bool get hasSession =>
+      _driverName != null &&
+      _driverName!.isNotEmpty &&
+      _username != null &&
+      _username!.isNotEmpty;
 
   DonationStatus? get selectedStatus => _selectedStatus;
 
-  void clearSelectedDate() {
-    _selectedDate = null;
-    filterDonationsByCurrentDate();
-    notifyListeners();
+  Future<bool> restoreSession() async {
+    final stored = GetStorage().read(_sessionKey);
+    if (stored is! Map) {
+      return false;
+    }
+
+    try {
+      final session = DriverSession.fromJson(Map<String, dynamic>.from(stored));
+      if (!session.isValid) {
+        await clearDriverLogin();
+        return false;
+      }
+
+      _driverName = session.name;
+      _username = session.username;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      log('Failed to restore driver session: $e');
+      await clearDriverLogin();
+      return false;
+    }
   }
 
-  /// Clears the selected status
+  Future<void> clearSelectedDate() async {
+    _selectedDate = null;
+    notifyListeners();
+    await fetchDonations();
+  }
+
   void clearSelectedStatus() {
     _selectedStatus = null;
     notifyListeners();
@@ -126,17 +163,15 @@ class DriverProvider extends ChangeNotifier {
 
   Future<bool> updateDonationStatus(int requestId) async {
     try {
-      await Dio().put(
-        'https://api.aonk.app/delivery_status',
+      await _dio.put(
+        deliveryStatusUri.toString(),
         data: FormData.fromMap({
           'request_id': requestId,
           'delivery_status': _selectedStatus?.displayName,
         }),
       );
 
-      // Update local state after successful API call
       if (_selectedStatus != null) {
-        // Update in main donations list
         final donationIndex =
             _donations.indexWhere((d) => d.requestId == requestId);
         if (donationIndex != -1) {
@@ -144,7 +179,6 @@ class DriverProvider extends ChangeNotifier {
               _selectedStatus!.displayName;
         }
 
-        // Update in filtered donations list
         final filteredIndex =
             filteredDonations.indexWhere((d) => d.requestId == requestId);
         if (filteredIndex != -1) {
@@ -162,28 +196,46 @@ class DriverProvider extends ChangeNotifier {
     }
   }
 
-  /// Fetches donations for a specific driver
-  Future<void> getDonations(String driverName) async {
-    donations.clear();
-    filteredDonations.clear();
+  Future<void> fetchDonations() async {
+    if (!hasSession) {
+      _error = 'Driver session not found';
+      notifyListeners();
+      return;
+    }
 
     try {
       _isLoading = true;
       _error = null;
       notifyListeners();
 
-      final response = await Dio().get(
-        'https://api.aonk.app/customer_donations?driver_name=$driverName',
+      final deliveryDate = _selectedDate ?? DateTime.now();
+      final uri = buildDriverDonationsUri(
+        driverName: _driverName!,
+        username: _username!,
+        deliveryDate: deliveryDate,
       );
+
+      final response = await _dio.get(uri.toString());
 
       final jsonData = response.data['driver_donations'] as List<dynamic>;
       _donations = jsonData.map((e) => CustomerDonation.fromJson(e)).toList();
-      filteredDonations = _donations;
-      filterDonationsByCurrentDate();
+      _isSearchFilterActive = false;
+      filteredDonations = List.from(_donations);
+      _sortDonationsByDeliveryTime();
 
       _isLoading = false;
       notifyListeners();
     } on DioException catch (e) {
+      if (e.response?.statusCode == 400) {
+        _error = e.response?.data?['error']?.toString() ??
+            'Invalid delivery date format';
+        _selectedDate = null;
+        _isLoading = false;
+        notifyListeners();
+        await fetchDonations();
+        return;
+      }
+
       _error = e.response?.data?.toString() ?? 'Failed to fetch donations';
       _isLoading = false;
       notifyListeners();
@@ -191,15 +243,14 @@ class DriverProvider extends ChangeNotifier {
     }
   }
 
-  /// Handles driver login
   Future<bool> login() async {
     try {
       _isLoading = true;
       _error = null;
       notifyListeners();
 
-      final response = await Dio().post(
-        'https://api.aonk.app/driver/login',
+      final response = await _dio.post(
+        driverLoginUri.toString(),
         data: {
           'username': username.text,
           'password': password.text,
@@ -207,15 +258,28 @@ class DriverProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        _driverName = response.data['name'] as String;
-        // Save driver login state in storage
-        final box = GetStorage();
-        await box.write('driver_login', {
-          'name': _driverName,
-          'username': username.text,
-        });
+        _driverName = response.data['name'] as String?;
+        _username = response.data['username'] as String? ?? username.text;
+
+        if (_driverName == null || _driverName!.isEmpty || _username!.isEmpty) {
+          _error = 'Invalid login response';
+          _isLoading = false;
+          notifyListeners();
+          return false;
+        }
+
+        await GetStorage().write(
+          _sessionKey,
+          DriverSession(name: _driverName!, username: _username!).toJson(),
+        );
+
+        _isLoading = false;
+        notifyListeners();
         return true;
       }
+
+      _isLoading = false;
+      notifyListeners();
       return false;
     } on DioException catch (e) {
       _error = e.response?.data?.toString() ?? 'Login failed';
@@ -225,11 +289,16 @@ class DriverProvider extends ChangeNotifier {
     }
   }
 
-  /// Clears driver login state from storage
   Future<void> clearDriverLogin() async {
-    final box = GetStorage();
-    await box.remove('driver_login');
+    await GetStorage().remove(_sessionKey);
+    _driverName = null;
+    _username = null;
+    _donations = [];
+    filteredDonations = [];
+    _selectedDate = null;
+    _error = null;
     clearLogin();
+    notifyListeners();
   }
 
   Future<List<CustomerDonation>> searchRequestById(String requestId) async {
@@ -241,63 +310,33 @@ class DriverProvider extends ChangeNotifier {
         .toList();
   }
 
-  void setSelectedDate(DateTime? date) {
-    _selectedDate = date;
-
-    filterDonationsByDate();
+  void filterToRequest(CustomerDonation donation) {
+    filteredDonations = [donation];
+    _isSearchFilterActive = true;
     notifyListeners();
   }
 
-  /// Sets the currently selected status
+  void clearSearchFilter() {
+    if (!_isSearchFilterActive) return;
+    _isSearchFilterActive = false;
+    filteredDonations = List.from(_donations);
+    _sortDonationsByDeliveryTime();
+    notifyListeners();
+  }
+
+  Future<void> setSelectedDate(DateTime? date) async {
+    _selectedDate = date;
+    notifyListeners();
+    await fetchDonations();
+  }
+
   void setSelectedStatus(DonationStatus status) {
     _selectedStatus = status;
     notifyListeners();
   }
 
-  void filterDonationsByDate() {
-    filteredDonations = _donations;
-    filteredDonations = filteredDonations.where((donation) {
-      if (donation.deliveryDate == null) {
-        return false;
-      }
-
-      final dateFormat = DateFormat('dd-MM-yyyy h:mm a');
-      final donationDate = dateFormat.parse(donation.deliveryDate!);
-
-      final matches = donationDate.year == _selectedDate!.year &&
-          donationDate.month == _selectedDate!.month &&
-          donationDate.day == _selectedDate!.day;
-
-      return matches;
-    }).toList();
-    // Sort by hour (earliest first)
-    filteredDonations.sort((a, b) {
-      final dateFormat = DateFormat('dd-MM-yyyy h:mm a');
-      final aDate = a.deliveryDate != null
-          ? dateFormat.parse(a.deliveryDate!)
-          : DateTime(2100);
-      final bDate = b.deliveryDate != null
-          ? dateFormat.parse(b.deliveryDate!)
-          : DateTime(2100);
-      return aDate.compareTo(bDate);
-    });
-    notifyListeners();
-  }
-
-  /// Filters donations by the current date
-  void filterDonationsByCurrentDate() {
-    final now = DateTime.now();
+  void _sortDonationsByDeliveryTime() {
     final dateFormat = DateFormat('dd-MM-yyyy h:mm a');
-    filteredDonations = _donations.where((donation) {
-      if (donation.deliveryDate == null) {
-        return false;
-      }
-      final donationDate = dateFormat.parse(donation.deliveryDate!);
-      return donationDate.year == now.year &&
-          donationDate.month == now.month &&
-          donationDate.day == now.day;
-    }).toList();
-    // Sort by hour (earliest first)
     filteredDonations.sort((a, b) {
       final aDate = a.deliveryDate != null
           ? dateFormat.parse(a.deliveryDate!)
@@ -307,7 +346,6 @@ class DriverProvider extends ChangeNotifier {
           : DateTime(2100);
       return aDate.compareTo(bDate);
     });
-    notifyListeners();
   }
 
   String formetDate(DateTime date, String format) {

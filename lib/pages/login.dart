@@ -234,10 +234,7 @@ class _LoginState extends State<Login> {
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      DriverPage(
-                                                    driverName:
-                                                        provider.driverName!,
-                                                  ),
+                                                      const DriverPage(),
                                                 ));
                                           } else {
                                             ScaffoldMessenger.of(context)
